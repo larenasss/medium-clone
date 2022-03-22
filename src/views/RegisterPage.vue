@@ -9,7 +9,10 @@
               Need an account?
             </router-link> -->
           </p>
-          VALIDATION ERRORS
+          <app-validation-errors
+            :validation-errors="validationErrors"
+            v-if="validationErrors">
+          </app-validation-errors>
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
@@ -52,6 +55,9 @@
 import { computed, reactive } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import { useRouter } from 'vue-router';
+
+import AppValidationErrors from '@/components/ValidationErrors';
+
 export default {
   name: "AppRegister",
   setup() {
@@ -65,6 +71,7 @@ export default {
     });
 
     const isSubmitting = computed(() => store.state.auth.isSubmitting);
+    const validationErrors = computed(() => store.state.auth.validationErrors);
 
     const onSubmit = () => {
       store
@@ -76,9 +83,11 @@ export default {
     return {
       onSubmit,
       isSubmitting,
+      validationErrors,
       user
     };
   },
+  components: { AppValidationErrors }
 };
 </script>
 
