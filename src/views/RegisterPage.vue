@@ -10,12 +10,13 @@
             </router-link> -->
           </p>
           VALIDATION ERRORS
-          <form @submit.prevent="onSubmit ">
+          <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Username"
+                v-model="user.username"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -23,6 +24,7 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Email"
+                v-model="user.email"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -30,6 +32,7 @@
                 class="form-control form-control-lg"
                 type="password"
                 placeholder="Password"
+                v-model="user.password"
               />
             </fieldset>
             <button
@@ -46,27 +49,37 @@
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core';
-import { useStore } from 'vuex';
-  export default {
-    name: 'AppRegister',
-    setup() {
-      const store = useStore();
+import { computed, reactive } from "@vue/runtime-core";
+import { useStore } from "vuex";
+import { useRouter } from 'vue-router';
+export default {
+  name: "AppRegister",
+  setup() {
+    const store = useStore();
+    const router = useRouter();
 
-      const isSubmitting = computed(() => store.state.auth.isSubmitting);
+    const user = reactive({
+      username: '',
+      email: '',
+      password: ''
+    });
 
-      const onSubmit = () => {
-        store.dispatch('auth/register');
-      };
+    const isSubmitting = computed(() => store.state.auth.isSubmitting);
 
-      return {
-        onSubmit,
-        isSubmitting
-      };
-    }
-  };
+    const onSubmit = () => {
+      store
+        .dispatch("auth/register", user)
+        .then(() => router.push({ name: 'home' }))
+        .catch(e => console.log(e));
+    };
+
+    return {
+      onSubmit,
+      isSubmitting,
+      user
+    };
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
