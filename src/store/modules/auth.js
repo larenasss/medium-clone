@@ -1,4 +1,5 @@
 import authApi from '@/api/auth';
+import { setItem } from '@/helpers/persistanceStorage';
 
 export default {
   namespaced: true,
@@ -30,6 +31,7 @@ export default {
       try {
         commit('registerStart');
         const { data } = await authApi.register(credentials);
+        setItem('accessToken', data.user.token);
         commit('registerSuccess', data.user);
       } catch (e) {
         commit('registerFailure', e.response.data.errors);
