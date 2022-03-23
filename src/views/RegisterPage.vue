@@ -57,6 +57,7 @@ import { useStore } from "vuex";
 import { useRouter } from 'vue-router';
 
 import AppValidationErrors from '@/components/ValidationErrors';
+import { actionsTypesExport } from '@/store/modules/auth';
 
 export default {
   name: "AppRegister",
@@ -75,7 +76,7 @@ export default {
 
     const onSubmit = () => {
       store
-        .dispatch("auth/register", user)
+        .dispatch(actionsTypesExport.register, user)
         .then(() => router.push({ name: 'home' }))
         .catch(e => console.log(e));
     };
