@@ -68,7 +68,7 @@ export default {
 
     const onSubmit = () => {
       store
-        .dispatch(actionsTypesExport.login, user)
+        .dispatch(actionsTypesExport.login, { user })
         .then(() => router.push({ name: "home" }))
         .catch((e) => console.log(e));
     };

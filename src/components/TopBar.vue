@@ -11,7 +11,7 @@
           </router-link>
         </li>
         <template v-if="isLoggedIn">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link class="nav-link" :to="{name: 'createArticle'}" active-class="active">
               <i class="ion-compose"></i>
               New Article
@@ -28,9 +28,9 @@
               <img class="user-pic" :src="currentUser.image">
               {{ currentUser.username }}
             </router-link>
-          </li>
+          </li> -->
         </template>
-        <template v-if="!isLoggedIn">
+        <template v-if="isAnonymous">
           <li class="nav-item">
             <router-link class="nav-link" :to="{name: 'login'}" active-class="active">
               Sing in
@@ -50,16 +50,20 @@
 <script>
 import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex';
+import gettersTypesExport from '@/store/modules/auth';
 
 export default {
   name: 'AppTopBar',
   setup() {
     const store = useStore();
-    const currentUser = computed(() => store.state.auth.currentUser);
-    const isLoggedIn = computed(() => store.state.auth.isLoggedIn);
+
+    const currentUser = computed(() => store.getters[gettersTypesExport.currentUser]);
+    const isLoggedIn = computed(() => store.getters[gettersTypesExport.isLoggedIn]);
+    const isAnonymous = computed(() => store.getters[gettersTypesExport.isAnonymous]);
 
     return {
       currentUser,
+      isAnonymous,
       isLoggedIn
     };
   }

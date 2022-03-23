@@ -19,8 +19,15 @@ const actionsTypes = {
   login: 'login'
 };
 
+const gettersTyepes = {
+  currentUser: 'currentUser',
+  isLoggedIn: 'isLoggedIn',
+  isAnonymous: 'isAnonymous'
+};
+
 export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
 export const mytationTypesExport = createTypesFromModuleName(MODULE_NAME, mytationTypes);
+export const gettersTypesExport = createTypesFromModuleName(MODULE_NAME, gettersTyepes);
 
 export default {
   namespaced: true,
@@ -31,6 +38,11 @@ export default {
       validationErrors: null,
       isLoggedIn: null
     };
+  },
+  getters: {
+    [gettersTyepes.currentUser]: state => state.currentUser,
+    [gettersTyepes.isLoggedIn]: state => Boolean(state.isLoggedIn),
+    [gettersTyepes.isAnonymous]: state => state.isLoggedIn === false
   },
   mutations: {
     [mytationTypes.registerStart](state) {
