@@ -8,11 +8,15 @@ const MODULE_NAME = 'auth';
 const mytationTypes = {
   registerStart: 'registerStart',
   registerSuccess: 'registerSuccess',
-  registerFailure: 'registerFailure'
+  registerFailure: 'registerFailure',
+  loginStart: 'loginStart',
+  loginSuccess: 'loginSuccess',
+  loginFailure: 'loginFailure'
 };
 
 const actionsTypes = {
-  register: 'register'
+  register: 'register',
+  login: 'login'
 };
 
 export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
@@ -41,6 +45,19 @@ export default {
     [mytationTypes.registerFailure](state, payload) {
       state.isSubmitting = false;
       state.validationErrors = payload;
+    },
+    [mytationTypes.loginStart](state) {
+      state.isSubmitting = true;
+      state.validationErrors = null;
+    },
+    [mytationTypes.loginSuccess](state, payload) {
+      state.isSubmitting = false;
+      state.currentUser = payload;
+      state.isLoggedIn = true;
+    },
+    [mytationTypes.loginFailure](state, payload) {
+      state.isSubmitting = false;
+      state.validationErrors = payload;
     }
   },
   actions: {
@@ -52,6 +69,17 @@ export default {
         commit(mytationTypes.registerSuccess, data.user);
       } catch (e) {
         commit(mytationTypes.registerFailure, e.response.data.errors);
+        throw e;
+      }
+    },
+    [actionsTypes.login]: async ({ commit }, credentials) => {
+      try {
+        commit(mytationTypes.loginStart);
+        const { data } = await authApi.login(credentials);
+        setItem('accessToken', data.user.token);
+        commit(mytationTypes.loginSuccess, data.user);
+      } catch (e) {
+        commit(mytationTypes.loginFailure, e.response.data.errors);
         throw e;
       }
     }
