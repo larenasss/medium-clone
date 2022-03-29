@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '@/views/HomePage';
+import GlobalFeed from '@/views/GlobalFeed';
 import Register from '@/views/RegisterPage';
 import Login from '@/views/LoginPage';
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: Home,
+    name: 'globalFeed',
+    component: GlobalFeed,
   },
   {
     path: '/register',
