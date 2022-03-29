@@ -5,24 +5,30 @@ import { createTypesFromModuleName } from '@/helpers/typesStore';
 
 const MODULE_NAME = 'auth';
 
-const mytationTypes = {
-  registerStart: 'registerStart',
-  registerSuccess: 'registerSuccess',
-  registerFailure: 'registerFailure',
-  loginStart: 'loginStart',
-  loginSuccess: 'loginSuccess',
-  loginFailure: 'loginFailure'
-};
-
-const actionsTypes = {
-  register: 'register',
-  login: 'login'
-};
-
 const gettersTyepes = {
   currentUser: 'currentUser',
   isLoggedIn: 'isLoggedIn',
   isAnonymous: 'isAnonymous'
+};
+
+const mytationTypes = {
+  registerStart: 'registerStart',
+  registerSuccess: 'registerSuccess',
+  registerFailure: 'registerFailure',
+
+  loginStart: 'loginStart',
+  loginSuccess: 'loginSuccess',
+  loginFailure: 'loginFailure',
+
+  getCurrentUserStart: 'getCurrentUserStart',
+  getCurrentUserSuccess: 'getCurrentUserSuccess',
+  getCurrentUserFailure: 'getCurrentUserFailure'
+};
+
+const actionsTypes = {
+  register: 'register',
+  login: 'login',
+  getCurrentUser: 'getCurrentUser'
 };
 
 export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
@@ -34,6 +40,7 @@ export default {
   state() {
     return {
       isSubmitting: false,
+      isLoading: false,
       currentUser: null,
       validationErrors: null,
       isLoggedIn: null
@@ -70,6 +77,19 @@ export default {
     [mytationTypes.loginFailure](state, payload) {
       state.isSubmitting = false;
       state.validationErrors = payload;
+    },
+    [mytationTypes.getCurrentUserStart](state) {
+      state.isLoading = true;
+    },
+    [mytationTypes.getCurrentUserSuccess](state, payload) {
+      state.currentUser = payload;
+      state.isLoading = false;
+      state.isLoggedIn = true;
+    },
+    [mytationTypes.getCurrentUserFailure](state) {
+      state.isLoading = false;
+      state.isLoggedIn = false;
+      state.currentUser = null;
     }
   },
   actions: {
@@ -92,6 +112,16 @@ export default {
         commit(mytationTypes.loginSuccess, data.user);
       } catch (e) {
         commit(mytationTypes.loginFailure, e.response.data.errors);
+        throw e;
+      }
+    },
+    [actionsTypes.getCurrentUser]: async ({ commit }) => {
+      try {
+        commit(mytationTypes.getCurrentUserStart);
+        const { data } = await authApi.getCurrentUser();
+        commit(mytationTypes.getCurrentUserSuccess, data.user);
+      } catch (e) {
+        commit(mytationTypes.getCurrentUserFailure);
         throw e;
       }
     }

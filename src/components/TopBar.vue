@@ -11,6 +11,7 @@
           </router-link>
         </li>
         <template v-if="isLoggedIn">
+          <li>{{ currentUser.username }}</li>
           <!-- <li class="nav-item">
             <router-link class="nav-link" :to="{name: 'createArticle'}" active-class="active">
               <i class="ion-compose"></i>
@@ -50,12 +51,14 @@
 <script>
 import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex';
-import gettersTypesExport from '@/store/modules/auth';
+import { gettersTypesExport } from '@/store/modules/auth';
 
 export default {
   name: 'AppTopBar',
   setup() {
     const store = useStore();
+
+    console.log(gettersTypesExport);
 
     const currentUser = computed(() => store.getters[gettersTypesExport.currentUser]);
     const isLoggedIn = computed(() => store.getters[gettersTypesExport.isLoggedIn]);

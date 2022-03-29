@@ -5,8 +5,20 @@
 
 <script>
 import AppTopBar from '@/components/TopBar';
+import { onMounted } from '@vue/runtime-core';
+
+import { actionsTypesExport } from '@/store/modules/auth';
+import { useStore } from 'vuex';
+
 export default {
   name: 'App',
-  components: { AppTopBar }
+  components: { AppTopBar },
+  setup() {
+    const store = useStore();
+
+    onMounted(() => {
+      store.dispatch(actionsTypesExport.getCurrentUser);
+    });
+  }
 };
 </script>
