@@ -1,9 +1,50 @@
 <template>
-  <div>{{ apiUrl }}</div>
+  <div>
+    <div v-if="isLoading">Loading...</div>
+    <div v-if="errors">Something bad happed</div>
+
+    <div v-if="feed">
+      <div
+        class="article-preview"
+        v-for="(article, index) in feed.articles"
+        :key="index"
+      >
+        <div class="article-meta">
+          <router-link
+            :to="{name: 'userProfile', params: {slug: article.author.username}}"
+          >
+            <img :src="article.author.image" />
+          </router-link>
+          <div class="info">
+            <router-link
+              :to="{
+                name: 'userProfile',
+                params: {slug: article.author.username}
+              }"
+            >
+              {{ article.author.username }}
+            </router-link>
+            <span class="date">{{ article.createdAt }}</span>
+          </div>
+          <div class="pull-xs-right">ADD TO FAVORITES</div>
+        </div>
+        <router-link
+          :to="{name: 'article', params: {slug: article.slug}}"
+          class="preview-link"
+        >
+          <h1>{{ article.title }}</h1>
+          <p>{{ article.description }}</p>
+          <span>Read more...</span>
+          TAG LIST
+        </router-link>
+      </div>
+      PAGINATION
+    </div>
+  </div>
 </template>
 
 <script>
-import { onMounted } from '@vue/runtime-core';
+import { computed, onMounted } from '@vue/runtime-core';
 
 import { actionsTypesExport } from '@/store/modules/feed';
 import { useStore } from 'vuex';
@@ -20,9 +61,14 @@ export default {
     const store = useStore();
 
     onMounted(() => {
-      console.log('init feed');
       store.dispatch(actionsTypesExport.getFeed, { apiUrl: props.apiUrl });
     });
+
+    return {
+      isLoading: computed(() => store.state.feed.isLoading),
+      feed: computed(() => store.state.feed.data),
+      errors: computed(() =>  store.state.feed.errors)
+    };
   }
 };
 </script>

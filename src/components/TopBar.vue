@@ -11,8 +11,7 @@
           </router-link>
         </li>
         <template v-if="isLoggedIn">
-          <li>{{ currentUser.username }}</li>
-          <!-- <li class="nav-item">
+          <li class="nav-item">
             <router-link class="nav-link" :to="{name: 'createArticle'}" active-class="active">
               <i class="ion-compose"></i>
               New Article
@@ -29,7 +28,7 @@
               <img class="user-pic" :src="currentUser.image">
               {{ currentUser.username }}
             </router-link>
-          </li> -->
+          </li>
         </template>
         <template v-if="isAnonymous">
           <li class="nav-item">
