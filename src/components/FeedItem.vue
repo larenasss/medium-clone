@@ -38,7 +38,11 @@
           TAG LIST
         </router-link>
       </div>
-      PAGINATION
+      <app-pagination
+        :total="testData.total"
+        :limit="testData.limit"
+        :current-page="testData.currentPage"
+        :url="testData.url"></app-pagination>
     </div>
   </div>
 </template>
@@ -49,8 +53,13 @@ import { computed, onMounted } from '@vue/runtime-core';
 import { actionsTypesExport } from '@/store/modules/feed';
 import { useStore } from 'vuex';
 
+import AppPagination from '@/components/PaginationsList';
+
 export default {
   name: 'AppFeedItem',
+  components: {
+    AppPagination
+  },
   props: {
     apiUrl: {
       type: String,
@@ -64,10 +73,18 @@ export default {
       store.dispatch(actionsTypesExport.getFeed, { apiUrl: props.apiUrl });
     });
 
+    const testData = {
+      total: 500,
+      limit: 10,
+      currentPage: 5,
+      url: '/tags/dragons'
+    };
+
     return {
       isLoading: computed(() => store.state.feed.isLoading),
       feed: computed(() => store.state.feed.data),
-      errors: computed(() =>  store.state.feed.errors)
+      errors: computed(() =>  store.state.feed.errors),
+      testData
     };
   }
 };
