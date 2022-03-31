@@ -1,16 +1,16 @@
-import feedApi from '@/api/feed';
+import popularTags from '@/api/popularTags';
 import { createTypesFromModuleName } from '@/helpers/typesStore';
 
-const MODULE_NAME = 'feed';
+const MODULE_NAME = 'popularTags';
 
 const mytationTypes = {
-  getFeedStart: 'getFeedStart',
-  getFeedSuccess: 'getFeedSuccess',
-  getFeedFailure: 'getFeedFailure',
+  getPopularTagsStart: 'getPopularTagsStart',
+  getPopularTagsSuccess: 'getPopularTagsSuccess',
+  getPopularTagsFailure: 'getPopularTagsFailure',
 };
 
 const actionsTypes = {
-  getFeed: 'getFeed'
+  getPopularTags: 'getPopularTags'
 };
 
 export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
@@ -27,26 +27,26 @@ export default {
   },
   getters: {},
   mutations: {
-    [mytationTypes.getFeedStart](state) {
+    [mytationTypes.getPopularTagsStart](state) {
       state.isLoading = true;
       state.data = null;
     },
-    [mytationTypes.getFeedSuccess](state, payload) {
+    [mytationTypes.getPopularTagsSuccess](state, payload) {
       state.isLoading = false;
       state.data = payload;
     },
-    [mytationTypes.getFeedFailure](state) {
+    [mytationTypes.getPopularTagsFailure](state) {
       state.isLoading = false;
     }
   },
   actions: {
-    [actionsTypes.getFeed]: async ({ commit }, { apiUrl }) => {
+    [actionsTypes.getPopularTags]: async ({ commit }) => {
       try {
-        commit(mytationTypes.getFeedStart);
-        const { data } = await feedApi.getFeed(apiUrl);
-        commit(mytationTypes.getFeedSuccess, data);
+        commit(mytationTypes.getPopularTagsStart);
+        const tags = await popularTags.getPopularTags();
+        commit(mytationTypes.getPopularTagsSuccess, tags);
       } catch (e) {
-        commit(mytationTypes.getFeedFailure);
+        commit(mytationTypes.getPopularTagsFailure);
         throw e;
       }
     }

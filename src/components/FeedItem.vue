@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="isLoading">Loading...</div>
-    <div v-if="errors">Something bad happed</div>
+    <div v-if="error">Something bad happed</div>
 
     <div v-if="feed">
       <div
@@ -39,21 +39,26 @@
         </router-link>
       </div>
       <app-pagination
-        :total="testData.total"
-        :limit="testData.limit"
-        :current-page="testData.currentPage"
-        :url="testData.url"></app-pagination>
+        :total="feed.articlesCount"
+        :limit="limit"
+        :current-page="currentPage"
+        :url="baseUrl"></app-pagination>
     </div>
   </div>
 </template>
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core';
+import { computed, onMounted, watch } from '@vue/runtime-core';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
 import { actionsTypesExport } from '@/store/modules/feed';
-import { useStore } from 'vuex';
+import { limit } from '@/helpers/variables';
+
+import { stringify, parseUrl } from 'query-string';
 
 import AppPagination from '@/components/PaginationsList';
+
 
 export default {
   name: 'AppFeedItem',
@@ -67,24 +72,39 @@ export default {
     }
   },
   setup(props) {
+    const route = useRoute();
     const store = useStore();
 
+    const offset = computed(() => currentPage.value * limit - limit);
+
+    const fetchFeed = () => {
+      const parsedUrl = parseUrl(props.apiUrl);
+      const stringifiedParams = stringify({
+        limit,
+        offset: offset.value,
+        ...parsedUrl.query
+      });
+      const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
+      store.dispatch(actionsTypesExport.getFeed, { apiUrl: apiUrlWithParams });
+    };
+
     onMounted(() => {
-      store.dispatch(actionsTypesExport.getFeed, { apiUrl: props.apiUrl });
+      fetchFeed();
     });
 
-    const testData = {
-      total: 500,
-      limit: 10,
-      currentPage: 5,
-      url: '/tags/dragons'
-    };
+    const currentPage = computed(() => Number(route.query.page || '1'));
+
+    watch(currentPage, () => {
+      fetchFeed();
+    });
 
     return {
       isLoading: computed(() => store.state.feed.isLoading),
       feed: computed(() => store.state.feed.data),
-      errors: computed(() =>  store.state.feed.errors),
-      testData
+      error: computed(() =>  store.state.feed.error),
+      currentPage,
+      limit,
+      baseUrl: computed(() => route.path)
     };
   }
 };
