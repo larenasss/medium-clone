@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="isLoading">Loading...</div>
-    <div v-if="error">Something bad happed</div>
+    <app-loading-item v-if="isLoading" />
+    <app-error-message v-if="error" />
 
     <div v-if="feed">
       <div
@@ -58,12 +58,15 @@ import { limit } from '@/helpers/variables';
 import { stringify, parseUrl } from 'query-string';
 
 import AppPagination from '@/components/PaginationsList';
-
+import AppLoadingItem from '@/components/LoadingItem.vue';
+import AppErrorMessage from '@/components/ErrorMessage.vue';
 
 export default {
   name: 'AppFeedItem',
   components: {
-    AppPagination
+    AppPagination,
+    AppLoadingItem,
+    AppErrorMessage
   },
   props: {
     apiUrl: {

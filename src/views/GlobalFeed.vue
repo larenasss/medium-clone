@@ -1,6 +1,6 @@
 <template>
   <div class="home-page">
-    BANNER
+    <app-banner-item />
     <div class="container page">
       <div class="row">
         <div class="col-md-9">
@@ -18,11 +18,12 @@
 <script>
 import AppFeedItem from '@/components/FeedItem.vue';
 import AppPopularTags from '@/components/PopularTags.vue';
+import AppBannerItem from '@/components/BannerItem.vue';
 import { ref } from '@vue/reactivity';
 
 export default {
   name: 'AppGlobalFeed',
-  components: { AppFeedItem, AppPopularTags },
+  components: { AppFeedItem, AppPopularTags, AppBannerItem },
   setup() {
     return {
       apiUrl: ref('/articles')
