@@ -25,16 +25,11 @@ import AppFeedToggle from "@/components/FeedToggle.vue";
 import { ref } from '@vue/reactivity';
 
 export default {
-  name: 'AppGlobalFeed',
-  components: {
-    AppFeedItem,
-    AppPopularTags,
-    AppBannerItem,
-    AppFeedToggle
-  },
+  name: 'AppYourFeed',
+  components: { AppFeedItem, AppPopularTags, AppBannerItem, AppFeedToggle },
   setup() {
     return {
-      apiUrl: ref('/articles')
+      apiUrl: ref('/articles/feed')
     };
   }
 };

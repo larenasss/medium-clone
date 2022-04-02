@@ -4,7 +4,7 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-9">
-          <app-feed-toggle></app-feed-toggle>
+          <app-feed-toggle :tag-name="tagName"></app-feed-toggle>
           <app-feed-item :api-url="apiUrl"></app-feed-item>
         </div>
         <div class="col-md-3">
@@ -15,17 +15,16 @@
   </div>
 </template>
 
-
 <script>
-import AppFeedItem from '@/components/FeedItem.vue';
-import AppPopularTags from '@/components/PopularTags.vue';
-import AppBannerItem from '@/components/BannerItem.vue';
+import AppFeedItem from "@/components/FeedItem.vue";
+import AppPopularTags from "@/components/PopularTags.vue";
+import AppBannerItem from "@/components/BannerItem.vue";
 import AppFeedToggle from "@/components/FeedToggle.vue";
-
-import { ref } from '@vue/reactivity';
+import { computed } from '@vue/runtime-core';
+import { useRoute } from 'vue-router';
 
 export default {
-  name: 'AppGlobalFeed',
+  name: "AppYourFeed",
   components: {
     AppFeedItem,
     AppPopularTags,
@@ -33,9 +32,13 @@ export default {
     AppFeedToggle
   },
   setup() {
+    const route = useRoute();
+    const tagName = computed(() => route.params.slug);
+
     return {
-      apiUrl: ref('/articles')
+      tagName,
+      apiUrl: computed(() => `articles?tag=${tagName.value}`),
     };
-  }
+  },
 };
 </script>
