@@ -5,6 +5,7 @@ import TagFeed from '@/views/TagFeed';
 import Register from '@/views/RegisterPage';
 import Login from '@/views/LoginPage';
 import Article from '@/views/ArticleItem';
+import CreateArticle from '@/views/CreateArticle';
 
 const routes = [
   {
@@ -35,7 +36,7 @@ const routes = [
   {
     path: '/articles/new',
     name: 'createArticle',
-    component: GlobalFeed,
+    component: CreateArticle,
   },
   {
     path: '/articles/:slug',
