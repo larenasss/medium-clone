@@ -77,13 +77,8 @@ export default {
       required: true
     }
   },
-  setup(_, { emit }) {
-    const dataForm = reactive({
-      title: '',
-      description: '',
-      body: '',
-      tagList: ''
-    });
+  setup(props, { emit }) {
+    const dataForm = reactive(props.initialValues);
 
     const onSubmit = () => {
       const data = {

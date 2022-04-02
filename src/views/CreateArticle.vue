@@ -32,7 +32,6 @@ export default {
     };
 
     const onSubmit = articleInput => {
-      console.log(articleInput);
       store
         .dispatch(actionsTypesExport.createArticle, { articleInput })
         .then(article => {

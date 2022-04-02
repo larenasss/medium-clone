@@ -6,6 +6,7 @@ import Register from '@/views/RegisterPage';
 import Login from '@/views/LoginPage';
 import Article from '@/views/ArticleItem';
 import CreateArticle from '@/views/CreateArticle';
+import EditArticle from '@/views/EditArticle';
 
 const routes = [
   {
@@ -46,7 +47,7 @@ const routes = [
   {
     path: '/articles/:slug/edit',
     name: 'editArticle',
-    component: GlobalFeed,
+    component: EditArticle,
   },
   {
     path: '/settings',
