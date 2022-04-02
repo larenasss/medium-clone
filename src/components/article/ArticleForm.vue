@@ -57,7 +57,7 @@
 <script>
 import { reactive } from '@vue/reactivity';
 
-import AppValidationErrors from '@/components/ValidationErrors';
+import AppValidationErrors from '@/components/errors/ValidationErrors';
 
 export default {
   name: 'AppArticleForm',

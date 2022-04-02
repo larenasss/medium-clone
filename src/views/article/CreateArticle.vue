@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import AppArticleForm from '@/components/ArticleForm';
+import AppArticleForm from '@/components/article/ArticleForm';
 import { useStore } from 'vuex';
 import { computed } from '@vue/runtime-core';
 

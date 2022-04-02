@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import GlobalFeed from '@/views/GlobalFeed';
-import YourFeed from '@/views/YourFeed';
-import TagFeed from '@/views/TagFeed';
+import GlobalFeed from '@/views/feed/GlobalFeed';
+import YourFeed from '@/views/feed/YourFeed';
+import TagFeed from '@/views/feed/TagFeed';
 import Register from '@/views/RegisterPage';
 import Login from '@/views/LoginPage';
-import Article from '@/views/ArticleItem';
-import CreateArticle from '@/views/CreateArticle';
-import EditArticle from '@/views/EditArticle';
+import Article from '@/views/article/ArticleItem';
+import CreateArticle from '@/views/article/CreateArticle';
+import EditArticle from '@/views/article/EditArticle';
 
 const routes = [
   {

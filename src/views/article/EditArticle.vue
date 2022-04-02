@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import AppArticleForm from "@/components/ArticleForm";
-import AppLoadingItem from "@/components/LoadingItem";
+import AppArticleForm from "@/components/article/ArticleForm";
+import AppLoadingItem from "@/components/ui/LoadingItem";
 import { useStore } from "vuex";
 import { computed, onMounted } from "@vue/runtime-core";
 

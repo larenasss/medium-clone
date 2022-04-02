@@ -57,10 +57,10 @@ import { limit } from '@/helpers/variables';
 
 import { stringify, parseUrl } from 'query-string';
 
-import AppPagination from '@/components/PaginationsList';
-import AppLoadingItem from '@/components/LoadingItem.vue';
-import AppErrorMessage from '@/components/ErrorMessage.vue';
-import AppTagsList from '@/components/TagsList.vue';
+import AppPagination from '@/components/ui/PaginationsList';
+import AppLoadingItem from '@/components/ui/LoadingItem.vue';
+import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
+import AppTagsList from '@/components/ui/TagsList.vue';
 
 export default {
   name: 'AppFeedItem',

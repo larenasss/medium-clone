@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import AppLoadingItem from '@/components/LoadingItem.vue';
-import AppErrorMessage from '@/components/ErrorMessage.vue';
+import AppLoadingItem from '@/components/ui/LoadingItem.vue';
+import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
 
 import { computed, onMounted } from '@vue/runtime-core';
 import { useStore } from 'vuex';

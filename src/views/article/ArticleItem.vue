@@ -62,9 +62,9 @@ import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
-import AppLoadingItem from '@/components/LoadingItem.vue';
-import AppErrorMessage from '@/components/ErrorMessage.vue';
-import AppTagsList from '@/components/TagsList.vue';
+import AppLoadingItem from '@/components/ui/LoadingItem.vue';
+import AppErrorMessage from '@/components/errors/ErrorMessage';
+import AppTagsList from '@/components/ui/TagsList';
 
 export default {
   name: 'AppArticleItem',

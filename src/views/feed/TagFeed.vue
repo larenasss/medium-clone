@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import AppFeedItem from "@/components/FeedItem.vue";
-import AppPopularTags from "@/components/PopularTags.vue";
-import AppBannerItem from "@/components/BannerItem.vue";
-import AppFeedToggle from "@/components/FeedToggle.vue";
+import AppFeedItem from "@/components/feed/FeedItem.vue";
+import AppPopularTags from "@/components/ui/PopularTags.vue";
+import AppBannerItem from "@/components/ui/BannerItem.vue";
+import AppFeedToggle from "@/components/feed/FeedToggle.vue";
 import { computed } from '@vue/runtime-core';
 import { useRoute } from 'vue-router';
 

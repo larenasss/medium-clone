@@ -49,7 +49,7 @@ import { computed, reactive } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
-import AppValidationErrors from "@/components/ValidationErrors";
+import AppValidationErrors from "@/components/errors/ValidationErrors";
 import { actionsTypesExport } from "@/store/modules/auth";
 
 export default {

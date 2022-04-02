@@ -1,10 +1,10 @@
 <template>
   <app-top-bar></app-top-bar>
-  <router-view></router-view>
+  <router-view :key="$route.fullPath"></router-view>
 </template>
 
 <script>
-import AppTopBar from '@/components/TopBar';
+import AppTopBar from '@/components/ui/TopBar';
 import { onMounted } from '@vue/runtime-core';
 
 import { actionsTypesExport } from '@/store/modules/auth';
