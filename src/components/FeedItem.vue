@@ -35,7 +35,7 @@
           <h1>{{ article.title }}</h1>
           <p>{{ article.description }}</p>
           <span>Read more...</span>
-          TAG LIST
+          <app-tags-list :tags="article.tagList"></app-tags-list>
         </router-link>
       </div>
       <app-pagination
@@ -60,13 +60,15 @@ import { stringify, parseUrl } from 'query-string';
 import AppPagination from '@/components/PaginationsList';
 import AppLoadingItem from '@/components/LoadingItem.vue';
 import AppErrorMessage from '@/components/ErrorMessage.vue';
+import AppTagsList from '@/components/TagsList.vue';
 
 export default {
   name: 'AppFeedItem',
   components: {
     AppPagination,
     AppLoadingItem,
-    AppErrorMessage
+    AppErrorMessage,
+    AppTagsList
   },
   props: {
     apiUrl: {

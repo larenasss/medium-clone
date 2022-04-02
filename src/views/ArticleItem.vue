@@ -47,7 +47,7 @@
           <div>
             <p>{{ article.body }}</p>
           </div>
-          TAG LIST IS HERE
+          <app-tags-list :tags="article.tagList"></app-tags-list>
         </div>
       </div>
     </div>
@@ -55,20 +55,23 @@
 </template>
 
 <script>
-import AppLoadingItem from '@/components/LoadingItem.vue';
-import AppErrorMessage from '@/components/ErrorMessage.vue';
-
 import { actionsTypesExport as actionsTypesExportArticle } from '@/store/modules/article';
 import { gettersTypesExport as gettersTypesExportAuth } from '@/store/modules/auth';
 
 import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+
+import AppLoadingItem from '@/components/LoadingItem.vue';
+import AppErrorMessage from '@/components/ErrorMessage.vue';
+import AppTagsList from '@/components/TagsList.vue';
+
 export default {
   name: 'AppArticleItem',
   components: {
     AppLoadingItem,
-    AppErrorMessage
+    AppErrorMessage,
+    AppTagsList
   },
   setup() {
     const store = useStore();
