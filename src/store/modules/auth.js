@@ -5,7 +5,7 @@ import { createTypesFromModuleName } from '@/helpers/typesStore';
 
 const MODULE_NAME = 'auth';
 
-const gettersTyepes = {
+const gettersTypes = {
   currentUser: 'currentUser',
   isLoggedIn: 'isLoggedIn',
   isAnonymous: 'isAnonymous'
@@ -33,7 +33,7 @@ const actionsTypes = {
 
 export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
 export const mytationTypesExport = createTypesFromModuleName(MODULE_NAME, mytationTypes);
-export const gettersTypesExport = createTypesFromModuleName(MODULE_NAME, gettersTyepes);
+export const gettersTypesExport = createTypesFromModuleName(MODULE_NAME, gettersTypes);
 
 export default {
   namespaced: true,
@@ -47,9 +47,9 @@ export default {
     };
   },
   getters: {
-    [gettersTyepes.currentUser]: state => state.currentUser,
-    [gettersTyepes.isLoggedIn]: state => Boolean(state.isLoggedIn),
-    [gettersTyepes.isAnonymous]: state => state.isLoggedIn === false
+    [gettersTypes.currentUser]: state => state.currentUser,
+    [gettersTypes.isLoggedIn]: state => Boolean(state.isLoggedIn),
+    [gettersTypes.isAnonymous]: state => state.isLoggedIn === false
   },
   mutations: {
     [mytationTypes.registerStart](state) {

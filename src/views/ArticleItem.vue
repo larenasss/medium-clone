@@ -23,7 +23,7 @@
             </router-link>
             <span class="date">{{ article.createdAt }}</span>
           </div>
-          <span>
+          <span v-if="isAuthor">
             <router-link
               class="btn btn-outline-secondary btn-sm"
               :to="{ name: 'editArticle', params: { slug: article.slug } }"
@@ -31,7 +31,7 @@
               <i class="ion-edit" />
               Edit Article
             </router-link>
-            <button class="btn btn-outline-danger btn-sm">
+            <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
               <i class="ion-trash-a" />
               Delete Article
             </button>
@@ -58,11 +58,12 @@
 import AppLoadingItem from '@/components/LoadingItem.vue';
 import AppErrorMessage from '@/components/ErrorMessage.vue';
 
-import { actionsTypesExport } from '@/store/modules/article';
+import { actionsTypesExport as actionsTypesExportArticle } from '@/store/modules/article';
+import { gettersTypesExport as gettersTypesExportAuth } from '@/store/modules/auth';
 
 import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 export default {
   name: 'AppArticleItem',
   components: {
@@ -72,15 +73,31 @@ export default {
   setup() {
     const store = useStore();
     const route = useRoute();
+    const router = useRouter();
 
     onMounted(() => {
-      store.dispatch(actionsTypesExport.getArticle, { slug: route.params.slug });
+      store.dispatch(actionsTypesExportArticle.getArticle, { slug: route.params.slug });
     });
+
+    const deleteArticle = () => {
+      store.dispatch(actionsTypesExportArticle.deleteArticle, { slug: route.params.slug })
+        .then(() => { router.push({name: 'globalFeed'}); });
+    };
+
+    const currentUser = computed(() => store.getters[gettersTypesExportAuth.currentUser]);
+    const article = computed(() => store.state.article.data);
 
     return {
       isLoading: computed(() => store.state.article.isLoading),
-      article: computed(() => store.state.article.data),
       error: computed(() =>  store.state.article.error),
+      article,
+      isAuthor: computed(() => {
+        if (!currentUser.value || !article.value) {
+          return false;
+        }
+        return currentUser.value.username === article.value.author.username;
+      }),
+      deleteArticle
     };
   }
 };

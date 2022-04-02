@@ -7,10 +7,14 @@ const mytationTypes = {
   getArticleStart: 'getArticleStart',
   getArticleSuccess: 'getArticleSuccess',
   getArticleFailure: 'getArticleFailure',
+  deleteArticleStart: 'deleteArticleStart',
+  deleteArticleSuccess: 'deleteArticleSuccess',
+  deleteArticleFailure: 'deleteArticleFailure',
 };
 
 const actionsTypes = {
-  getArticle: 'getArticle'
+  getArticle: 'getArticle',
+  deleteArticle: 'deleteArticle'
 };
 
 export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
@@ -37,7 +41,10 @@ export default {
     },
     [mytationTypes.getArticleFailure](state) {
       state.isLoading = false;
-    }
+    },
+    [mytationTypes.deleteArticleStart]() {},
+    [mytationTypes.deleteArticleSuccess]() {},
+    [mytationTypes.deleteArticleFailure]() {}
   },
   actions: {
     [actionsTypes.getArticle]: async ({ commit }, { slug }) => {
@@ -47,6 +54,16 @@ export default {
         commit(mytationTypes.getArticleSuccess, article);
       } catch (e) {
         commit(mytationTypes.getArticleFailure);
+        throw e;
+      }
+    },
+    [actionsTypes.deleteArticle]: async ({ commit }, { slug }) => {
+      try {
+        commit(mytationTypes.deleteArticleStart);
+        await articleApi.deleteArticle(slug);
+        commit(mytationTypes.deleteArticleSuccess);
+      } catch (e) {
+        commit(mytationTypes.deleteArticleFailure);
         throw e;
       }
     }
