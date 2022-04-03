@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import FeedPage from '@/views/feed/FeedPage';
 import GlobalFeed from '@/views/feed/GlobalFeed';
 import YourFeed from '@/views/feed/YourFeed';
 import TagFeed from '@/views/feed/TagFeed';
@@ -23,18 +24,25 @@ const routes = [
   },
   {
     path: '/',
-    name: 'globalFeed',
-    component: GlobalFeed,
-  },
-  {
-    path: '/feed',
-    name: 'yourFeed',
-    component: YourFeed,
-  },
-  {
-    path: '/tags/:slug',
-    name: 'tag',
-    component: TagFeed,
+    name: 'mainFeed',
+    component: FeedPage,
+    children: [
+      {
+        path: '/',
+        name: 'globalFeed',
+        component: GlobalFeed,
+      },
+      {
+        path: '/yourFeed',
+        name: 'yourFeed',
+        component: YourFeed,
+      },
+      {
+        path: '/tags/:slug',
+        name: 'tag',
+        component: TagFeed,
+      }
+    ]
   },
   {
     path: '/articles/new',

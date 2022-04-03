@@ -1,4 +1,4 @@
-import { createStore, createLogger } from 'vuex';
+import { createStore } from 'vuex';
 import auth from '@/store/modules/auth';
 import feed from '@/store/modules/feed';
 import popularTags from '@/store/modules/popularTags';
@@ -9,14 +9,7 @@ import settings from '@/store/modules/settings';
 import addToFavorites from '@/store/modules/addToFavorites';
 import userProfile from '@/store/modules/userProfile';
 
-const plugins = [];
-
-if (process.env.NODE_ENV === 'development') {
-  plugins.push(createLogger());
-}
-
 export default createStore({
-  plugins,
   state: {},
   mutations: {},
   actions: {},

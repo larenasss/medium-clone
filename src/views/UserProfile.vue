@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core';
+import { computed, onMounted, watch } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
@@ -82,6 +82,7 @@ export default {
     const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
     const { isLoading, data: userProfile, error  } = useGetStateLoadingByView('userProfile');
     const userProfileSlug = computed(() => route.params.slug);
+    const routeName = computed(() => route.name);
 
     const isCurrentUserProfile = computed(() => {
       if (!currentUser.value || !userProfile.value) {
@@ -97,13 +98,14 @@ export default {
         : `/articles?author=${userProfileSlug.value}`;
     });
 
-    const routeName = computed(() => route.name);
+    onMounted(() => fetchUserProfile());
+    watch(apiUrl, () => fetchUserProfile());
 
-    onMounted(() => {
+    const fetchUserProfile = () => {
       store.dispatch(userProfileActionsTypes.getUserProfile, {
         slug: userProfileSlug.value
       });
-    });
+    };
 
     return {
       isLoading,

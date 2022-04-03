@@ -113,7 +113,7 @@ export default {
 
     const logout = () => {
       store.dispatch(authActionsTypes.logout).then(() => {
-        router.push({name: 'globalFeed'});
+        router.push({name: 'mainFeed'});
       });
     };
 

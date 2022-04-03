@@ -1,56 +1,54 @@
 <template>
-  <div>
-    <app-loading-item v-if="isLoading" />
-    <app-error-message v-if="error" />
+  <app-loading-item v-if="isLoading" />
+  <app-error-message v-if="error" />
 
-    <div v-if="feed">
-      <div
-        class="article-preview"
-        v-for="(article, index) in feed.articles"
-        :key="index"
-      >
-        <div class="article-meta">
-          <router-link
-            :to="{name: 'userProfile', params: {slug: article.author.username}}"
-          >
-            <img :src="article.author.image" />
-          </router-link>
-          <div class="info">
-            <router-link
-              :to="{
-                name: 'userProfile',
-                params: {slug: article.author.username}
-              }"
-            >
-              {{ article.author.username }}
-            </router-link>
-            <span class="date">{{ article.createdAt }}</span>
-          </div>
-          <div class="pull-xs-right">
-            <app-add-to-favorites
-              :is-favorited="article.favorited"
-              :article-slug="article.slug"
-              :favorites-count="article.favoritesCount"
-            >
-            </app-add-to-favorites>
-          </div>
-        </div>
+  <div v-if="feed">
+    <div
+      class="article-preview"
+      v-for="(article, index) in feed.articles"
+      :key="index"
+    >
+      <div class="article-meta">
         <router-link
-          :to="{name: 'article', params: {slug: article.slug}}"
-          class="preview-link"
+          :to="{name: 'userProfile', params: {slug: article.author.username}}"
         >
-          <h1>{{ article.title }}</h1>
-          <p>{{ article.description }}</p>
-          <span>Read more...</span>
-          <app-tags-list :tags="article.tagList"></app-tags-list>
+          <img :src="article.author.image" />
         </router-link>
+        <div class="info">
+          <router-link
+            :to="{
+              name: 'userProfile',
+              params: {slug: article.author.username}
+            }"
+          >
+            {{ article.author.username }}
+          </router-link>
+          <span class="date">{{ article.createdAt }}</span>
+        </div>
+        <div class="pull-xs-right">
+          <app-add-to-favorites
+            :is-favorited="article.favorited"
+            :article-slug="article.slug"
+            :favorites-count="article.favoritesCount"
+          >
+          </app-add-to-favorites>
+        </div>
       </div>
-      <app-pagination
-        :total="feed.articlesCount"
-        :limit="limit"
-        :current-page="currentPage"
-        :url="baseUrl"></app-pagination>
+      <router-link
+        :to="{name: 'article', params: {slug: article.slug}}"
+        class="preview-link"
+      >
+        <h1>{{ article.title }}</h1>
+        <p>{{ article.description }}</p>
+        <span>Read more...</span>
+        <app-tags-list :tags="article.tagList"></app-tags-list>
+      </router-link>
     </div>
+    <app-pagination
+      :total="feed.articlesCount"
+      :limit="limit"
+      :current-page="currentPage"
+      :url="baseUrl"></app-pagination>
   </div>
 </template>
 
@@ -93,12 +91,15 @@ export default {
     const currentPage = computed(() => Number(route.query.page || '1'));
     const offset = computed(() => currentPage.value * limit - limit);
     const { isLoading, data: feed, error  } = useGetStateLoadingByView('feed');
+    const baseUrl = computed(() => route.path);
 
     onMounted(() => {
       fetchFeed();
     });
 
-    watch(currentPage, () => {
+    watch(currentPage, () => fetchFeed());
+    watch(() => props.apiUrl, () => {
+      console.log(1);
       fetchFeed();
     });
 
@@ -119,7 +120,7 @@ export default {
       error,
       currentPage,
       limit,
-      baseUrl: computed(() => route.path)
+      baseUrl
     };
   }
 };

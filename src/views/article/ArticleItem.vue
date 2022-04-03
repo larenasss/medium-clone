@@ -85,7 +85,7 @@ export default {
 
     const deleteArticle = () => {
       store.dispatch(articleActionsTypes.deleteArticle, { slug: route.params.slug })
-        .then(() => { router.push({name: 'globalFeed'}); });
+        .then(() => { router.push({name: 'mainFeed'}); });
     };
 
     const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
