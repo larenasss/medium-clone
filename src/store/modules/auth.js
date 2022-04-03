@@ -22,13 +22,21 @@ const mytationTypes = {
 
   getCurrentUserStart: 'getCurrentUserStart',
   getCurrentUserSuccess: 'getCurrentUserSuccess',
-  getCurrentUserFailure: 'getCurrentUserFailure'
+  getCurrentUserFailure: 'getCurrentUserFailure',
+
+  updateCurrentUserStart: 'updateCurrentUserStart',
+  updateCurrentUserSuccess: 'updateCurrentUserSuccess',
+  updateCurrentUserFailure: 'updateCurrentUserFailure',
+
+  logout: 'logout'
 };
 
 const actionsTypes = {
   register: 'register',
   login: 'login',
-  getCurrentUser: 'getCurrentUser'
+  getCurrentUser: 'getCurrentUser',
+  updateCurrentUser: 'updateCurrentUser',
+  logout: 'logout'
 };
 
 export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
@@ -90,6 +98,15 @@ export default {
       state.isLoading = false;
       state.isLoggedIn = false;
       state.currentUser = null;
+    },
+    [mytationTypes.updateCurrentUserStart]() {},
+    [mytationTypes.updateCurrentUserSuccess](state, payload) {
+      state.currentUser = payload;
+    },
+    [mytationTypes.updateCurrentUserFailure]() {},
+    [mytationTypes.logout](state) {
+      state.currentUser = null;
+      state.isLoggedIn = false;
     }
   },
   actions: {
@@ -122,6 +139,26 @@ export default {
         commit(mytationTypes.getCurrentUserSuccess, data.user);
       } catch (e) {
         commit(mytationTypes.getCurrentUserFailure);
+        throw e;
+      }
+    },
+    [actionsTypes.updateCurrentUser]: async ({ commit }, { currentUserInput }) => {
+      try {
+        commit(mytationTypes.updateCurrentUserStart);
+        const user = await authApi.updateCurrentUser(currentUserInput);
+        commit(mytationTypes.updateCurrentUserSuccess, user);
+      } catch (e) {
+        console.dir(e);
+        commit(mytationTypes.updateCurrentUserFailure, e.response.data.errors);
+        throw e;
+      }
+    },
+    [actionsTypes.logout]: async ({ commit }) => {
+      try {
+        setItem('acceessToken', '');
+        commit(mytationTypes.logout);
+      } catch (e) {
+        console.log(e);
         throw e;
       }
     }

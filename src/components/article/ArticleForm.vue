@@ -85,7 +85,7 @@ export default {
         title: dataForm.title,
         description: dataForm.description,
         body: dataForm.description,
-        tagList: dataForm.tagList.split(' ')
+        tagList: dataForm.tagList.toString().split(' ')
       };
       emit('articleSubmit', data);
     };

@@ -7,6 +7,7 @@ import Login from '@/views/LoginPage';
 import Article from '@/views/article/ArticleItem';
 import CreateArticle from '@/views/article/CreateArticle';
 import EditArticle from '@/views/article/EditArticle';
+import SettingsPage from '@/views/SettingsPage';
 
 const routes = [
   {
@@ -52,7 +53,7 @@ const routes = [
   {
     path: '/settings',
     name: 'settings',
-    component: GlobalFeed,
+    component: SettingsPage,
   },
   {
     path: '/profiles/:slug',
