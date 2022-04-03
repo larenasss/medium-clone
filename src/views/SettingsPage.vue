@@ -77,8 +77,8 @@
 import AppValidationErrors from '@/components/errors/ValidationErrors';
 
 import {
-  gettersTypesExport as authGettersTypesExport,
-  actionsTypesExport as authActionsTypesExport
+  gettersTypes as authGettersTypes,
+  actionsTypes as authActionsTypes
 } from '@/store/modules/auth';
 
 import { computed } from '@vue/runtime-core';
@@ -93,7 +93,7 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    const currentUser = computed(() => store.getters[authGettersTypesExport.currentUser]);
+    const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
 
     const form = computed(() => {
       return {
@@ -106,13 +106,13 @@ export default {
     });
 
     const onSubmit = () => {
-      store.dispatch(authActionsTypesExport.updateCurrentUser, {
+      store.dispatch(authActionsTypes.updateCurrentUser, {
         currentUserInput: form.value
       });
     };
 
     const logout = () => {
-      store.dispatch(authActionsTypesExport.logout).then(() => {
+      store.dispatch(authActionsTypes.logout).then(() => {
         router.push({name: 'globalFeed'});
       });
     };

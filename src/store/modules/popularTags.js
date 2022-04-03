@@ -1,23 +1,18 @@
 import popularTags from '@/api/popularTags';
-import { createTypesFromModuleName } from '@/helpers/typesStore';
 
 const MODULE_NAME = 'popularTags';
 
-const mytationTypes = {
-  getPopularTagsStart: 'getPopularTagsStart',
-  getPopularTagsSuccess: 'getPopularTagsSuccess',
-  getPopularTagsFailure: 'getPopularTagsFailure',
+export const mytationTypes = {
+  getPopularTagsStart: `[${MODULE_NAME}] getPopularTagsStart`,
+  getPopularTagsSuccess: `[${MODULE_NAME}] getPopularTagsSuccess`,
+  getPopularTagsFailure: `[${MODULE_NAME}] getPopularTagsFailure`,
 };
 
-const actionsTypes = {
-  getPopularTags: 'getPopularTags'
+export const actionsTypes = {
+  getPopularTags: `[${MODULE_NAME}] getPopularTags`
 };
-
-export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
-export const mytationTypesExport = createTypesFromModuleName(MODULE_NAME, mytationTypes);
 
 export default {
-  namespaced: true,
   state() {
     return {
       data: null,
@@ -25,7 +20,6 @@ export default {
       error: null
     };
   },
-  getters: {},
   mutations: {
     [mytationTypes.getPopularTagsStart](state) {
       state.isLoading = true;

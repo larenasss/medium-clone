@@ -1,6 +1,4 @@
-import { mytationTypesExport as authMytationTypesExport} from '@/store/modules/auth';
-
-export const mytationTypesExport = authMytationTypesExport;
+import { mytationTypes as authMytationTypes } from '@/store/modules/auth';
 
 export default {
   state() {
@@ -10,15 +8,14 @@ export default {
     };
   },
   mutations: {
-    [authMytationTypesExport.updateCurrentUserStart](state) {
-      console.log(1);
+    [authMytationTypes.updateCurrentUserStart](state) {
       state.isSubmitting = true;
       state.validationErrors = null;
     },
-    [authMytationTypesExport.updateCurrentUserSuccess](state) {
+    [authMytationTypes.updateCurrentUserSuccess](state) {
       state.isSubmitting = false;
     },
-    [authMytationTypesExport.updateCurrentUserFailure](state, payload) {
+    [authMytationTypes.updateCurrentUserFailure](state, payload) {
       state.isSubmitting = false;
       state.validationErrors = payload;
     },

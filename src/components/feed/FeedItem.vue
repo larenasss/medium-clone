@@ -52,7 +52,7 @@ import { computed, onMounted, watch } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
-import { actionsTypesExport } from '@/store/modules/feed';
+import { actionsTypes } from '@/store/modules/feed';
 import { limit } from '@/helpers/variables';
 
 import { stringify, parseUrl } from 'query-string';
@@ -90,7 +90,7 @@ export default {
         ...parsedUrl.query
       });
       const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
-      store.dispatch(actionsTypesExport.getFeed, { apiUrl: apiUrlWithParams });
+      store.dispatch(actionsTypes.getFeed, { apiUrl: apiUrlWithParams });
     };
 
     onMounted(() => {

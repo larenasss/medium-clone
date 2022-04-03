@@ -16,7 +16,7 @@ import AppLoadingItem from "@/components/ui/LoadingItem";
 import { useStore } from "vuex";
 import { computed, onMounted } from "@vue/runtime-core";
 
-import { actionsTypesExport } from "@/store/modules/editArticle";
+import { actionsTypes } from "@/store/modules/editArticle";
 import { useRoute, useRouter } from "vue-router";
 
 export default {
@@ -46,14 +46,14 @@ export default {
     });
 
     onMounted(() => {
-      store.dispatch(actionsTypesExport.getArticle, {
+      store.dispatch(actionsTypes.getArticle, {
         slug: route.params.slug
       });
     });
 
     const onSubmit = articleInput => {
       store
-        .dispatch(actionsTypesExport.updateArticle, { slug: route.params.slug, articleInput })
+        .dispatch(actionsTypes.updateArticle, { slug: route.params.slug, articleInput })
         .then(article => {
           router.push({ name: "article", params: { slug: article.slug } });
         });

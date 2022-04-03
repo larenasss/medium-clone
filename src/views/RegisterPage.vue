@@ -57,7 +57,7 @@ import { useStore } from "vuex";
 import { useRouter } from 'vue-router';
 
 import AppValidationErrors from '@/components/errors/ValidationErrors';
-import { actionsTypesExport } from '@/store/modules/auth';
+import { actionsTypes } from '@/store/modules/auth';
 
 export default {
   name: "AppRegisterPage",
@@ -76,7 +76,7 @@ export default {
 
     const onSubmit = () => {
       store
-        .dispatch(actionsTypesExport.register, user)
+        .dispatch(actionsTypes.register, user)
         .then(() => router.push({ name: 'globalFeed' }))
         .catch(e => console.log(e));
     };

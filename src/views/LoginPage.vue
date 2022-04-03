@@ -50,7 +50,7 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 import AppValidationErrors from "@/components/errors/ValidationErrors";
-import { actionsTypesExport } from "@/store/modules/auth";
+import { actionsTypes } from "@/store/modules/auth";
 
 export default {
   name: "AppLoginPage",
@@ -68,7 +68,7 @@ export default {
 
     const onSubmit = () => {
       store
-        .dispatch(actionsTypesExport.login, { user })
+        .dispatch(actionsTypes.login, { user })
         .then(() => router.push({ name: 'globalFeed' }))
         .catch((e) => console.log(e));
     };

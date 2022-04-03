@@ -1,28 +1,23 @@
 import articleApi from '@/api/article';
-import { createTypesFromModuleName } from '@/helpers/typesStore';
 
 const MODULE_NAME = 'editArticle';
 
-const mytationTypes = {
-  updateArticleStart: 'updateArticleStart',
-  updateArticleSuccess: 'updateArticleSuccess',
-  updateArticleFailure: 'updateArticleFailure',
+export const mytationTypes = {
+  updateArticleStart: `[${MODULE_NAME}] updateArticleStart`,
+  updateArticleSuccess: `[${MODULE_NAME}] updateArticleSuccess`,
+  updateArticleFailure: `[${MODULE_NAME}] updateArticleFailure`,
 
-  getArticleStart: 'getArticleStart',
-  getArticleSuccess: 'getArticleSuccess',
-  getArticleFailure: 'getArticleFailure',
+  getArticleStart: `[${MODULE_NAME}] getArticleStart`,
+  getArticleSuccess: `[${MODULE_NAME}] getArticleSuccess`,
+  getArticleFailure: `[${MODULE_NAME}] getArticleFailure`,
 };
 
-const actionsTypes = {
-  updateArticle: 'updateArticle',
-  getArticle: 'getArticle',
+export const actionsTypes = {
+  updateArticle: `[${MODULE_NAME}] updateArticle`,
+  getArticle: `[${MODULE_NAME}] getArticle`,
 };
-
-export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
-export const mytationTypesExport = createTypesFromModuleName(MODULE_NAME, mytationTypes);
 
 export default {
-  namespaced: true,
   state() {
     return {
       isSubmitting: false,
@@ -31,7 +26,6 @@ export default {
       article: null
     };
   },
-  getters: {},
   mutations: {
     [mytationTypes.updateArticleStart](state) {
       state.isSubmitting = true;

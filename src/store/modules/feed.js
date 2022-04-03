@@ -1,23 +1,18 @@
 import feedApi from '@/api/feed';
-import { createTypesFromModuleName } from '@/helpers/typesStore';
 
 const MODULE_NAME = 'feed';
 
-const mytationTypes = {
-  getFeedStart: 'getFeedStart',
-  getFeedSuccess: 'getFeedSuccess',
-  getFeedFailure: 'getFeedFailure',
+export const mytationTypes = {
+  getFeedStart: `[${MODULE_NAME}] getFeedStart`,
+  getFeedSuccess: `[${MODULE_NAME}] getFeedSuccess`,
+  getFeedFailure: `[${MODULE_NAME}] getFeedFailure`,
 };
 
-const actionsTypes = {
-  getFeed: 'getFeed'
+export const actionsTypes = {
+  getFeed: `[${MODULE_NAME}] getFeed`
 };
-
-export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
-export const mytationTypesExport = createTypesFromModuleName(MODULE_NAME, mytationTypes);
 
 export default {
-  namespaced: true,
   state() {
     return {
       data: null,
@@ -25,7 +20,6 @@ export default {
       error: null
     };
   },
-  getters: {},
   mutations: {
     [mytationTypes.getFeedStart](state) {
       state.isLoading = true;

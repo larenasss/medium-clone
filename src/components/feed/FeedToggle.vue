@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { gettersTypesExport } from '@/store/modules/auth';
+import { gettersTypes } from '@/store/modules/auth';
 
 import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex';
@@ -48,7 +48,7 @@ export default {
     const store = useStore();
     const route = useRoute();
 
-    const isLoggedIn = computed(() => store.getters[gettersTypesExport.isLoggedIn]);
+    const isLoggedIn = computed(() => store.getters[gettersTypes.isLoggedIn]);
     const routeName = computed(() => route.name);
 
     return {

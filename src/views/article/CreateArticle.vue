@@ -12,7 +12,7 @@ import AppArticleForm from '@/components/article/ArticleForm';
 import { useStore } from 'vuex';
 import { computed } from '@vue/runtime-core';
 
-import { actionsTypesExport  } from '@/store/modules/createArticle';
+import { actionsTypes  } from '@/store/modules/createArticle';
 import { useRouter } from 'vue-router';
 
 export default {
@@ -33,7 +33,7 @@ export default {
 
     const onSubmit = articleInput => {
       store
-        .dispatch(actionsTypesExport.createArticle, { articleInput })
+        .dispatch(actionsTypes.createArticle, { articleInput })
         .then(article => {
           router.push({ name: 'article', params: { slug: article.slug }});
         });

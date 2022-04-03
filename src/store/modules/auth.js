@@ -1,50 +1,43 @@
 import authApi from '@/api/auth';
 import { setItem } from '@/helpers/persistanceStorage';
 
-import { createTypesFromModuleName } from '@/helpers/typesStore';
-
 const MODULE_NAME = 'auth';
 
-const gettersTypes = {
-  currentUser: 'currentUser',
-  isLoggedIn: 'isLoggedIn',
-  isAnonymous: 'isAnonymous'
+export const gettersTypes = {
+  currentUser: `[${MODULE_NAME}] currentUser`,
+  isLoggedIn: `[${MODULE_NAME}] isLoggedIn`,
+  isAnonymous: `[${MODULE_NAME}] isAnonymous`
 };
 
-const mytationTypes = {
-  registerStart: 'registerStart',
-  registerSuccess: 'registerSuccess',
-  registerFailure: 'registerFailure',
+export const mytationTypes = {
+  registerStart: `[${MODULE_NAME}] registerStart`,
+  registerSuccess: `[${MODULE_NAME}] registerSuccess`,
+  registerFailure: `[${MODULE_NAME}] registerFailure`,
 
-  loginStart: 'loginStart',
-  loginSuccess: 'loginSuccess',
-  loginFailure: 'loginFailure',
+  loginStart: `[${MODULE_NAME}] loginStart`,
+  loginSuccess: `[${MODULE_NAME}] loginSuccess`,
+  loginFailure: `[${MODULE_NAME}] loginFailure`,
 
-  getCurrentUserStart: 'getCurrentUserStart',
-  getCurrentUserSuccess: 'getCurrentUserSuccess',
-  getCurrentUserFailure: 'getCurrentUserFailure',
+  getCurrentUserStart: `[${MODULE_NAME}] getCurrentUserStart`,
+  getCurrentUserSuccess: `[${MODULE_NAME}] getCurrentUserSuccess`,
+  getCurrentUserFailure: `[${MODULE_NAME}] getCurrentUserFailure`,
 
-  updateCurrentUserStart: 'updateCurrentUserStart',
-  updateCurrentUserSuccess: 'updateCurrentUserSuccess',
-  updateCurrentUserFailure: 'updateCurrentUserFailure',
+  updateCurrentUserStart: `[${MODULE_NAME}] updateCurrentUserStart`,
+  updateCurrentUserSuccess: `[${MODULE_NAME}] updateCurrentUserSuccess`,
+  updateCurrentUserFailure: `[${MODULE_NAME}] updateCurrentUserFailure`,
 
-  logout: 'logout'
+  logout: `[${MODULE_NAME}] logout`
 };
 
-const actionsTypes = {
-  register: 'register',
-  login: 'login',
-  getCurrentUser: 'getCurrentUser',
-  updateCurrentUser: 'updateCurrentUser',
-  logout: 'logout'
+export const actionsTypes = {
+  register: `[${MODULE_NAME}] register`,
+  login: `[${MODULE_NAME}] login`,
+  getCurrentUser: `[${MODULE_NAME}] getCurrentUser`,
+  updateCurrentUser: `[${MODULE_NAME}] updateCurreUser`,
+  logout: `[${MODULE_NAME}] logout`
 };
-
-export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
-export const mytationTypesExport = createTypesFromModuleName(MODULE_NAME, mytationTypes);
-export const gettersTypesExport = createTypesFromModuleName(MODULE_NAME, gettersTypes);
 
 export default {
-  namespaced: true,
   state() {
     return {
       isSubmitting: false,

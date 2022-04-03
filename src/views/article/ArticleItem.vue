@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import { actionsTypesExport as actionsTypesExportArticle } from '@/store/modules/article';
-import { gettersTypesExport as gettersTypesExportAuth } from '@/store/modules/auth';
+import { actionsTypes as articleActionsTypes } from '@/store/modules/article';
+import { gettersTypes as authGettersTypes } from '@/store/modules/auth';
 
 import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
@@ -79,15 +79,15 @@ export default {
     const router = useRouter();
 
     onMounted(() => {
-      store.dispatch(actionsTypesExportArticle.getArticle, { slug: route.params.slug });
+      store.dispatch(articleActionsTypes.getArticle, { slug: route.params.slug });
     });
 
     const deleteArticle = () => {
-      store.dispatch(actionsTypesExportArticle.deleteArticle, { slug: route.params.slug })
+      store.dispatch(articleActionsTypes.deleteArticle, { slug: route.params.slug })
         .then(() => { router.push({name: 'globalFeed'}); });
     };
 
-    const currentUser = computed(() => store.getters[gettersTypesExportAuth.currentUser]);
+    const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
     const article = computed(() => store.state.article.data);
 
     return {

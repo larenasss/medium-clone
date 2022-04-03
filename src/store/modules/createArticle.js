@@ -1,30 +1,24 @@
 import articleApi from '@/api/article';
-import { createTypesFromModuleName } from '@/helpers/typesStore';
 
 const MODULE_NAME = 'createArticle';
 
-const mytationTypes = {
-  createArticleStart: 'createArticleStart',
-  createArticleSuccess: 'createArticleSuccess',
-  createArticleFailure: 'createArticleFailure',
+export const mytationTypes = {
+  createArticleStart: `[${MODULE_NAME}] createArticleStart`,
+  createArticleSuccess: `[${MODULE_NAME}] createArticleSuccess`,
+  createArticleFailure: `[${MODULE_NAME}] createArticleFailure`,
 };
 
-const actionsTypes = {
-  createArticle: 'createArticle',
+export const actionsTypes = {
+  createArticle: `[${MODULE_NAME}] createArticle`,
 };
-
-export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
-export const mytationTypesExport = createTypesFromModuleName(MODULE_NAME, mytationTypes);
 
 export default {
-  namespaced: true,
   state() {
     return {
       isSubmitting: false,
       validationErrors: null
     };
   },
-  getters: {},
   mutations: {
     [mytationTypes.createArticleStart](state) {
       state.isSubmitting = true;
@@ -40,7 +34,6 @@ export default {
   actions: {
     [actionsTypes.createArticle]: async ({ commit }, { articleInput }) => {
       try {
-        console.log(articleInput);
         commit(mytationTypes.createArticleStart);
         const article = await articleApi.createArticle(articleInput);
         commit(mytationTypes.createArticleSuccess);

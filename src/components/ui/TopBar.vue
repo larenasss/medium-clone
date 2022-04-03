@@ -50,16 +50,16 @@
 <script>
 import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex';
-import { gettersTypesExport } from '@/store/modules/auth';
+import { gettersTypes } from '@/store/modules/auth';
 
 export default {
   name: 'AppTopBar',
   setup() {
     const store = useStore();
 
-    const currentUser = computed(() => store.getters[gettersTypesExport.currentUser]);
-    const isLoggedIn = computed(() => store.getters[gettersTypesExport.isLoggedIn]);
-    const isAnonymous = computed(() => store.getters[gettersTypesExport.isAnonymous]);
+    const currentUser = computed(() => store.getters[gettersTypes.currentUser]);
+    const isLoggedIn = computed(() => store.getters[gettersTypes.isLoggedIn]);
+    const isAnonymous = computed(() => store.getters[gettersTypes.isAnonymous]);
 
     return {
       currentUser,

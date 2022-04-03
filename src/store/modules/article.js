@@ -1,27 +1,22 @@
 import articleApi from '@/api/article';
-import { createTypesFromModuleName } from '@/helpers/typesStore';
 
 const MODULE_NAME = 'article';
 
-const mytationTypes = {
-  getArticleStart: 'getArticleStart',
-  getArticleSuccess: 'getArticleSuccess',
-  getArticleFailure: 'getArticleFailure',
-  deleteArticleStart: 'deleteArticleStart',
-  deleteArticleSuccess: 'deleteArticleSuccess',
-  deleteArticleFailure: 'deleteArticleFailure',
+export const mytationTypes = {
+  getArticleStart: `[${MODULE_NAME}] getArticleStart`,
+  getArticleSuccess: `[${MODULE_NAME}] getArticleSuccess`,
+  getArticleFailure: `[${MODULE_NAME}] getArticleFailure`,
+  deleteArticleStart: `[${MODULE_NAME}] deleteArticleStart`,
+  deleteArticleSuccess: `[${MODULE_NAME}] deleteArticleSuccess`,
+  deleteArticleFailure: `[${MODULE_NAME}] deleteArticleFailure`,
 };
 
-const actionsTypes = {
-  getArticle: 'getArticle',
-  deleteArticle: 'deleteArticle'
+export const actionsTypes = {
+  getArticle: `[${MODULE_NAME}] getArticle`,
+  deleteArticle: `[${MODULE_NAME}] deleteArticle`
 };
-
-export const actionsTypesExport = createTypesFromModuleName(MODULE_NAME, actionsTypes);
-export const mytationTypesExport = createTypesFromModuleName(MODULE_NAME, mytationTypes);
 
 export default {
-  namespaced: true,
   state() {
     return {
       data: null,
@@ -29,7 +24,6 @@ export default {
       error: null
     };
   },
-  getters: {},
   mutations: {
     [mytationTypes.getArticleStart](state) {
       state.isLoading = true;

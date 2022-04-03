@@ -26,7 +26,7 @@ import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
 import { computed, onMounted } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 
-import { actionsTypesExport } from '@/store/modules/popularTags';
+import { actionsTypes } from '@/store/modules/popularTags';
 
 export default {
   name: 'AppPopularTags',
@@ -38,7 +38,7 @@ export default {
     const store = useStore();
 
     onMounted(() => {
-      store.dispatch(actionsTypesExport.getPopularTags);
+      store.dispatch(actionsTypes.getPopularTags);
     });
 
     return {
