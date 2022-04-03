@@ -29,11 +29,11 @@
               <li class="nav-item">
                 <router-link
                   :to="{
-                    name: 'userProfile',
+                    name: 'userProfileMyPosts',
                     params: { slug: userProfile.username },
                   }"
                   class="nav-link"
-                  :class="{ active: routeName === 'userProfile' }"
+                  :class="{ active: routeName === 'userProfileMyPosts' }"
                 >
                   My Posts
                 </router-link>
@@ -52,7 +52,7 @@
               </li>
             </ul>
           </div>
-          <app-feed-item :api-url="apiUrl"></app-feed-item>
+          <router-view></router-view>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { computed, onMounted, watch } from '@vue/runtime-core';
+import { computed, onMounted } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
@@ -68,13 +68,8 @@ import { actionsTypes as userProfileActionsTypes } from '@/store/modules/userPro
 import { gettersTypes as authGettersTypes } from '@/store/modules/auth';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
-import AppFeedItem from '@/components/feed/FeedItem';
-
 export default {
   name: 'AppUserProfile',
-  components: {
-    AppFeedItem
-  },
   setup() {
     const store = useStore();
     const route = useRoute();
@@ -91,15 +86,7 @@ export default {
       return currentUser.value.username === userProfile.value.username;
     });
 
-    const apiUrl = computed(() => {
-      const isFavorites = route.path.includes('favorites');
-      return isFavorites
-        ? `/articles?favorited=${userProfileSlug.value}`
-        : `/articles?author=${userProfileSlug.value}`;
-    });
-
     onMounted(() => fetchUserProfile());
-    watch(apiUrl, () => fetchUserProfile());
 
     const fetchUserProfile = () => {
       store.dispatch(userProfileActionsTypes.getUserProfile, {
@@ -112,7 +99,6 @@ export default {
       userProfile,
       error,
       isCurrentUserProfile,
-      apiUrl,
       routeName
     };
   }

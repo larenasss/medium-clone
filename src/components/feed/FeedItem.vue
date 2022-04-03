@@ -98,10 +98,7 @@ export default {
     });
 
     watch(currentPage, () => fetchFeed());
-    watch(() => props.apiUrl, () => {
-      console.log(1);
-      fetchFeed();
-    });
+    watch(() => props.apiUrl, () => fetchFeed());
 
     const fetchFeed = () => {
       const parsedUrl = parseUrl(props.apiUrl);

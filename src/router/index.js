@@ -9,7 +9,9 @@ import Article from '@/views/article/ArticleItem';
 import CreateArticle from '@/views/article/CreateArticle';
 import EditArticle from '@/views/article/EditArticle';
 import SettingsPage from '@/views/SettingsPage';
-import UserProfile from '@/views/UserProfile';
+import UserProfilePage from '@/views/userProfile/UserProfilePage';
+import UserProfileMyPosts from '@/views/userProfile/UserProfileMyPosts';
+import UserProfileFavorites from '@/views/userProfile/UserProfileFavorites';
 
 const routes = [
   {
@@ -65,14 +67,21 @@ const routes = [
     component: SettingsPage,
   },
   {
-    path: '/profiles/:slug',
+    path: '/profiles',
     name: 'userProfile',
-    component: UserProfile,
-  },
-  {
-    path: '/profiles/:slug/favorites',
-    name: 'userProfileFavorites',
-    component: UserProfile,
+    component: UserProfilePage,
+    children: [
+      {
+        path: '/profiles/:slug',
+        name: 'userProfileMyPosts',
+        component: UserProfileMyPosts,
+      },
+      {
+        path: '/profiles/:slug/favorites',
+        name: 'userProfileFavorites',
+        component: UserProfileFavorites,
+      },
+    ]
   },
 ];
 
