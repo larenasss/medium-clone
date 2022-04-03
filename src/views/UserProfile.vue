@@ -60,13 +60,15 @@
 </template>
 
 <script>
-import AppFeedItem from '@/components/feed/FeedItem';
-
 import { computed, onMounted } from '@vue/runtime-core';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
+
 import { actionsTypes as userProfileActionsTypes } from '@/store/modules/userProfile';
 import { gettersTypes as authGettersTypes } from '@/store/modules/auth';
-import { useRoute } from 'vue-router';
+import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
+
+import AppFeedItem from '@/components/feed/FeedItem';
 
 export default {
   name: 'AppUserProfile',
@@ -78,9 +80,7 @@ export default {
     const route = useRoute();
 
     const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
-    const userProfile = computed(() => store.state.userProfile.data);
-    const isLoading = computed(() => store.state.userProfile.isLoading);
-    const error = computed(() => store.state.userProfile.error);
+    const { isLoading, data: userProfile, error  } = useGetStateLoadingByView('userProfile');
     const userProfileSlug = computed(() => route.params.slug);
 
     const isCurrentUserProfile = computed(() => {

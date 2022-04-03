@@ -20,13 +20,14 @@
 </template>
 
 <script>
-import AppLoadingItem from '@/components/ui/LoadingItem.vue';
-import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
-
-import { computed, onMounted } from '@vue/runtime-core';
+import { onMounted } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 
 import { actionsTypes } from '@/store/modules/popularTags';
+import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
+
+import AppLoadingItem from '@/components/ui/LoadingItem.vue';
+import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
 
 export default {
   name: 'AppPopularTags',
@@ -37,14 +38,16 @@ export default {
   setup() {
     const store = useStore();
 
+    const { isLoading, data: tags, error  } = useGetStateLoadingByView('popularTags');
+
     onMounted(() => {
       store.dispatch(actionsTypes.getPopularTags);
     });
 
     return {
-      isLoading: computed(() => store.state.popularTags.isLoading),
-      tags: computed(() => store.state.popularTags.data),
-      error: computed(() => store.state.popularTags.error),
+      isLoading,
+      tags,
+      error,
     };
   }
 };

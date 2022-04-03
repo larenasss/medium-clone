@@ -55,12 +55,13 @@
 </template>
 
 <script>
-import { actionsTypes as articleActionsTypes } from '@/store/modules/article';
-import { gettersTypes as authGettersTypes } from '@/store/modules/auth';
-
 import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+
+import { actionsTypes as articleActionsTypes } from '@/store/modules/article';
+import { gettersTypes as authGettersTypes } from '@/store/modules/auth';
+import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
 import AppLoadingItem from '@/components/ui/LoadingItem.vue';
 import AppErrorMessage from '@/components/errors/ErrorMessage';
@@ -88,11 +89,11 @@ export default {
     };
 
     const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
-    const article = computed(() => store.state.article.data);
+    const { isLoading, data: article, error  } = useGetStateLoadingByView('article');
 
     return {
-      isLoading: computed(() => store.state.article.isLoading),
-      error: computed(() =>  store.state.article.error),
+      isLoading,
+      error,
       article,
       isAuthor: computed(() => {
         if (!currentUser.value || !article.value) {

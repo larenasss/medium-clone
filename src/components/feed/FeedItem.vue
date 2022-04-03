@@ -61,6 +61,7 @@ import { useRoute } from 'vue-router';
 
 import { actionsTypes } from '@/store/modules/feed';
 import { limit } from '@/helpers/variables';
+import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
 import { stringify, parseUrl } from 'query-string';
 
@@ -89,7 +90,17 @@ export default {
     const route = useRoute();
     const store = useStore();
 
+    const currentPage = computed(() => Number(route.query.page || '1'));
     const offset = computed(() => currentPage.value * limit - limit);
+    const { isLoading, data: feed, error  } = useGetStateLoadingByView('feed');
+
+    onMounted(() => {
+      fetchFeed();
+    });
+
+    watch(currentPage, () => {
+      fetchFeed();
+    });
 
     const fetchFeed = () => {
       const parsedUrl = parseUrl(props.apiUrl);
@@ -102,20 +113,10 @@ export default {
       store.dispatch(actionsTypes.getFeed, { apiUrl: apiUrlWithParams });
     };
 
-    onMounted(() => {
-      fetchFeed();
-    });
-
-    const currentPage = computed(() => Number(route.query.page || '1'));
-
-    watch(currentPage, () => {
-      fetchFeed();
-    });
-
     return {
-      isLoading: computed(() => store.state.feed.isLoading),
-      feed: computed(() => store.state.feed.data),
-      error: computed(() =>  store.state.feed.error),
+      isLoading,
+      feed,
+      error,
       currentPage,
       limit,
       baseUrl: computed(() => route.path)
