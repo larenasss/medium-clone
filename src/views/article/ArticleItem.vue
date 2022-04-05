@@ -1,7 +1,7 @@
 <template>
-  <div class="article-page">
+  <div class="article-page" v-if="article">
     <div class="banner">
-      <div class="container" v-if="article">
+      <div class="container">
         <h1>{{ article.title }}</h1>
         <div class="article-meta">
           <router-link
@@ -42,7 +42,7 @@
     <div class="container page">
       <app-loading-item v-if="isLoading" />
       <app-error-message v-if="error" :message="error" />
-      <div class="row article-content" v-if="article">
+      <div class="row article-content">
         <div class="col-xs-12">
           <div>
             <p>{{ article.body }}</p>
@@ -50,12 +50,15 @@
           <app-tags-list :tags="article.tagList"></app-tags-list>
         </div>
       </div>
+      <div class="row">
+        <app-comment-list :slug="article.slug"></app-comment-list>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { onMounted, computed } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -66,22 +69,22 @@ import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 import AppLoadingItem from '@/components/ui/LoadingItem.vue';
 import AppErrorMessage from '@/components/errors/ErrorMessage';
 import AppTagsList from '@/components/ui/TagsList';
+import AppCommentList from '@/components/comments/CommentList';
 
 export default {
   name: 'AppArticleItem',
   components: {
     AppLoadingItem,
     AppErrorMessage,
-    AppTagsList
+    AppTagsList,
+    AppCommentList
   },
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
 
-    onMounted(() => {
-      store.dispatch(articleActionsTypes.getArticle, { slug: route.params.slug });
-    });
+    store.dispatch(articleActionsTypes.getArticle, { slug: route.params.slug });
 
     const deleteArticle = () => {
       store.dispatch(articleActionsTypes.deleteArticle, { slug: route.params.slug })
