@@ -10,11 +10,16 @@ export const mytationTypes = {
   deleteCommentStart: `[${MODULE_NAME}] deleteCommentStart`,
   deleteCommentSuccess: `[${MODULE_NAME}] deleteCommentSuccess`,
   deleteCommentFailure: `[${MODULE_NAME}] deleteCommentFailure`,
+
+  addCommentStart: `[${MODULE_NAME}] addCommentStart`,
+  addCommentSuccess: `[${MODULE_NAME}] addCommentSuccess`,
+  addCommentFailure: `[${MODULE_NAME}] addCommentFailure`,
 };
 
 export const actionsTypes = {
   getComments: `[${MODULE_NAME}] getComments`,
-  deleteComments: `[${MODULE_NAME}] deleteComments`,
+  deleteComment: `[${MODULE_NAME}] deleteComment`,
+  addComment: `[${MODULE_NAME}] addComment`,
 };
 
 export default {
@@ -42,12 +47,16 @@ export default {
       state.data = state.data.filter(x => x.id != slugComment);
     },
     [mytationTypes.deleteCommentFailure]() {},
+    [mytationTypes.addCommentStart]() {},
+    [mytationTypes.addCommentSuccess](state, payload) {
+      state.data.unshift(payload);
+    },
+    [mytationTypes.addCommentFailure]() {},
   },
   actions: {
     [actionsTypes.getComments]: async ({ commit }, { slug }) => {
       try {
         commit(mytationTypes.getCommentsStart);
-        console.log(slug);
         const comments = await commentsApi.getComments(slug);
         commit(mytationTypes.getCommentsSuccess, comments);
       } catch (e) {
@@ -55,7 +64,17 @@ export default {
         throw e;
       }
     },
-    [actionsTypes.deleteComments]: async ({ commit }, data) => {
+    [actionsTypes.addComment]: async ({ commit }, data) => {
+      try {
+        commit(mytationTypes.addCommentStart);
+        const comment = await commentsApi.addComment(data);
+        commit(mytationTypes.addCommentSuccess, comment);
+      } catch (e) {
+        commit(mytationTypes.addCommentFailure);
+        throw e;
+      }
+    },
+    [actionsTypes.deleteComment]: async ({ commit }, data) => {
       try {
         commit(mytationTypes.deleteCommentStart);
         await commentsApi.deleteComment(data);

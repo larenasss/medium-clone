@@ -51,7 +51,10 @@
         </div>
       </div>
       <div class="row">
-        <app-comment-list :slug="article.slug"></app-comment-list>
+        <div class="col-xs-12 col-md-8 offset-md-2">
+          <app-add-comment-form @addComment="addComment"></app-add-comment-form>
+          <app-comment-list :slug="article.slug"></app-comment-list>
+        </div>
       </div>
     </div>
   </div>
@@ -63,6 +66,7 @@ import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
 import { actionsTypes as articleActionsTypes } from '@/store/modules/article';
+import { actionsTypes as commentsActionsTypes } from '@/store/modules/comments';
 import { gettersTypes as authGettersTypes } from '@/store/modules/auth';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
@@ -70,6 +74,7 @@ import AppLoadingItem from '@/components/ui/LoadingItem.vue';
 import AppErrorMessage from '@/components/errors/ErrorMessage';
 import AppTagsList from '@/components/ui/TagsList';
 import AppCommentList from '@/components/comments/CommentList';
+import AppAddCommentForm from '@/components/comments/AddCommentForm';
 
 export default {
   name: 'AppArticleItem',
@@ -77,7 +82,8 @@ export default {
     AppLoadingItem,
     AppErrorMessage,
     AppTagsList,
-    AppCommentList
+    AppCommentList,
+    AppAddCommentForm
   },
   setup() {
     const store = useStore();
@@ -85,6 +91,10 @@ export default {
     const router = useRouter();
 
     store.dispatch(articleActionsTypes.getArticle, { slug: route.params.slug });
+
+    const addComment = commentInput => {
+      store.dispatch(commentsActionsTypes.addComment, { slugArticle: route.params.slug , commentInput });
+    };
 
     const deleteArticle = () => {
       store.dispatch(articleActionsTypes.deleteArticle, { slug: route.params.slug })
@@ -104,7 +114,8 @@ export default {
         }
         return currentUser.value.username === article.value.author.username;
       }),
-      deleteArticle
+      deleteArticle,
+      addComment
     };
   }
 };

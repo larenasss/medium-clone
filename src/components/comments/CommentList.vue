@@ -1,9 +1,9 @@
 <template>
-  <ul class="col-xs-12 col-md-8 offset-md-2" v-if="comments">
+  <div v-if="comments">
     <div v-for="comment in comments" :key="comment.id">
       <app-comment-item :comment="comment" @deleteComment="deleteComment"></app-comment-item>
     </div>
-  </ul>
+  </div>
 </template>
 
 <script>
@@ -36,7 +36,7 @@ export default {
 
     const deleteComment = ({ slugComment }) => {
       const data = { slugArticle: props.slug, slugComment };
-      store.dispatch(actionsTypes.deleteComments, data);
+      store.dispatch(actionsTypes.deleteComment, data);
     };
 
     return {
