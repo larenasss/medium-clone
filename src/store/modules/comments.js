@@ -27,7 +27,7 @@ export default {
     return {
       data: null,
       isLoading: false,
-      error: null
+      validationErrors: null
     };
   },
   mutations: {
@@ -37,7 +37,9 @@ export default {
     },
     [mytationTypes.getCommentsSuccess](state, payload) {
       state.isLoading = false;
-      state.data = payload;
+      state.data = payload.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
     },
     [mytationTypes.getCommentsFailure](state) {
       state.isLoading = false;
@@ -51,7 +53,9 @@ export default {
     [mytationTypes.addCommentSuccess](state, payload) {
       state.data.unshift(payload);
     },
-    [mytationTypes.addCommentFailure]() {},
+    [mytationTypes.addCommentFailure](state, payload) {
+      state.validationErrors = payload;
+    },
   },
   actions: {
     [actionsTypes.getComments]: async ({ commit }, { slug }) => {
@@ -70,7 +74,7 @@ export default {
         const comment = await commentsApi.addComment(data);
         commit(mytationTypes.addCommentSuccess, comment);
       } catch (e) {
-        commit(mytationTypes.addCommentFailure);
+        commit(mytationTypes.addCommentFailure, e.response.data.errors);
         throw e;
       }
     },

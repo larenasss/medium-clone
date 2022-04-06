@@ -15,6 +15,7 @@
                   type="text"
                   class="form-control form-control-lg"
                   v-model="form.image"
+                  :disabled="isSubmitting"
                   placeholder="URL of profile image"
                 />
               </fieldset>
@@ -24,6 +25,7 @@
                   type="text"
                   class="form-control form-control-lg"
                   v-model="form.username"
+                  :disabled="isSubmitting"
                   placeholder="Username"
                 />
               </fieldset>
@@ -32,6 +34,7 @@
                 <textarea
                   class="form-control form-control-lg"
                   v-model="form.bio"
+                  :disabled="isSubmitting"
                   placeholder="Short bio about you"
                 ></textarea>
               </fieldset>
@@ -41,6 +44,7 @@
                   type="text"
                   class="form-control form-control-lg"
                   v-model="form.email"
+                  :disabled="isSubmitting"
                   placeholder="Email"
                 />
               </fieldset>
@@ -50,6 +54,7 @@
                   type="password"
                   class="form-control form-control-lg"
                   v-model="form.password"
+                  :disabled="isSubmitting"
                   placeholder="New password"
                 />
               </fieldset>

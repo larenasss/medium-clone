@@ -11,6 +11,7 @@
                   type="text"
                   class="form-control form-control-lg"
                   placeholder="Article title"
+                  :disabled="isSubmitting"
                   v-model="dataForm.title"
                 />
               </fieldset>
@@ -19,6 +20,7 @@
                   type="text"
                   class="form-control form-control-lg"
                   placeholder="Description"
+                  :disabled="isSubmitting"
                   v-model="dataForm.description"
                 />
               </fieldset>
@@ -26,6 +28,7 @@
                 <textarea
                   class="form-control form-control-lg"
                   placeholder="What is this article about?"
+                  :disabled="isSubmitting"
                   v-model="dataForm.body"
                 ></textarea>
               </fieldset>
@@ -34,6 +37,7 @@
                   type="text"
                   class="form-control form-control-lg"
                   placeholder="Enter tags"
+                  :disabled="isSubmitting"
                   v-model="dataForm.tagList"
                 />
               </fieldset>

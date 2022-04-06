@@ -52,7 +52,10 @@
       </div>
       <div class="row">
         <div class="col-xs-12 col-md-8 offset-md-2">
-          <app-add-comment-form @addComment="addComment"></app-add-comment-form>
+          <app-add-comment-form
+            @addComment="addComment"
+            :is-submitting="isSubmittingAddComment"
+            :errors="validationErrors"></app-add-comment-form>
           <app-comment-list :slug="article.slug"></app-comment-list>
         </div>
       </div>
@@ -61,7 +64,7 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -90,19 +93,25 @@ export default {
     const route = useRoute();
     const router = useRouter();
 
+    const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
+    const { isLoading, data: article, error  } = useGetStateLoadingByView('article');
+    const isSubmittingAddComment = ref(false);
+
     store.dispatch(articleActionsTypes.getArticle, { slug: route.params.slug });
 
     const addComment = commentInput => {
-      store.dispatch(commentsActionsTypes.addComment, { slugArticle: route.params.slug , commentInput });
+      isSubmittingAddComment.value = true;
+      store
+        .dispatch(commentsActionsTypes.addComment,
+          { slugArticle: route.params.slug , commentInput })
+        .then(() => isSubmittingAddComment.value = false)
+        .catch(() => isSubmittingAddComment.value = false);
     };
 
     const deleteArticle = () => {
       store.dispatch(articleActionsTypes.deleteArticle, { slug: route.params.slug })
         .then(() => { router.push({name: 'mainFeed'}); });
     };
-
-    const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
-    const { isLoading, data: article, error  } = useGetStateLoadingByView('article');
 
     return {
       isLoading,
@@ -114,6 +123,8 @@ export default {
         }
         return currentUser.value.username === article.value.author.username;
       }),
+      isSubmittingAddComment,
+      validationErrors: computed(() => store.state.comments.validationErrors),
       deleteArticle,
       addComment
     };
