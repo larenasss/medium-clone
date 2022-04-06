@@ -77,7 +77,7 @@ export default {
     const onSubmit = () => {
       store
         .dispatch(actionsTypes.register, user)
-        .then(() => router.push({ name: 'mainFeed' }))
+        .then(() => router.push({ name: 'globalFeed' }))
         .catch(e => console.log(e));
     };
 

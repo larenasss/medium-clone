@@ -110,8 +110,11 @@ export default {
     };
 
     const deleteArticle = () => {
-      store.dispatch(articleActionsTypes.deleteArticle, { slug: route.params.slug })
-        .then(() => { router.push({name: 'mainFeed'}); });
+      store
+        .dispatch(articleActionsTypes.deleteArticle, { slug: route.params.slug })
+        .then(() => {
+          router.push({ name: 'globalFeed' });
+        });
     };
 
     return {

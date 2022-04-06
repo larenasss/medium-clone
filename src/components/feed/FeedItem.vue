@@ -93,10 +93,7 @@ export default {
     const { isLoading, data: feed, error  } = useGetStateLoadingByView('feed');
     const baseUrl = computed(() => route.path);
 
-    onMounted(() => {
-      fetchFeed();
-    });
-
+    onMounted(() => fetchFeed());
     watch(currentPage, () => fetchFeed());
     watch(() => props.apiUrl, () => fetchFeed());
 
