@@ -148,7 +148,7 @@ export default {
     },
     [actionsTypes.logout]: async ({ commit }) => {
       try {
-        setItem('acceessToken', '');
+        setItem('accessToken', '');
         commit(mytationTypes.logout);
       } catch (e) {
         console.log(e);
