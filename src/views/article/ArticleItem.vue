@@ -31,6 +31,7 @@
               <i class="ion-edit" />
               Edit Article
             </router-link>
+            &nbsp;
             <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
               <i class="ion-trash-a" />
               Delete Article
