@@ -6,15 +6,7 @@
       </p>
     </div>
     <div class="card-footer">
-      <router-link class="comment-author" :to="{name: 'userProfileMyPosts', params: {slug: comment.author.username}}" active-class="active">
-        <img class="comment-author-img" :src="comment.author.image">&nbsp;
-      </router-link>
-      <router-link class="comment-author" :to="{name: 'userProfileMyPosts', params: {slug: comment.author.username}}" active-class="active">
-        {{ comment.author.username }}
-      </router-link>
-      <span class="date-posted">
-        {{ comment.createdAt }}
-      </span>
+      <app-user-info :user="comment.author" :date="comment.createdAt"></app-user-info>
       <button class="mod-options" v-if="isCurrentUserProfile" @click="deleteComment(comment.id)">
         <i class="ion-trash-a"></i>
       </button>
@@ -27,9 +19,15 @@ import { gettersTypes } from '@/store/modules/auth';
 
 import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex';
+
+import AppUserInfo from '@/components/userProfile/UserInfo';
+
 export default {
   name: 'AppCommentItem',
   emits: ['deleteComment'],
+  components: {
+    AppUserInfo
+  },
   props: {
     comment: {
       type: Object,
@@ -67,6 +65,32 @@ export default {
 
     & i {
       margin: 0;
+    }
+  }
+</style>
+
+<style lang="scss" scoped deep>
+  .user-info {
+    display: flex;
+  }
+
+  .card-footer::v-deep {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & .user-info .comment-author {
+      &:not(:last-child) {
+        margin-right: .4rem;
+      }
+    }
+
+    & .mod-options {
+      float: none;
+    }
+
+    &::after {
+      display: none;
     }
   }
 </style>

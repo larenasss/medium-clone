@@ -9,22 +9,7 @@
       :key="index"
     >
       <div class="article-meta">
-        <router-link
-          :to="{name: 'userProfile', params: {slug: article.author.username}}"
-        >
-          <img :src="article.author.image" />
-        </router-link>
-        <div class="info">
-          <router-link
-            :to="{
-              name: 'userProfile',
-              params: {slug: article.author.username}
-            }"
-          >
-            {{ article.author.username }}
-          </router-link>
-          <span class="date">{{ article.createdAt }}</span>
-        </div>
+        <app-user-info :user="article.author" :date="article.createdAt"></app-user-info>
         <div class="pull-xs-right">
           <app-add-to-favorites
             :is-favorited="article.favorited"
@@ -68,6 +53,7 @@ import AppLoadingItem from '@/components/ui/LoadingItem';
 import AppErrorMessage from '@/components/errors/ErrorMessage';
 import AppTagsList from '@/components/ui/TagsList';
 import AppAddToFavorites from '@/components/ui/AddToFavorites';
+import AppUserInfo from '@/components/userProfile/UserInfo';
 
 export default {
   name: 'AppFeedItem',
@@ -76,7 +62,8 @@ export default {
     AppLoadingItem,
     AppErrorMessage,
     AppTagsList,
-    AppAddToFavorites
+    AppAddToFavorites,
+    AppUserInfo
   },
   props: {
     apiUrl: {
@@ -119,3 +106,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+  .article-meta {
+    justify-content: space-between;
+  }
+</style>

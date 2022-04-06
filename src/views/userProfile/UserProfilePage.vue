@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page" v-if="userProfile">
-    <div class="user-info">
+    <div class="profile-page__user-info">
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core';
+import { computed, onMounted, watch } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
@@ -86,6 +86,7 @@ export default {
       return currentUser.value.username === userProfile.value.username;
     });
 
+    watch(() => userProfileSlug.value, () => fetchUserProfile());
     onMounted(() => fetchUserProfile());
 
     const fetchUserProfile = () => {
@@ -104,3 +105,43 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+  .profile-page {
+    & .user-info {
+      text-align: start;
+      background: transparent;
+      padding: 0;
+    }
+
+    &__user-info {
+      text-align: center;
+      background: #f3f3f3;
+      padding: 2rem 0 1rem;
+
+      & .user-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 100px;
+        margin-bottom: 1rem;
+      }
+
+      & h4 {
+        font-weight: 700;
+      }
+
+      & p {
+        margin: 0 auto 0.5rem;
+        color: #aaa;
+        max-width: 450px;
+        font-weight: 300;
+      }
+
+      .action-btn {
+        float: right;
+        color: #999;
+        border: 1px solid #999;
+      }
+    }
+  }
+</style>

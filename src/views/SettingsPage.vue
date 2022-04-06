@@ -113,6 +113,8 @@ export default {
     const onSubmit = () => {
       store.dispatch(authActionsTypes.updateCurrentUser, {
         currentUserInput: form.value
+      }).then(() => {
+        router.push({name: 'userProfileMyPosts', params: {slug: currentUser.value.username}});
       });
     };
 

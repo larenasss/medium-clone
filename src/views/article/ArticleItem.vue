@@ -3,26 +3,8 @@
     <div class="banner">
       <div class="container">
         <h1>{{ article.title }}</h1>
-        <div class="article-meta">
-          <router-link
-            :to="{
-              name: 'userProfile',
-              params: { slug: article.author.username },
-            }"
-          >
-            <img :src="article.author.image" />
-          </router-link>
-          <div class="info">
-            <router-link
-              :to="{
-                name: 'userProfile',
-                params: { slug: article.author.username },
-              }"
-            >
-              {{ article.author.username }}
-            </router-link>
-            <span class="date">{{ article.createdAt }}</span>
-          </div>
+        <div class="article-meta d-flex">
+          <app-user-info :user="article.author" :date="article.createdAt"></app-user-info>
           <span v-if="isAuthor">
             <router-link
               class="btn btn-outline-secondary btn-sm"
@@ -79,6 +61,7 @@ import AppErrorMessage from '@/components/errors/ErrorMessage';
 import AppTagsList from '@/components/ui/TagsList';
 import AppCommentList from '@/components/comments/CommentList';
 import AppAddCommentForm from '@/components/comments/AddCommentForm';
+import AppUserInfo from '@/components/userProfile/UserInfo';
 
 export default {
   name: 'AppArticleItem',
@@ -87,7 +70,8 @@ export default {
     AppErrorMessage,
     AppTagsList,
     AppCommentList,
-    AppAddCommentForm
+    AppAddCommentForm,
+    AppUserInfo
   },
   setup() {
     const store = useStore();
@@ -135,3 +119,13 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+  .article-meta {
+    display: flex;
+  }
+
+  .article-page .card .comment-author {
+    vertical-align: baseline;
+  }
+</style>
