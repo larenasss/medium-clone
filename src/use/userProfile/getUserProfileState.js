@@ -9,10 +9,10 @@ export function useGetUserProfileState(compareUser) {
   const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
 
   const isCurrentUserProfile = computed(() => {
-    if (!currentUser.value || !compareUser) {
+    if (!currentUser.value || !compareUser.value) {
       return false;
     }
-    return currentUser.value.username === compareUser.username;
+    return currentUser.value.username === compareUser.value.username;
   });
 
   return {

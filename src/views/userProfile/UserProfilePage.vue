@@ -75,7 +75,7 @@ export default {
     const route = useRoute();
 
     const { isLoading, data: userProfile, error  } = useGetStateLoadingByView('userProfile');
-    const { isCurrentUserProfile } = useGetUserProfileState(userProfile.value);
+    const { isCurrentUserProfile } = useGetUserProfileState(userProfile);
 
     const userProfileSlug = computed(() => route.params.slug);
     const routeName = computed(() => route.name);

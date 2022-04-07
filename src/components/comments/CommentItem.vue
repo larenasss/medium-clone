@@ -19,6 +19,7 @@ import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 
 import AppUserInfo from '@/components/userProfile/UserInfo';
 import { convertDateJsonToDate } from '@/helpers/dateConverter';
+import { ref } from '@vue/reactivity';
 
 export default {
   name: 'AppCommentItem',
@@ -33,7 +34,7 @@ export default {
     }
   },
   setup(props, { emit }) {
-    const { currentUser, isCurrentUserProfile } = useGetUserProfileState(props.comment.author);
+    const { currentUser, isCurrentUserProfile } = useGetUserProfileState(ref(props.comment.author));
 
     const deleteComment = slugComment => {
       emit('deleteComment', { slugComment });
