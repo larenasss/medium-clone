@@ -65,8 +65,8 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
 import { actionsTypes as userProfileActionsTypes } from '@/store/modules/userProfile';
-import { gettersTypes as authGettersTypes } from '@/store/modules/auth';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
+import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 
 export default {
   name: 'AppUserProfile',
@@ -74,17 +74,11 @@ export default {
     const store = useStore();
     const route = useRoute();
 
-    const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
     const { isLoading, data: userProfile, error  } = useGetStateLoadingByView('userProfile');
+    const { isCurrentUserProfile } = useGetUserProfileState(userProfile.value);
+
     const userProfileSlug = computed(() => route.params.slug);
     const routeName = computed(() => route.name);
-
-    const isCurrentUserProfile = computed(() => {
-      if (!currentUser.value || !userProfile.value) {
-        return false;
-      }
-      return currentUser.value.username === userProfile.value.username;
-    });
 
     watch(() => userProfileSlug.value, () => fetchUserProfile());
     onMounted(() => fetchUserProfile());

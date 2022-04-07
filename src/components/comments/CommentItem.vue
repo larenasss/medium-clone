@@ -15,10 +15,7 @@
 </template>
 
 <script>
-import { gettersTypes } from '@/store/modules/auth';
-
-import { computed } from '@vue/runtime-core';
-import { useStore } from 'vuex';
+import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 
 import AppUserInfo from '@/components/userProfile/UserInfo';
 
@@ -35,15 +32,7 @@ export default {
     }
   },
   setup(props, { emit }) {
-    const store = useStore();
-    const currentUser = computed(() => store.getters[gettersTypes.currentUser]);
-
-    const isCurrentUserProfile = computed(() => {
-      if (!currentUser.value || !props.comment) {
-        return false;
-      }
-      return props.comment.author.username === currentUser.value.username;
-    });
+    const { currentUser, isCurrentUserProfile } = useGetUserProfileState(props.comment.author);
 
     const deleteComment = slugComment => {
       emit('deleteComment', { slugComment });
