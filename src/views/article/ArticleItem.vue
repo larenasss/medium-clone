@@ -4,7 +4,7 @@
       <div class="container">
         <h1>{{ article.title }}</h1>
         <div class="article-meta d-flex">
-          <app-user-info :user="article.author" :date="article.createdAt"></app-user-info>
+          <app-user-info :user="article.author" :date="convertDateJsonToDate(article.createdAt).toLocaleString()"></app-user-info>
           <span v-if="isAuthor">
             <router-link
               class="btn btn-outline-secondary btn-sm"
@@ -56,6 +56,8 @@ import { actionsTypes as commentsActionsTypes } from '@/store/modules/comments';
 import { gettersTypes as authGettersTypes } from '@/store/modules/auth';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
+import { convertDateJsonToDate } from '@/helpers/dateConverter';
+
 import AppLoadingItem from '@/components/ui/LoadingItem.vue';
 import AppErrorMessage from '@/components/errors/ErrorMessage';
 import AppTagsList from '@/components/ui/TagsList';
@@ -78,9 +80,16 @@ export default {
     const route = useRoute();
     const router = useRouter();
 
-    const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
     const { isLoading, data: article, error  } = useGetStateLoadingByView('article');
     const isSubmittingAddComment = ref(false);
+
+    const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
+    const isAuthor = computed(() => {
+      if (!currentUser.value || !article.value) {
+        return false;
+      }
+      return currentUser.value.username === article.value.author.username;
+    });
 
     store.dispatch(articleActionsTypes.getArticle, { slug: route.params.slug });
 
@@ -105,16 +114,12 @@ export default {
       isLoading,
       error,
       article,
-      isAuthor: computed(() => {
-        if (!currentUser.value || !article.value) {
-          return false;
-        }
-        return currentUser.value.username === article.value.author.username;
-      }),
+      isAuthor,
       isSubmittingAddComment,
       validationErrors: computed(() => store.state.comments.validationErrors),
       deleteArticle,
-      addComment
+      addComment,
+      convertDateJsonToDate
     };
   }
 };

@@ -6,7 +6,7 @@
       </p>
     </div>
     <div class="card-footer">
-      <app-user-info :user="comment.author" :date="comment.createdAt"></app-user-info>
+      <app-user-info :user="comment.author" :date="convertDateJsonToDate(comment.createdAt).toLocaleString()"></app-user-info>
       <button class="mod-options" v-if="isCurrentUserProfile" @click="deleteComment(comment.id)">
         <i class="ion-trash-a"></i>
       </button>
@@ -18,6 +18,7 @@
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 
 import AppUserInfo from '@/components/userProfile/UserInfo';
+import { convertDateJsonToDate } from '@/helpers/dateConverter';
 
 export default {
   name: 'AppCommentItem',
@@ -41,7 +42,8 @@ export default {
     return {
       isCurrentUserProfile,
       currentUser,
-      deleteComment
+      deleteComment,
+      convertDateJsonToDate
     };
   }
 };

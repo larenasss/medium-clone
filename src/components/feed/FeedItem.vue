@@ -9,7 +9,7 @@
       :key="index"
     >
       <div class="article-meta">
-        <app-user-info :user="article.author" :date="article.createdAt"></app-user-info>
+        <app-user-info :user="article.author" :date="convertDateJsonToDate(article.createdAt).toLocaleString()"></app-user-info>
         <div class="pull-xs-right">
           <app-add-to-favorites
             :is-favorited="article.favorited"
@@ -45,6 +45,8 @@ import { useRoute } from 'vue-router';
 import { actionsTypes } from '@/store/modules/feed';
 import { limit } from '@/helpers/variables';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
+
+import { convertDateJsonToDate } from '@/helpers/dateConverter';
 
 import { stringify, parseUrl } from 'query-string';
 
@@ -101,7 +103,8 @@ export default {
       error,
       currentPage,
       limit,
-      baseUrl
+      baseUrl,
+      convertDateJsonToDate
     };
   }
 };
