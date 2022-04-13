@@ -4,7 +4,6 @@
     :class="{'btn-primary': isFavoritedOptimistic, 'btn-outline-primary': !isFavoritedOptimistic}"
     @click="handleLike">
     <i class="ion-heart"></i>
-    <span>&nbsp;</span>
     {{ favoritesCountOptimistic }}
   </button>
 </template>
@@ -27,6 +26,10 @@ export default {
     favoritesCount: {
       type: Number,
       requred: true
+    },
+    text: {
+      type: String,
+      requred: false
     }
   },
   setup(props) {

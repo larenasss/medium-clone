@@ -19,6 +19,9 @@
               Delete Article
             </button>
           </span>
+          <span v-else>
+            <app-buttons-control :article="article"></app-buttons-control>
+          </span>
         </div>
       </div>
     </div>
@@ -65,6 +68,7 @@ import AppTagsList from '@/components/ui/TagsList';
 import AppCommentList from '@/components/comments/CommentList';
 import AppAddCommentForm from '@/components/comments/AddCommentForm';
 import AppUserInfo from '@/components/userProfile/UserInfo';
+import AppButtonsControl from '@/components/article/ButtonsControl';
 
 export default {
   name: 'AppArticleItem',
@@ -74,7 +78,8 @@ export default {
     AppTagsList,
     AppCommentList,
     AppAddCommentForm,
-    AppUserInfo
+    AppUserInfo,
+    AppButtonsControl
   },
   setup() {
     const store = useStore();
