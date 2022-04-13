@@ -53,8 +53,9 @@ import { useRoute, useRouter } from 'vue-router';
 
 import { actionsTypes as articleActionsTypes } from '@/store/modules/article';
 import { actionsTypes as commentsActionsTypes } from '@/store/modules/comments';
-import { gettersTypes as authGettersTypes } from '@/store/modules/auth';
+//import { gettersTypes as authGettersTypes } from '@/store/modules/auth';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
+import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 
 import { convertDateJsonToDate } from '@/helpers/dateConverter';
 
@@ -81,15 +82,15 @@ export default {
     const router = useRouter();
 
     const { isLoading, data: article, error  } = useGetStateLoadingByView('article');
-    const isSubmittingAddComment = ref(false);
 
-    const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
-    const isAuthor = computed(() => {
-      if (!currentUser.value || !article.value) {
-        return false;
-      }
-      return currentUser.value.username === article.value.author.username;
+    const author = computed(() => {
+      if (!article.value) return;
+      return article.value.author;
     });
+
+    const { isCurrentUserProfile: isAuthor } = useGetUserProfileState(author);
+
+    const isSubmittingAddComment = ref(false);
 
     store.dispatch(articleActionsTypes.getArticle, { slug: route.params.slug });
 
@@ -119,7 +120,8 @@ export default {
       validationErrors: computed(() => store.state.comments.validationErrors),
       deleteArticle,
       addComment,
-      convertDateJsonToDate
+      convertDateJsonToDate,
+      author
     };
   }
 };
