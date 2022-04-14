@@ -3,25 +3,8 @@
     <div class="banner">
       <div class="container">
         <h1>{{ article.title }}</h1>
-        <div class="article-meta d-flex">
-          <app-user-info :user="article.author" :date="convertDateJsonToDate(article.createdAt).toLocaleString()"></app-user-info>
-          <span v-if="isAuthor">
-            <router-link
-              class="btn btn-outline-secondary btn-sm"
-              :to="{ name: 'editArticle', params: { slug: article.slug } }"
-            >
-              <i class="ion-edit" />
-              Edit Article
-            </router-link>
-            &nbsp;
-            <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
-              <i class="ion-trash-a" />
-              Delete Article
-            </button>
-          </span>
-          <span v-else>
-            <app-buttons-control :article="article"></app-buttons-control>
-          </span>
+        <div class="article-meta">
+          <app-article-user-info :article="article"></app-article-user-info>
         </div>
       </div>
     </div>
@@ -36,8 +19,12 @@
           <app-tags-list :tags="article.tagList"></app-tags-list>
         </div>
       </div>
+      <hr>
       <div class="row">
         <div class="col-xs-12 col-md-8 offset-md-2">
+          <div class="article-actions">
+            <app-article-user-info :article="article"></app-article-user-info>
+          </div>
           <app-add-comment-form
             @addComment="addComment"
             :is-submitting="isSubmittingAddComment"
@@ -50,25 +37,20 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue';
+import { computed, ref } from '@vue/reactivity';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
 import { actionsTypes as articleActionsTypes } from '@/store/modules/article';
 import { actionsTypes as commentsActionsTypes } from '@/store/modules/comments';
-//import { gettersTypes as authGettersTypes } from '@/store/modules/auth';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
-import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
-
-import { convertDateJsonToDate } from '@/helpers/dateConverter';
 
 import AppLoadingItem from '@/components/ui/LoadingItem.vue';
 import AppErrorMessage from '@/components/errors/ErrorMessage';
 import AppTagsList from '@/components/ui/TagsList';
 import AppCommentList from '@/components/comments/CommentList';
 import AppAddCommentForm from '@/components/comments/AddCommentForm';
-import AppUserInfo from '@/components/userProfile/UserInfo';
-import AppButtonsControl from '@/components/article/ButtonsControl';
+import AppArticleUserInfo from '@/components/article/ArticleUserInfo';
 
 export default {
   name: 'AppArticleItem',
@@ -78,8 +60,7 @@ export default {
     AppTagsList,
     AppCommentList,
     AppAddCommentForm,
-    AppUserInfo,
-    AppButtonsControl
+    AppArticleUserInfo
   },
   setup() {
     const store = useStore();
@@ -87,13 +68,6 @@ export default {
     const router = useRouter();
 
     const { isLoading, data: article, error  } = useGetStateLoadingByView('article');
-
-    const author = computed(() => {
-      if (!article.value) return;
-      return article.value.author;
-    });
-
-    const { isCurrentUserProfile: isAuthor } = useGetUserProfileState(author);
 
     const isSubmittingAddComment = ref(false);
 
@@ -120,13 +94,10 @@ export default {
       isLoading,
       error,
       article,
-      isAuthor,
       isSubmittingAddComment,
       validationErrors: computed(() => store.state.comments.validationErrors),
       deleteArticle,
       addComment,
-      convertDateJsonToDate,
-      author
     };
   }
 };
@@ -139,5 +110,10 @@ export default {
 
   .article-page .card .comment-author {
     vertical-align: baseline;
+  }
+
+  .article-actions {
+    display: flex;
+    justify-content: center;
   }
 </style>
