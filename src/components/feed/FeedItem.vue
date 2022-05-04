@@ -56,6 +56,7 @@ import AppErrorMessage from '@/components/errors/ErrorMessage';
 import AppTagsList from '@/components/ui/TagsList';
 import AppAddToFavorites from '@/components/ui/AddToFavorites';
 import AppUserInfo from '@/components/userProfile/UserInfo';
+import { key } from '@/store';
 
 export default {
   name: 'AppFeedItem',
@@ -75,7 +76,7 @@ export default {
   },
   setup(props) {
     const route = useRoute();
-    const store = useStore();
+    const store = useStore(key);
 
     const currentPage = computed(() => Number(route.query.page || '1'));
     const offset = computed(() => currentPage.value * limit - limit);

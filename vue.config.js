@@ -4,7 +4,7 @@ module.exports = defineConfig({
   productionSourceMap: false,
   pages: {
     index: {
-      entry: 'src/main.js',
+      entry: 'src/main.ts',
       title: 'Medium Clone'
     }
   }

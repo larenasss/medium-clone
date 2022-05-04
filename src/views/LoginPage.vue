@@ -50,12 +50,13 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 import AppValidationErrors from "@/components/errors/ValidationErrors";
-import { actionsTypes } from "@/store/modules/auth";
+import { actionsTypes } from "@/store/modules/auth/types";
+import { key } from '@/store';
 
 export default {
   name: "AppLoginPage",
   setup() {
-    const store = useStore();
+    const store = useStore(key);
     const router = useRouter();
 
     const user = reactive({

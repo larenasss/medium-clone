@@ -52,8 +52,9 @@ import AppAddToFavorites from '@/components/ui/AddToFavorites';
 
 import { ref } from '@vue/runtime-core';
 import { useStore } from 'vuex';
+import { key } from '@/store/index';
 
-import { actionsTypes } from '@/store/modules/userProfile';
+import { actionsTypes } from '@/store/modules/userProfile/types';
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 
 import { convertDateJsonToDate } from '@/helpers/dateConverter';
@@ -71,7 +72,7 @@ export default {
     AppAddToFavorites
   },
   setup(props) {
-    const store = useStore();
+    const store = useStore(key);
 
     const isFollowing = ref(props.article.author.following);
 

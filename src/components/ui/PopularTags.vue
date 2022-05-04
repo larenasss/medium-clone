@@ -28,6 +28,7 @@ import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
 import AppLoadingItem from '@/components/ui/LoadingItem.vue';
 import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
+import { key } from '@/store';
 
 export default {
   name: 'AppPopularTags',
@@ -36,7 +37,7 @@ export default {
     AppErrorMessage
  },
   setup() {
-    const store = useStore();
+    const store = useStore(key);
 
     const { isLoading, data: tags, error  } = useGetStateLoadingByView('popularTags');
 

@@ -84,18 +84,19 @@ import AppValidationErrors from '@/components/errors/ValidationErrors';
 import {
   gettersTypes as authGettersTypes,
   actionsTypes as authActionsTypes
-} from '@/store/modules/auth';
+} from '@/store/modules/auth/types';
 
 import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { key } from '@/store';
 export default {
   name: 'AppSettingsPage',
   components: {
     AppValidationErrors
   },
   setup() {
-    const store = useStore();
+    const store = useStore(key);
     const router = useRouter();
 
     const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);

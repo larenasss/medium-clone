@@ -18,6 +18,7 @@ import { computed, onMounted } from "@vue/runtime-core";
 
 import { actionsTypes } from "@/store/modules/editArticle";
 import { useRoute, useRouter } from "vue-router";
+import { key } from '@/store';
 
 export default {
   name: "AppEditArticle",
@@ -26,7 +27,7 @@ export default {
     AppLoadingItem
   },
   setup() {
-    const store = useStore();
+    const store = useStore(key);
     const router = useRouter();
     const route = useRoute();
 

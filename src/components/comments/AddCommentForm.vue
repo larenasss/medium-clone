@@ -16,8 +16,9 @@
 <script>
 import { computed, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
+import { key } from '@/store/index';
 
-import { gettersTypes as authGettersTypes } from '@/store/modules/auth';
+import { gettersTypes as authGettersTypes } from '@/store/modules/auth/types';
 
 import AppValidationErrors from '@/components/errors/ValidationErrors';
 
@@ -38,7 +39,7 @@ export default {
     AppValidationErrors
   },
   setup(props, { emit }) {
-    const store = useStore();
+    const store = useStore(key);
 
     const commentInput = reactive({
       body: ''

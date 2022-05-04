@@ -7,14 +7,15 @@
 import AppTopBar from '@/components/ui/TopBar';
 import { onMounted } from '@vue/runtime-core';
 
-import { actionsTypes } from '@/store/modules/auth';
+import { actionsTypes } from '@/store/modules/auth/types';
+import { key } from '@/store/index';
 import { useStore } from 'vuex';
 
 export default {
   name: 'App',
   components: { AppTopBar },
   setup() {
-    const store = useStore();
+    const store = useStore(key);
 
     onMounted(() => {
       store.dispatch(actionsTypes.getCurrentUser);

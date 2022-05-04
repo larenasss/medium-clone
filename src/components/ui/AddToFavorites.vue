@@ -11,7 +11,8 @@
 <script>
 import { ref } from '@vue/reactivity';
 import { useStore } from 'vuex';
-import { actionsTypes } from '@/store/modules/addToFavorites';
+import { actionsTypes } from '@/store/modules/addToFavorites/types';
+import { key } from '@/store';
 export default {
   name: 'AppAddToFavorites',
   props: {
@@ -33,7 +34,7 @@ export default {
     }
   },
   setup(props) {
-    const store = useStore();
+    const store = useStore(key);
 
     const isFavoritedOptimistic = ref(props.isFavorited);
     const favoritesCountOptimistic = ref(props.favoritesCount);

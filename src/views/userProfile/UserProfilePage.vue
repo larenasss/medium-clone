@@ -64,14 +64,15 @@ import { computed, onMounted, watch } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
-import { actionsTypes as userProfileActionsTypes } from '@/store/modules/userProfile';
+import { actionsTypes as userProfileActionsTypes } from '@/store/modules/userProfile/types';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
+import { key } from '@/store';
 
 export default {
   name: 'AppUserProfile',
   setup() {
-    const store = useStore();
+    const store = useStore(key);
     const route = useRoute();
 
     const { isLoading, data: userProfile, error  } = useGetStateLoadingByView('userProfile');

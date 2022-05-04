@@ -31,11 +31,12 @@
 </template>
 
 <script>
-import { gettersTypes } from '@/store/modules/auth';
+import { gettersTypes } from '@/store/modules/auth/types';
 
 import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
+import { key } from '@/store';
 export default {
   name: 'AppFeedToggle',
   props: {
@@ -45,7 +46,7 @@ export default {
     }
   },
   setup() {
-    const store = useStore();
+    const store = useStore(key);
     const route = useRoute();
 
     const isLoggedIn = computed(() => store.getters[gettersTypes.isLoggedIn]);

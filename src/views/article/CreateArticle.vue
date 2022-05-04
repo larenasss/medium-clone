@@ -14,6 +14,7 @@ import { computed } from '@vue/runtime-core';
 
 import { actionsTypes  } from '@/store/modules/createArticle';
 import { useRouter } from 'vue-router';
+import { key } from '@/store';
 
 export default {
   name: 'AppCreateArticle',
@@ -21,7 +22,7 @@ export default {
     AppArticleForm,
   },
   setup() {
-    const store = useStore();
+    const store = useStore(key);
     const router = useRouter();
 
     const initialValues = {

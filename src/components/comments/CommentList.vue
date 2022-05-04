@@ -8,6 +8,7 @@
 
 <script>
 import { useStore } from 'vuex';
+import { key } from '@/store/index';
 import { onMounted } from '@vue/runtime-core';
 
 import { actionsTypes } from '@/store/modules/comments';
@@ -26,7 +27,7 @@ export default {
     },
   },
   setup(props) {
-    const store = useStore();
+    const store = useStore(key);
 
     onMounted(() => {
       store.dispatch(actionsTypes.getComments, { slug: props.slug });

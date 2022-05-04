@@ -41,7 +41,7 @@ import { computed, ref } from '@vue/reactivity';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
-import { actionsTypes as articleActionsTypes } from '@/store/modules/article';
+import { actionsTypes as articleActionsTypes } from '@/store/modules/article/types';
 import { actionsTypes as commentsActionsTypes } from '@/store/modules/comments';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
@@ -51,6 +51,7 @@ import AppTagsList from '@/components/ui/TagsList';
 import AppCommentList from '@/components/comments/CommentList';
 import AppAddCommentForm from '@/components/comments/AddCommentForm';
 import AppArticleUserInfo from '@/components/article/ArticleUserInfo';
+import { key } from '@/store';
 
 export default {
   name: 'AppArticleItem',
@@ -63,7 +64,7 @@ export default {
     AppArticleUserInfo
   },
   setup() {
-    const store = useStore();
+    const store = useStore(key);
     const route = useRoute();
     const router = useRouter();
 
