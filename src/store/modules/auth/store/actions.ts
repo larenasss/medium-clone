@@ -1,6 +1,6 @@
 import { RootState } from "@/store/types";
 import { ActionTree } from "vuex";
-import { AuthState } from "../types";
+import { AuthState } from "@/store/modules/auth/types";
 import authApi from '@/api/auth';
 import { mytationTypes, actionsTypes } from '@/store/modules/auth/types';
 import { setItem } from '@/helpers/persistanceStorage';

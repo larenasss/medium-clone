@@ -16,7 +16,7 @@ import AppLoadingItem from "@/components/ui/LoadingItem";
 import { useStore } from "vuex";
 import { computed, onMounted } from "@vue/runtime-core";
 
-import { actionsTypes } from "@/store/modules/editArticle";
+import { actionsTypes } from "@/store/modules/editArticle/types";
 import { useRoute, useRouter } from "vue-router";
 import { key } from '@/store';
 

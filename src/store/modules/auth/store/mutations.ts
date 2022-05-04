@@ -1,6 +1,6 @@
 import { MutationTree } from "vuex";
-import { AuthState } from "../types";
-import { mytationTypes } from "../types";
+import { AuthState } from "@/store/modules/auth/types";
+import { mytationTypes } from "@/store/modules/auth/types";
 
 export const mutations: MutationTree<AuthState> = {
    [mytationTypes.registerStart](state) {

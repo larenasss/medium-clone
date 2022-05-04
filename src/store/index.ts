@@ -1,14 +1,14 @@
 import { createStore, Store } from 'vuex';
-import { auth } from '@/store/modules/auth/index';
-import feed from '@/store/modules/feed';
-import popularTags from '@/store/modules/popularTags';
+import { auth } from '@/store/modules/auth';
+import { feed } from '@/store/modules/feed';
+import { popularTags } from '@/store/modules/popularTags';
 import { article } from '@/store/modules/article/index';
-import createArticle from '@/store/modules/createArticle';
-import editArticle from '@/store/modules/editArticle';
-import settings from '@/store/modules/settings';
+import { createArticle } from '@/store/modules/createArticle';
+import { editArticle } from '@/store/modules/editArticle';
+import { settings } from '@/store/modules/settings';
 import { addToFavorites } from '@/store/modules/addToFavorites/index';
 import { userProfile } from '@/store/modules/userProfile/index';
-import comments from '@/store/modules/comments';
+import { comments } from '@/store/modules/comments';
 import { RootState } from '@/store/types';
 import { InjectionKey } from 'vue';
 

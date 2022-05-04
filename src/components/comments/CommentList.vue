@@ -11,7 +11,7 @@ import { useStore } from 'vuex';
 import { key } from '@/store/index';
 import { onMounted } from '@vue/runtime-core';
 
-import { actionsTypes } from '@/store/modules/comments';
+import { actionsTypes } from '@/store/modules/comments/types';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
 import AppCommentItem from '@/components/comments/CommentItem.vue';

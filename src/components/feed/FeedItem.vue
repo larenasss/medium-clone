@@ -42,7 +42,7 @@ import { computed, onMounted, watch } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
-import { actionsTypes } from '@/store/modules/feed';
+import { actionsTypes } from '@/store/modules/feed/types';
 import { limit } from '@/helpers/variables';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 

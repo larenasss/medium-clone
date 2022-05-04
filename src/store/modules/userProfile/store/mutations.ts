@@ -1,6 +1,6 @@
 import { MutationTree } from "vuex";
-import { UserState } from "../types";
-import { mytationTypes } from "../types";
+import { UserState } from "@/store/modules/userProfile/types";
+import { mytationTypes } from "@/store/modules/userProfile/types";
 
 export const mutations: MutationTree<UserState> = {
   [mytationTypes.getUserProfileStart](state) {

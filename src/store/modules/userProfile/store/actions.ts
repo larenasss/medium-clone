@@ -1,6 +1,6 @@
 import { RootState } from "@/store/types";
 import { ActionTree } from "vuex";
-import { UserState } from "../types";
+import { UserState } from "@/store/modules/userProfile/types";
 import userProfileApi from '@/api/userProfile';
 import { mytationTypes, actionsTypes } from '@/store/modules/userProfile/types';
 

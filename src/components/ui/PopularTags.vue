@@ -23,7 +23,7 @@
 import { onMounted } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 
-import { actionsTypes } from '@/store/modules/popularTags';
+import { actionsTypes } from '@/store/modules/popularTags/types';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
 import AppLoadingItem from '@/components/ui/LoadingItem.vue';
