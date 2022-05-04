@@ -5,7 +5,7 @@ import articleApi from '@/api/article';
 import { mytationTypes, actionsTypes } from '@/store/modules/article/types';
 
 export const actions: ActionTree<ArticleState, RootState> = {
-  [actionsTypes.getArticle]: async ({ commit }: { commit: Function }, { slug }: {slug: string}) => {
+  [actionsTypes.getArticle]: async ({ commit }, { slug }: {slug: string}) => {
     try {
       commit(mytationTypes.getArticleStart);
       const article = await articleApi.getArticle(slug);
@@ -15,7 +15,7 @@ export const actions: ActionTree<ArticleState, RootState> = {
       throw e;
     }
   },
-  [actionsTypes.deleteArticle]: async ({ commit }: { commit: Function }, { slug }: {slug: string}) => {
+  [actionsTypes.deleteArticle]: async ({ commit }, { slug }: {slug: string}) => {
     try {
       commit(mytationTypes.deleteArticleStart);
       await articleApi.deleteArticle(slug);

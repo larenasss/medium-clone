@@ -6,7 +6,7 @@ import { mytationTypes, actionsTypes } from '@/store/modules/auth/types';
 import { setItem } from '@/helpers/persistanceStorage';
 
 export const actions: ActionTree<AuthState, RootState> = {
-  [actionsTypes.register]: async ({ commit }: {commit: any}, credentials: any) => {
+  [actionsTypes.register]: async ({ commit }, credentials: any) => {
       try {
         commit(mytationTypes.registerStart);
         const { data } = await authApi.register(credentials);
@@ -17,7 +17,7 @@ export const actions: ActionTree<AuthState, RootState> = {
         throw e;
       }
     },
-    [actionsTypes.login]: async ({ commit }: {commit: any}, credentials: any) => {
+    [actionsTypes.login]: async ({ commit }, credentials: any) => {
       try {
         commit(mytationTypes.loginStart);
         const { data } = await authApi.login(credentials);
@@ -38,7 +38,7 @@ export const actions: ActionTree<AuthState, RootState> = {
         throw e;
       }
     },
-    [actionsTypes.updateCurrentUser]: async ({ commit }: {commit: any}, { currentUserInput } : {currentUserInput: any}) => {
+    [actionsTypes.updateCurrentUser]: async ({ commit }, { currentUserInput } : {currentUserInput: any}) => {
       try {
         commit(mytationTypes.updateCurrentUserStart);
         const user = await authApi.updateCurrentUser(currentUserInput);
@@ -49,7 +49,7 @@ export const actions: ActionTree<AuthState, RootState> = {
         throw e;
       }
     },
-    [actionsTypes.logout]: async ({ commit }: {commit: any}) => {
+    [actionsTypes.logout]: async ({ commit }) => {
       try {
         setItem('accessToken', '');
         commit(mytationTypes.logout);
