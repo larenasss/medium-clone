@@ -15,14 +15,16 @@
   </div>
 </template>
 
-<script>
-import AppPopularTags from '@/components/ui/PopularTags';
-import AppBannerItem from '@/components/ui/BannerItem';
-import AppFeedToggle from "@/components/feed/FeedToggle";
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+import AppPopularTags from '@/components/ui/PopularTags.vue';
+import AppBannerItem from '@/components/ui/BannerItem.vue';
+import AppFeedToggle from "@/components/feed/FeedToggle.vue";
 import { useRoute } from 'vue-router';
 import { computed } from '@vue/runtime-core';
 
-export default {
+export default defineComponent({
   name: 'AppFeedPage',
   components: {
     AppPopularTags, AppBannerItem, AppFeedToggle
@@ -35,5 +37,5 @@ export default {
       tagName
     };
   }
-};
+});
 </script>

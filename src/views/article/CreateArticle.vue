@@ -7,16 +7,20 @@
   </app-article-form>
 </template>
 
-<script>
-import AppArticleForm from '@/components/article/ArticleForm';
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+import AppArticleForm from '@/components/article/ArticleForm.vue';
 import { useStore } from 'vuex';
 import { computed } from '@vue/runtime-core';
 
-import { actionsTypes  } from '@/store/modules/createArticle';
+import { actionsTypes  } from '@/store/modules/createArticle/types';
 import { useRouter } from 'vue-router';
+
+import { Article } from '@/entities/article';
 import { key } from '@/store';
 
-export default {
+export default defineComponent({
   name: 'AppCreateArticle',
   components: {
     AppArticleForm,
@@ -25,16 +29,11 @@ export default {
     const store = useStore(key);
     const router = useRouter();
 
-    const initialValues = {
-      title: '',
-      description: '',
-      body: '',
-      tagList: []
-    };
+    const initialValues = new Article();
 
-    const onSubmit = articleInput => {
+    const onSubmit = (article: Article) => {
       store
-        .dispatch(actionsTypes.createArticle, { articleInput })
+        .dispatch(actionsTypes.createArticle, article)
         .then(article => {
           router.push({ name: 'article', params: { slug: article.slug }});
         });
@@ -47,5 +46,5 @@ export default {
       onSubmit
     };
   }
-};
+});
 </script>

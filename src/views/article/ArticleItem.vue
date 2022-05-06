@@ -36,24 +36,26 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import { computed, ref } from '@vue/reactivity';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
 import { actionsTypes as articleActionsTypes } from '@/store/modules/article/types';
-import { actionsTypes as commentsActionsTypes } from '@/store/modules/comments';
+import { actionsTypes as commentsActionsTypes } from '@/store/modules/comments/types';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
 import AppLoadingItem from '@/components/ui/LoadingItem.vue';
-import AppErrorMessage from '@/components/errors/ErrorMessage';
-import AppTagsList from '@/components/ui/TagsList';
-import AppCommentList from '@/components/comments/CommentList';
-import AppAddCommentForm from '@/components/comments/AddCommentForm';
-import AppArticleUserInfo from '@/components/article/ArticleUserInfo';
+import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
+import AppTagsList from '@/components/ui/TagsList.vue';
+import AppCommentList from '@/components/comments/CommentList.vue';
+import AppAddCommentForm from '@/components/comments/AddCommentForm.vue';
+import AppArticleUserInfo from '@/components/article/ArticleUserInfo.vue';
 import { key } from '@/store';
 
-export default {
+export default defineComponent({
   name: 'AppArticleItem',
   components: {
     AppLoadingItem,
@@ -74,7 +76,7 @@ export default {
 
     store.dispatch(articleActionsTypes.getArticle, { slug: route.params.slug });
 
-    const addComment = commentInput => {
+    const addComment = (commentInput: any) => {
       isSubmittingAddComment.value = true;
       store
         .dispatch(commentsActionsTypes.addComment,
@@ -96,12 +98,12 @@ export default {
       error,
       article,
       isSubmittingAddComment,
-      validationErrors: computed(() => store.state.comments.validationErrors),
+      validationErrors: computed(() => store.state.comments.error),
       deleteArticle,
       addComment,
     };
   }
-};
+});
 </script>
 
 <style lang="scss">

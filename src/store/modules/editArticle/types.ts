@@ -1,8 +1,10 @@
+import { Article } from '@/entities/article';
+
 export interface EditArticleState {
-  isSubmitting: boolean,
-  validationErrors: null,
-  isLoading: boolean,
-  article: null
+  isSubmitting: boolean;
+  validationErrors: null;
+  isLoading: boolean;
+  article: Article | null;
 }
 
 const MODULE_NAME = 'editArticle';

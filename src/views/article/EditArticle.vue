@@ -10,17 +10,21 @@
   </app-article-form>
 </template>
 
-<script>
-import AppArticleForm from "@/components/article/ArticleForm";
-import AppLoadingItem from "@/components/ui/LoadingItem";
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+import AppArticleForm from "@/components/article/ArticleForm.vue";
+import AppLoadingItem from "@/components/ui/LoadingItem.vue";
 import { useStore } from "vuex";
 import { computed, onMounted } from "@vue/runtime-core";
 
 import { actionsTypes } from "@/store/modules/editArticle/types";
 import { useRoute, useRouter } from "vue-router";
+
+import { Article } from '@/entities/article';
 import { key } from '@/store';
 
-export default {
+export default defineComponent({
   name: "AppEditArticle",
   components: {
     AppArticleForm,
@@ -38,12 +42,12 @@ export default {
         return null;
       }
 
-      return {
+      return new Article({
         title: article.value.title,
         description: article.value.description,
         body: article.value.body,
         tagList: article.value.tagList.toString(),
-      };
+      });
     });
 
     onMounted(() => {
@@ -52,7 +56,7 @@ export default {
       });
     });
 
-    const onSubmit = articleInput => {
+    const onSubmit = (articleInput: any) => {
       store
         .dispatch(actionsTypes.updateArticle, { slug: route.params.slug, articleInput })
         .then(article => {
@@ -69,5 +73,5 @@ export default {
       article
     };
   },
-};
+});
 </script>

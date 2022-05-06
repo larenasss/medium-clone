@@ -1,4 +1,5 @@
 import axios from "@/api/axios";
+import { Article } from "@/entities/article";
 
 const getArticle = (slug: string) => {
   return axios
@@ -6,15 +7,15 @@ const getArticle = (slug: string) => {
     .then(response => response.data.article);
 };
 
-const createArticle = (articleInput: object) => {
+const createArticle = (article: Article) => {
   return axios
-    .post(`/articles`, { article: articleInput })
+    .post(`/articles`, { article })
     .then(response => response.data.article);
 };
 
-const updateArticle = (slug: string, articleInput: object) => {
+const updateArticle = (slug: string, article: Article) => {
   return axios
-    .put(`/articles/${slug}`, { article: articleInput })
+    .put(`/articles/${slug}`, { article })
     .then(response => response.data.article);
 };
 

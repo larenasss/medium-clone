@@ -51,16 +51,18 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import { computed, reactive } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import { useRouter } from 'vue-router';
 
-import AppValidationErrors from '@/components/errors/ValidationErrors';
+import AppValidationErrors from '@/components/errors/ValidationErrors.vue';
 import { actionsTypes } from '@/store/modules/auth/types';
 import { key } from '@/store';
 
-export default {
+export default defineComponent({
   name: "AppRegisterPage",
   setup() {
     const store = useStore(key);
@@ -90,5 +92,5 @@ export default {
     };
   },
   components: { AppValidationErrors }
-};
+});
 </script>

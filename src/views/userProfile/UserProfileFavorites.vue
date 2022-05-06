@@ -2,12 +2,13 @@
   <app-feed-item :api-url="apiUrl"></app-feed-item>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import { useSetupUserProfilePage } from '@/use/userProfile/setupUserProfilePage';
 
-import AppFeedItem from '@/components/feed/FeedItem';
+import AppFeedItem from '@/components/feed/FeedItem.vue';
 
-export default {
+export default defineComponent({
   name: 'AppUserProfileFavorites',
   components: { AppFeedItem },
   setup() {
@@ -15,5 +16,5 @@ export default {
       ...useSetupUserProfilePage()
     };
   }
-};
+});
 </script>

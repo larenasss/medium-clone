@@ -78,8 +78,10 @@
 </template>
 
 
-<script>
-import AppValidationErrors from '@/components/errors/ValidationErrors';
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+import AppValidationErrors from '@/components/errors/ValidationErrors.vue';
 
 import {
   gettersTypes as authGettersTypes,
@@ -90,7 +92,8 @@ import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { key } from '@/store';
-export default {
+
+export default defineComponent({
   name: 'AppSettingsPage',
   components: {
     AppValidationErrors
@@ -134,5 +137,5 @@ export default {
       logout
     };
   }
-};
+});
 </script>

@@ -5,12 +5,14 @@
 </template>
 
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import AppFeedItem from '@/components/feed/FeedItem.vue';
 
 import { ref } from '@vue/reactivity';
 
-export default {
+export default defineComponent({
   name: 'AppYourFeed',
   components: { AppFeedItem },
   setup() {
@@ -18,5 +20,5 @@ export default {
       apiUrl: ref('/articles/feed')
     };
   }
-};
+});
 </script>

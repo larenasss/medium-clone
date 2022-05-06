@@ -59,7 +59,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import { computed, onMounted, watch } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
@@ -69,7 +71,7 @@ import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 import { key } from '@/store';
 
-export default {
+export default defineComponent({
   name: 'AppUserProfile',
   setup() {
     const store = useStore(key);
@@ -98,7 +100,7 @@ export default {
       routeName
     };
   }
-};
+});
 </script>
 
 <style lang="scss">

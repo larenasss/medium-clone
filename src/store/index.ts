@@ -15,7 +15,6 @@ import { InjectionKey } from 'vue';
 export const key: InjectionKey<Store<RootState>> = Symbol();
 
 export const store = createStore<RootState>({
-  state: {},
   mutations: {},
   actions: {},
   modules: {

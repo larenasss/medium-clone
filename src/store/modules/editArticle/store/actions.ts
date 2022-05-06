@@ -3,9 +3,10 @@ import { ActionTree } from "vuex";
 import { EditArticleState } from '@/store/modules/editArticle/types';
 import articleApi from '@/api/article';
 import { mytationTypes, actionsTypes } from '@/store/modules/editArticle/types';
+import { Article } from "@/entities/article";
 
 export const actions: ActionTree<EditArticleState, RootState> = {
-  [actionsTypes.updateArticle]: async ({ commit }, { slug, articleInput }: {slug: string, articleInput: any}) => {
+  [actionsTypes.updateArticle]: async ({ commit }, { slug, articleInput }: {slug: string, articleInput: Article}) => {
       try {
         commit(mytationTypes.updateArticleStart);
         const article = await articleApi.updateArticle(slug, articleInput);

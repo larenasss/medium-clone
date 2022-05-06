@@ -62,13 +62,14 @@
 import { reactive } from '@vue/reactivity';
 
 import AppValidationErrors from '@/components/errors/ValidationErrors';
+import { Article } from '@/entities/article';
 
 export default {
   name: 'AppArticleForm',
   emits: ['articleSubmit'],
   components: { AppValidationErrors },
   props: {
-    initialValues: {
+    initialValues : {
       type: Object,
       required: true
     },
@@ -82,17 +83,9 @@ export default {
     }
   },
   setup(props, { emit }) {
-    const dataForm = reactive(props.initialValues);
+    const dataForm = reactive(new Article(props.initialValues));
 
-    const onSubmit = () => {
-      const data = {
-        title: dataForm.title,
-        description: dataForm.description,
-        body: dataForm.description,
-        tagList: dataForm.tagList.toString().split(' ')
-      };
-      emit('articleSubmit', data);
-    };
+    const onSubmit = () => emit('articleSubmit', dataForm);
 
     return {
       dataForm,
