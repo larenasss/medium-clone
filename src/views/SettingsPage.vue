@@ -92,6 +92,7 @@ import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { key } from '@/store';
+import { UserProfile } from '@/entities/user';
 
 export default defineComponent({
   name: 'AppSettingsPage',
@@ -102,17 +103,9 @@ export default defineComponent({
     const store = useStore(key);
     const router = useRouter();
 
-    const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
+    const currentUser = computed<UserProfile>(() => store.getters[authGettersTypes.currentUser]);
 
-    const form = computed(() => {
-      return {
-        username: currentUser.value.username,
-        bio: currentUser.value.bio,
-        image: currentUser.value.image,
-        email: currentUser.value.email,
-        password: ''
-      };
-    });
+    const form = computed(() => new UserProfile(currentUser.value));
 
     const onSubmit = () => {
       store.dispatch(authActionsTypes.updateCurrentUser, {

@@ -13,11 +13,13 @@ export class User {
 export class UserProfile extends User {
   email: string;
   token?: string = '';
+  password: string;
 
-  constructor(userProfile: UserProfile = {username: '', bio: '', image: '', email: '', token: ''}) {
+  constructor(userProfile: UserProfile = {username: '', bio: '', image: '', email: '', token: '', password: ''}) {
     super(userProfile);
     this.email = userProfile.email;
     this.token = userProfile.token;
+    this.password = userProfile.password;
   }
 }
 

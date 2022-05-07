@@ -42,12 +42,7 @@ export default defineComponent({
         return null;
       }
 
-      return new Article({
-        title: article.value.title,
-        description: article.value.description,
-        body: article.value.body,
-        tagList: article.value.tagList.toString(),
-      });
+      return new Article(article.value);
     });
 
     onMounted(() => {

@@ -8,7 +8,7 @@ import { User, UserProfile } from '@/entities/user';
 export function useGetUserProfileState<T extends ComputedRef<User | null>>(compareUser: T) {
   const store = useStore(key);
 
-  const currentUser = computed(() => store.getters[authGettersTypes.currentUser]);
+  const currentUser = computed<UserProfile>(() => store.getters[authGettersTypes.currentUser]);
 
   const isCurrentUserProfile = computed(() => {
     if (!compareUser || !currentUser.value || !compareUser.value) {
