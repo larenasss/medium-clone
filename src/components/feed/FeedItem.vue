@@ -37,7 +37,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import { computed, onMounted, watch } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
@@ -50,15 +52,16 @@ import { convertDateJsonToDate } from '@/helpers/dateConverter';
 
 import { stringify, parseUrl } from 'query-string';
 
-import AppPagination from '@/components/ui/PaginationsList';
-import AppLoadingItem from '@/components/ui/LoadingItem';
-import AppErrorMessage from '@/components/errors/ErrorMessage';
-import AppTagsList from '@/components/ui/TagsList';
-import AppAddToFavorites from '@/components/ui/AddToFavorites';
-import AppUserInfo from '@/components/userProfile/UserInfo';
+import AppPagination from '@/components/ui/PaginationsList.vue';
+import AppLoadingItem from '@/components/ui/LoadingItem.vue';
+import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
+import AppTagsList from '@/components/ui/TagsList.vue';
+import AppAddToFavorites from '@/components/ui/AddToFavorites.vue';
+import AppUserInfo from '@/components/userProfile/UserInfo.vue';
 import { key } from '@/store';
+import { Feed } from '@/entities/feed';
 
-export default {
+export default defineComponent({
   name: 'AppFeedItem',
   components: {
     AppPagination,
@@ -80,7 +83,7 @@ export default {
 
     const currentPage = computed(() => Number(route.query.page || '1'));
     const offset = computed(() => currentPage.value * limit - limit);
-    const { isLoading, data: feed, error  } = useGetStateLoadingByView('feed');
+    const { isLoading, data: feed, error  } = useGetStateLoadingByView<Feed>('feed');
     const baseUrl = computed(() => route.path);
 
     onMounted(() => fetchFeed());
@@ -88,7 +91,7 @@ export default {
     watch(() => props.apiUrl, () => fetchFeed());
 
     const fetchFeed = () => {
-      const parsedUrl = parseUrl(props.apiUrl);
+      const parsedUrl = parseUrl(props.apiUrl ?? '');
       const stringifiedParams = stringify({
         limit,
         offset: offset.value,
@@ -108,7 +111,7 @@ export default {
       convertDateJsonToDate
     };
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

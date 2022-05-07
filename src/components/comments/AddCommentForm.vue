@@ -13,16 +13,19 @@
   </div>
 </template>
 
-<script>
-import { computed, reactive, watch } from 'vue';
+<script lang="ts">
+import { computed, reactive, watch, ComputedRef, defineComponent } from 'vue';
+
 import { useStore } from 'vuex';
 import { key } from '@/store/index';
 
 import { gettersTypes as authGettersTypes } from '@/store/modules/auth/types';
 
-import AppValidationErrors from '@/components/errors/ValidationErrors';
+import AppValidationErrors from '@/components/errors/ValidationErrors.vue';
+import { Comment } from '@/entities/comment';
+import { UserProfile } from '@/entities/user';
 
-export default {
+export default defineComponent({
   name: 'AppAddCommentForm',
   emits: ['addComment'],
   props: {
@@ -41,9 +44,7 @@ export default {
   setup(props, { emit }) {
     const store = useStore(key);
 
-    const commentInput = reactive({
-      body: ''
-    });
+    const commentInput = reactive(new Comment());
 
     watch(() => props.isSubmitting, (nValue) => {
       if (!nValue) {
@@ -51,15 +52,13 @@ export default {
       }
     });
 
-    const onSubmit = () => {
-      emit('addComment', commentInput);
-    };
+    const onSubmit = () => emit('addComment', commentInput);
 
     return {
       commentInput,
       onSubmit,
-      currentUser: computed(() => store.getters[authGettersTypes.currentUser]),
+      currentUser: computed<ComputedRef<UserProfile>>(() => store.getters[authGettersTypes.currentUser]),
     };
   }
-};
+});
 </script>

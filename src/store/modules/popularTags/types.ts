@@ -1,6 +1,7 @@
+import { Tag } from '@/entities/tag';
 import { LoadingState } from '@/store/types';
 
-export interface PopularTagsState extends LoadingState { }
+export interface PopularTagsState extends LoadingState<Array<Tag>> { }
 
 const MODULE_NAME = 'popularTags';
 

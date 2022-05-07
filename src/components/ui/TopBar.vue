@@ -47,20 +47,22 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { gettersTypes } from '@/store/modules/auth/types';
 import { key } from '@/store';
+import { UserProfile } from '@/entities/user';
 
-export default {
+export default defineComponent({
   name: 'AppTopBar',
   setup() {
     const store = useStore(key);
 
-    const currentUser = computed(() => store.getters[gettersTypes.currentUser]);
-    const isLoggedIn = computed(() => store.getters[gettersTypes.isLoggedIn]);
-    const isAnonymous = computed(() => store.getters[gettersTypes.isAnonymous]);
+    const currentUser = computed<UserProfile>(() => store.getters[gettersTypes.currentUser]);
+    const isLoggedIn = computed<boolean>(() => store.getters[gettersTypes.isLoggedIn]);
+    const isAnonymous = computed<boolean>(() => store.getters[gettersTypes.isAnonymous]);
 
     return {
       currentUser,
@@ -68,5 +70,5 @@ export default {
       isLoggedIn
     };
   }
-};
+});
 </script>

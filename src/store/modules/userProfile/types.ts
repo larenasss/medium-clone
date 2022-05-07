@@ -1,6 +1,7 @@
+import { UserProfile } from '@/entities/user';
 import { LoadingState } from '@/store/types';
 
-export interface UserState extends LoadingState { }
+export interface UserState extends LoadingState<UserProfile> { }
 
 const MODULE_NAME = 'userProfile';
 

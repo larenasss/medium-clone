@@ -46,9 +46,11 @@
   </div>
 </template>
 
-<script>
-import AppUserInfo from '@/components/userProfile/UserInfo';
-import AppAddToFavorites from '@/components/ui/AddToFavorites';
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+import AppUserInfo from '@/components/userProfile/UserInfo.vue';
+import AppAddToFavorites from '@/components/ui/AddToFavorites.vue';
 
 import { ref } from '@vue/runtime-core';
 import { useStore } from 'vuex';
@@ -59,7 +61,7 @@ import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 
 import { convertDateJsonToDate } from '@/helpers/dateConverter';
 
-export default {
+export default defineComponent({
   name: 'AppArticleUserInfo',
   props: {
     article: {
@@ -92,5 +94,5 @@ export default {
       isAuthor
     };
   }
-};
+});
 </script>

@@ -8,12 +8,15 @@
   </button>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import { ref } from '@vue/reactivity';
 import { useStore } from 'vuex';
 import { actionsTypes } from '@/store/modules/addToFavorites/types';
 import { key } from '@/store';
-export default {
+
+export default defineComponent({
   name: 'AppAddToFavorites',
   props: {
     isFavorited: {
@@ -36,8 +39,8 @@ export default {
   setup(props) {
     const store = useStore(key);
 
-    const isFavoritedOptimistic = ref(props.isFavorited);
-    const favoritesCountOptimistic = ref(props.favoritesCount);
+    const isFavoritedOptimistic = ref(props.isFavorited ?? false);
+    const favoritesCountOptimistic = ref(props.favoritesCount ?? 0);
 
     const handleLike = () => {
       store.dispatch(actionsTypes.addToFavorites, {
@@ -59,5 +62,5 @@ export default {
       favoritesCountOptimistic,
     };
   }
-};
+});
 </script>

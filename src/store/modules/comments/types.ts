@@ -1,6 +1,7 @@
+import { Comment } from '@/entities/comment';
 import { LoadingState } from '@/store/types';
 
-export interface CommentsState extends LoadingState { }
+export interface CommentsState extends LoadingState<Comment> { }
 
 const MODULE_NAME = 'comments';
 

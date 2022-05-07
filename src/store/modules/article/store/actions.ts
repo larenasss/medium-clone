@@ -3,12 +3,13 @@ import { ActionTree } from "vuex";
 import { ArticleState } from '@/store/modules/article/types';
 import articleApi from '@/api/article';
 import { mytationTypes, actionsTypes } from '@/store/modules/article/types';
+import { Article } from "@/entities/article";
 
 export const actions: ActionTree<ArticleState, RootState> = {
   [actionsTypes.getArticle]: async ({ commit }, { slug }: {slug: string}) => {
     try {
       commit(mytationTypes.getArticleStart);
-      const article = await articleApi.getArticle(slug);
+      const article: Article = await articleApi.getArticle(slug);
       commit(mytationTypes.getArticleSuccess, article);
     } catch (e) {
       commit(mytationTypes.getArticleFailure);

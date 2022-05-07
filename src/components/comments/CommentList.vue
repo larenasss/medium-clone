@@ -6,7 +6,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import { useStore } from 'vuex';
 import { key } from '@/store/index';
 import { onMounted } from '@vue/runtime-core';
@@ -15,7 +17,9 @@ import { actionsTypes } from '@/store/modules/comments/types';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
 import AppCommentItem from '@/components/comments/CommentItem.vue';
-export default {
+import { Comment } from '@/entities/comment';
+
+export default defineComponent({
   name: 'AppCommentList',
   components: {
     AppCommentItem
@@ -33,9 +37,9 @@ export default {
       store.dispatch(actionsTypes.getComments, { slug: props.slug });
     });
 
-    const { isLoading, data: comments, error  } = useGetStateLoadingByView('comments');
+    const { isLoading, data: comments, error  } = useGetStateLoadingByView<Comment>('comments');
 
-    const deleteComment = ({ slugComment }) => {
+    const deleteComment = ({ slugComment }: { slugComment: string }) => {
       const data = { slugArticle: props.slug, slugComment };
       store.dispatch(actionsTypes.deleteComment, data);
     };
@@ -47,5 +51,5 @@ export default {
       deleteComment
     };
   }
-};
+});
 </script>

@@ -58,19 +58,21 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import { reactive } from '@vue/reactivity';
 
-import AppValidationErrors from '@/components/errors/ValidationErrors';
+import AppValidationErrors from '@/components/errors/ValidationErrors.vue';
 import { Article } from '@/entities/article';
 
-export default {
+export default defineComponent({
   name: 'AppArticleForm',
   emits: ['articleSubmit'],
   components: { AppValidationErrors },
   props: {
     initialValues : {
-      type: Object,
+      type: Article,
       required: true
     },
     errors: {
@@ -92,5 +94,5 @@ export default {
       onSubmit
     };
   }
-};
+});
 </script>

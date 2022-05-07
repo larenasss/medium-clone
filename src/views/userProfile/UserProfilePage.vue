@@ -70,6 +70,7 @@ import { actionsTypes as userProfileActionsTypes } from '@/store/modules/userPro
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 import { key } from '@/store';
+import { UserProfile } from '@/entities/user';
 
 export default defineComponent({
   name: 'AppUserProfile',
@@ -77,7 +78,7 @@ export default defineComponent({
     const store = useStore(key);
     const route = useRoute();
 
-    const { isLoading, data: userProfile, error  } = useGetStateLoadingByView('userProfile');
+    const { isLoading, data: userProfile, error  } = useGetStateLoadingByView<UserProfile>('userProfile');
     const { isCurrentUserProfile } = useGetUserProfileState(userProfile);
 
     const userProfileSlug = computed(() => route.params.slug);

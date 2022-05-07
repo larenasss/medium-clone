@@ -3,12 +3,13 @@ import { ActionTree } from "vuex";
 import { UserState } from "@/store/modules/userProfile/types";
 import userProfileApi from '@/api/userProfile';
 import { mytationTypes, actionsTypes } from '@/store/modules/userProfile/types';
+import { UserProfile } from "@/entities/user";
 
 export const actions: ActionTree<UserState, RootState> = {
   [actionsTypes.getUserProfile]: async ({ commit }, { slug }: {slug: string}) => {
     try {
       commit(mytationTypes.getUserProfileStart);
-      const user = await userProfileApi.getUserProfile(slug);
+      const user: UserProfile = await userProfileApi.getUserProfile(slug);
       commit(mytationTypes.getUserProfileSuccess, user);
     } catch (e) {
       commit(mytationTypes.getUserProfileFailure);

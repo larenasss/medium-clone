@@ -30,14 +30,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import { gettersTypes } from '@/store/modules/auth/types';
 
 import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { key } from '@/store';
-export default {
+
+export default defineComponent({
   name: 'AppFeedToggle',
   props: {
     tagName: {
@@ -57,5 +60,5 @@ export default {
       routeName
     };
   }
-};
+});
 </script>

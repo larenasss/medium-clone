@@ -1,13 +1,13 @@
-import { AddToFavoritesState } from "./modules/addToFavorites/types";
-import { ArticleState } from "./modules/article/types";
-import { AuthState } from "./modules/auth/types";
-import { CommentsState } from "./modules/comments/types";
-import { CreateArticleState } from "./modules/createArticle/types";
-import { EditArticleState } from "./modules/editArticle/types";
-import { FeedState } from "./modules/feed/types";
-import { PopularTagsState } from "./modules/popularTags/types";
-import { SettingsState } from "./modules/settings/types";
-import { UserState } from "./modules/userProfile/types";
+import { AddToFavoritesState } from "@/store/modules/addToFavorites/types";
+import { ArticleState } from "@/store/modules/article/types";
+import { AuthState } from "@/store/modules/auth/types";
+import { CommentsState } from "@/store/modules/comments/types";
+import { CreateArticleState } from "@/store/modules/createArticle/types";
+import { EditArticleState } from "@/store/modules/editArticle/types";
+import { FeedState } from "@/store/modules/feed/types";
+import { PopularTagsState } from "@/store/modules/popularTags/types";
+import { SettingsState } from "@/store/modules/settings/types";
+import { UserState } from "@/store/modules/userProfile/types";
 
 // Base
 export interface RootState {
@@ -23,8 +23,8 @@ export interface RootState {
   settings: SettingsState;
 }
 
-export interface LoadingState {
-  data: null,
+export interface LoadingState<T> {
+  data: T | null,
   isLoading: boolean,
   error: null
 }

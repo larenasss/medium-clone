@@ -5,6 +5,7 @@ import { actions } from '@/store/modules/auth/store/actions';
 import { getters } from '@/store/modules/auth/store/getters';
 import { Module } from 'vuex';
 import { RootState } from '@/store/types';
+import { UserProfile } from '@/entities/user';
 
 const state: AuthState = {
   isSubmitting: false,

@@ -1,6 +1,7 @@
+import { Article } from '@/entities/article';
 import { LoadingState } from '@/store/types';
 
-export interface ArticleState extends LoadingState { }
+export interface ArticleState extends LoadingState<Article> { }
 
 const MODULE_NAME = 'article';
 

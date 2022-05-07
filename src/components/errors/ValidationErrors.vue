@@ -9,9 +9,11 @@
   </ul>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import { computed } from '@vue/runtime-core';
-export default {
+export default defineComponent({
   name: 'AppValidationErrors',
   props: {
     validationErrors: {
@@ -31,5 +33,5 @@ export default {
       errorMessages
     };
   }
-};
+});
 </script>

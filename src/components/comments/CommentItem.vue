@@ -14,14 +14,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 
-import AppUserInfo from '@/components/userProfile/UserInfo';
+import AppUserInfo from '@/components/userProfile/UserInfo.vue';
 import { convertDateJsonToDate } from '@/helpers/dateConverter';
 import { ref } from '@vue/reactivity';
 
-export default {
+export default defineComponent({
   name: 'AppCommentItem',
   emits: ['deleteComment'],
   components: {
@@ -36,7 +38,7 @@ export default {
   setup(props, { emit }) {
     const { currentUser, isCurrentUserProfile } = useGetUserProfileState(ref(props.comment.author));
 
-    const deleteComment = slugComment => {
+    const deleteComment = (slugComment: string) => {
       emit('deleteComment', { slugComment });
     };
 
@@ -47,7 +49,7 @@ export default {
       convertDateJsonToDate
     };
   }
-};
+});
 </script>
 <style lang="scss" scoped>
   .article-page .card .mod-options {

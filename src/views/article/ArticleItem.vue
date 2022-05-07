@@ -54,6 +54,8 @@ import AppCommentList from '@/components/comments/CommentList.vue';
 import AppAddCommentForm from '@/components/comments/AddCommentForm.vue';
 import AppArticleUserInfo from '@/components/article/ArticleUserInfo.vue';
 import { key } from '@/store';
+import { Article } from '@/entities/article';
+import { Comment } from '@/entities/comment';
 
 export default defineComponent({
   name: 'AppArticleItem',
@@ -70,17 +72,17 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
 
-    const { isLoading, data: article, error  } = useGetStateLoadingByView('article');
+    const { isLoading, data: article, error  } = useGetStateLoadingByView<Article>('article');
 
     const isSubmittingAddComment = ref(false);
 
     store.dispatch(articleActionsTypes.getArticle, { slug: route.params.slug });
 
-    const addComment = (commentInput: any) => {
+    const addComment = (comment: Comment) => {
       isSubmittingAddComment.value = true;
       store
         .dispatch(commentsActionsTypes.addComment,
-          { slugArticle: route.params.slug , commentInput })
+          { slugArticle: route.params.slug , comment })
         .then(() => isSubmittingAddComment.value = false)
         .catch(() => isSubmittingAddComment.value = false);
     };

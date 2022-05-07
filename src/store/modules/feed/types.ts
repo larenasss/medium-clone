@@ -1,6 +1,7 @@
+import { Feed } from '@/entities/feed';
 import { LoadingState } from '@/store/types';
 
-export interface FeedState extends LoadingState { }
+export interface FeedState extends LoadingState<Feed> { }
 
 const MODULE_NAME = 'feed';
 

@@ -3,12 +3,13 @@ import { ActionTree } from "vuex";
 import { CommentsState } from '@/store/modules/comments/types';
 import commentsApi from '@/api/comments';
 import { mytationTypes, actionsTypes } from '@/store/modules/comments/types';
+import { Comment } from "@/entities/comment";
 
 export const actions: ActionTree<CommentsState, RootState> = {
   [actionsTypes.getComments]: async ({ commit }, { slug }: {slug: string}) => {
     try {
       commit(mytationTypes.getCommentsStart);
-      const comments = await commentsApi.getComments(slug);
+      const comments: Comment = await commentsApi.getComments(slug);
       commit(mytationTypes.getCommentsSuccess, comments);
     } catch (e) {
       commit(mytationTypes.getCommentsFailure);
@@ -18,7 +19,7 @@ export const actions: ActionTree<CommentsState, RootState> = {
   [actionsTypes.addComment]: async ({ commit }, data: any) => {
     try {
       commit(mytationTypes.addCommentStart);
-      const comment = await commentsApi.addComment(data);
+      const comment: Comment = await commentsApi.addComment(data);
       commit(mytationTypes.addCommentSuccess, comment);
     } catch (e: any) {
       commit(mytationTypes.addCommentFailure, e.response.data.errors);

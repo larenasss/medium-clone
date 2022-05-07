@@ -1,7 +1,9 @@
+import { UserProfile } from "@/entities/user";
+
 export interface AuthState {
   isSubmitting: boolean,
   isLoading: boolean,
-  currentUser: null,
+  currentUser: UserProfile | null,
   validationErrors: null,
   isLoggedIn: null | boolean
 }

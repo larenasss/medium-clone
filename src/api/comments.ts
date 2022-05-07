@@ -6,9 +6,9 @@ const getComments = (slugArticle: string) => {
     .then(response => response.data.comments);
 };
 
-const addComment = ({ slugArticle, commentInput }: {slugArticle: string, commentInput: object}) => {
+const addComment = ({ slugArticle, comment }: {slugArticle: string, comment: Comment}) => {
   return axios
-    .post(`/articles/${slugArticle}/comments`, { comment: commentInput })
+    .post(`/articles/${slugArticle}/comments`, { comment })
     .then(response => response.data.comment);
 };
 

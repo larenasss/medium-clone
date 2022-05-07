@@ -19,7 +19,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import { onMounted } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 
@@ -29,8 +31,9 @@ import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 import AppLoadingItem from '@/components/ui/LoadingItem.vue';
 import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
 import { key } from '@/store';
+import { Tag } from '@/entities/tag';
 
-export default {
+export default defineComponent({
   name: 'AppPopularTags',
   components: {
     AppLoadingItem,
@@ -39,7 +42,7 @@ export default {
   setup() {
     const store = useStore(key);
 
-    const { isLoading, data: tags, error  } = useGetStateLoadingByView('popularTags');
+    const { isLoading, data: tags, error  } = useGetStateLoadingByView<Tag>('popularTags');
 
     onMounted(() => {
       store.dispatch(actionsTypes.getPopularTags);
@@ -51,5 +54,5 @@ export default {
       error,
     };
   }
-};
+});
 </script>

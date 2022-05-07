@@ -15,11 +15,13 @@
   </ul>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+
 import { computed } from '@vue/runtime-core';
 import { range } from '@/helpers/utils';
 
-export default {
+export default defineComponent({
   name: 'AppPagination',
   props: {
     total: {
@@ -41,7 +43,7 @@ export default {
   },
   setup(props) {
     const pages = computed(() => {
-      const pagesCount = Math.ceil(props.total / props.limit);
+      const pagesCount = Math.ceil((props.total ?? 0) / (props.limit ?? 0));
       return range(1, pagesCount);
     });
 
@@ -49,5 +51,5 @@ export default {
       pages
     };
   }
-};
+});
 </script>
