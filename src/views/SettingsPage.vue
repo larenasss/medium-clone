@@ -68,7 +68,7 @@
             </fieldset>
           </form>
           <hr />
-          <button class="btn btn-outline-danger" @click="logout" type="text">
+          <button class="btn btn-outline-danger" @click="logout">
             Or cick here to logout
           </button>
         </div>

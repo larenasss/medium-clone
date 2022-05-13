@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import { useStore } from 'vuex';
 import { key } from '@/store/index';
@@ -26,7 +26,7 @@ export default defineComponent({
   },
   props: {
     slug: {
-      type: String,
+      type: String as PropType<string>,
       required: true,
     },
   },
@@ -37,7 +37,7 @@ export default defineComponent({
       store.dispatch(actionsTypes.getComments, { slug: props.slug });
     });
 
-    const { isLoading, data: comments, error  } = useGetStateLoadingByView<Comment>('comments');
+    const { isLoading, data: comments, error  } = useGetStateLoadingByView<Array<Comment>>('comments');
 
     const deleteComment = ({ slugComment }: { slugComment: string }) => {
       const data = { slugArticle: props.slug, slugComment };

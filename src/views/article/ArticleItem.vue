@@ -29,7 +29,7 @@
             @addComment="addComment"
             :is-submitting="isSubmittingAddComment"
             :errors="validationErrors"></app-add-comment-form>
-          <app-comment-list :slug="article.slug"></app-comment-list>
+          <app-comment-list :slug="article.slug ?? ''"></app-comment-list>
         </div>
       </div>
     </div>

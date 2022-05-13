@@ -6,7 +6,7 @@
       </p>
     </div>
     <div class="card-footer">
-      <app-user-info :user="comment.author" :date="convertDateJsonToDate(comment.createdAt).toLocaleString()"></app-user-info>
+      <app-user-info :user="comment.author" :date="dateString(comment.createdAt)"></app-user-info>
       <button class="mod-options" v-if="isCurrentUserProfile" @click="deleteComment(comment.id)">
         <i class="ion-trash-a"></i>
       </button>
@@ -15,13 +15,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 
 import AppUserInfo from '@/components/userProfile/UserInfo.vue';
 import { convertDateJsonToDate } from '@/helpers/dateConverter';
-import { ref } from '@vue/reactivity';
+import { Comment } from '@/entities/comment';
 
 export default defineComponent({
   name: 'AppCommentItem',
@@ -31,22 +31,26 @@ export default defineComponent({
   },
   props: {
     comment: {
-      type: Object,
+      type: Object as PropType<Comment>,
       required: true,
     }
   },
   setup(props, { emit }) {
-    const { currentUser, isCurrentUserProfile } = useGetUserProfileState(ref(props.comment.author));
+    const { currentUser, isCurrentUserProfile } = useGetUserProfileState(computed(() => props.comment.author));
 
-    const deleteComment = (slugComment: string) => {
+    const deleteComment = (slugComment: number) => {
       emit('deleteComment', { slugComment });
+    };
+
+    const dateString = (createdAt: string) => {
+      return convertDateJsonToDate(createdAt)?.toLocaleString();
     };
 
     return {
       isCurrentUserProfile,
       currentUser,
       deleteComment,
-      convertDateJsonToDate
+      dateString
     };
   }
 });

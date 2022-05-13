@@ -31,7 +31,7 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const tagName = computed(() => route.params.slug);
+    const tagName = computed(() => route.params.slug) as unknown as string;
 
     return {
       tagName

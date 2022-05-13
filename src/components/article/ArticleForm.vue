@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import { reactive } from '@vue/reactivity';
 
@@ -76,7 +76,7 @@ export default defineComponent({
       required: true
     },
     errors: {
-      type: Object,
+      type: Object as PropType<object | null>,
       required: false,
     },
     isSubmitting: {

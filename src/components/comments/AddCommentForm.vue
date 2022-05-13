@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { computed, reactive, watch, ComputedRef, defineComponent } from 'vue';
+import { computed, reactive, watch, defineComponent, PropType } from 'vue';
 
 import { useStore } from 'vuex';
 import { key } from '@/store/index';
@@ -34,7 +34,7 @@ export default defineComponent({
       default: false
     },
     errors: {
-      type: Object,
+      type: Object as PropType<object | null>,
       required: false,
     },
   },
@@ -57,7 +57,7 @@ export default defineComponent({
     return {
       commentInput,
       onSubmit,
-      currentUser: computed<ComputedRef<UserProfile>>(() => store.getters[authGettersTypes.currentUser]),
+      currentUser: computed<UserProfile>(() => store.getters[authGettersTypes.currentUser]),
     };
   }
 });

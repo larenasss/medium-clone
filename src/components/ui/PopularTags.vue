@@ -42,7 +42,7 @@ export default defineComponent({
   setup() {
     const store = useStore(key);
 
-    const { isLoading, data: tags, error  } = useGetStateLoadingByView<Tag>('popularTags');
+    const { isLoading, data: tags, error  } = useGetStateLoadingByView<Array<Tag>>('popularTags');
 
     onMounted(() => {
       store.dispatch(actionsTypes.getPopularTags);

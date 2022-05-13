@@ -84,7 +84,11 @@ export default defineComponent({
     const userProfileSlug = computed(() => route.params.slug);
     const routeName = computed(() => route.name);
 
-    watch(() => userProfileSlug.value, () => fetchUserProfile());
+    watch(() => userProfileSlug.value, () => {
+      if (userProfileSlug.value) {
+        fetchUserProfile();
+      }
+    });
     onMounted(() => fetchUserProfile());
 
     const fetchUserProfile = () => {
