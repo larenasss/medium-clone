@@ -1,12 +1,13 @@
 import axios from "@/api/axios";
+import { Comment } from "@/entities/comment";
 
-const getComments = (slugArticle: string) => {
+const getComments = (slugArticle: string): Promise<Array<Comment>> => {
   return axios
     .get(`/articles/${slugArticle}/comments`)
     .then(response => response.data.comments);
 };
 
-const addComment = ({ slugArticle, comment }: {slugArticle: string, comment: Comment}) => {
+const addComment = ({ slugArticle, comment }: {slugArticle: string, comment: Comment}): Promise<Comment> => {
   return axios
     .post(`/articles/${slugArticle}/comments`, { comment })
     .then(response => response.data.comment);

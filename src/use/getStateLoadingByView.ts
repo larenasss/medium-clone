@@ -7,7 +7,6 @@ export function useGetStateLoadingByView<T>(nameStateModule: string) {
   const store = useStore(key);
 
   const state = store.state[nameStateModule as keyof RootState];
-  
 
   return {
     isLoading: computed(() => (<LoadingState<T>>state).isLoading),

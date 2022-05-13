@@ -1,6 +1,7 @@
 import axios from "@/api/axios";
+import { Tag } from "@/entities/tag";
 
-const getPopularTags = () => {
+const getPopularTags = (): Promise<Array<Tag>> => {
   return axios.get('/tags').then(response => response.data.tags);
 };
 

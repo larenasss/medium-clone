@@ -9,7 +9,7 @@
       :key="index"
     >
       <div class="article-meta">
-        <app-user-info :user="article.author" :date="convertDateJsonToDate(article.createdAt).toLocaleString()"></app-user-info>
+        <app-user-info :user="article.author" :date="dateString(article.createdAt)"></app-user-info>
         <div class="pull-xs-right">
           <app-add-to-favorites
             :is-favorited="article.favorited"
@@ -101,6 +101,14 @@ export default defineComponent({
       store.dispatch(actionsTypes.getFeed, { apiUrl: apiUrlWithParams });
     };
 
+    const dateString = (createdAt?: string) => {
+      if (typeof (createdAt) === 'string') {
+        return convertDateJsonToDate(createdAt)?.toLocaleString();
+      } else {
+        return new Date().toLocaleString();
+      }
+    };
+
     return {
       isLoading,
       feed,
@@ -108,7 +116,7 @@ export default defineComponent({
       currentPage,
       limit,
       baseUrl,
-      convertDateJsonToDate
+      dateString
     };
   }
 });

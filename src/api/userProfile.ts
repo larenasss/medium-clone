@@ -1,16 +1,17 @@
 import axios from "@/api/axios";
+import { UserProfile } from "@/entities/user";
 
 const getUserProfile = (slug: string) => {
   return axios.get(`/profiles/${slug}`).then(response => response.data.profile);
 };
 
-const addToFallow = (slug: string) => {
+const addToFallow = (slug: string): Promise<UserProfile> => {
   return axios
     .post(`/profiles/${slug}/follow`, {})
     .then(response => response.data.profile);
 };
 
-const removeFromFallow = (slug: string) => {
+const removeFromFallow = (slug: string): Promise<UserProfile> => {
   return axios
     .delete(`/profiles/${slug}/follow`)
     .then(response => response.data.profile);

@@ -9,7 +9,7 @@ export const actions: ActionTree<CommentsState, RootState> = {
   [actionsTypes.getComments]: async ({ commit }, { slug }: {slug: string}) => {
     try {
       commit(mytationTypes.getCommentsStart);
-      const comments: Comment = await commentsApi.getComments(slug);
+      const comments: Array<Comment> = await commentsApi.getComments(slug);
       commit(mytationTypes.getCommentsSuccess, comments);
     } catch (e) {
       commit(mytationTypes.getCommentsFailure);
