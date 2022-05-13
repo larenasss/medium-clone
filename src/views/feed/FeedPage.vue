@@ -18,11 +18,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import { useRoute } from 'vue-router';
+import { computed } from '@vue/runtime-core';
+
 import AppPopularTags from '@/components/ui/PopularTags.vue';
 import AppBannerItem from '@/components/ui/BannerItem.vue';
 import AppFeedToggle from "@/components/feed/FeedToggle.vue";
-import { useRoute } from 'vue-router';
-import { computed } from '@vue/runtime-core';
 
 export default defineComponent({
   name: 'AppFeedPage',

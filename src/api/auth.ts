@@ -1,20 +1,21 @@
 import axios from "@/api/axios";
+import { UserProfile } from "@/entities/user";
 
-const register = (credentials: object) => {
-  return axios.post('/users', { user: credentials });
+const register = (user: object) => {
+  return axios.post('/users', { user });
 };
 
-const login = (credentials: object) => {
-  return axios.post('/users/login', credentials);
+const login = (user: object) => {
+  return axios.post('/users/login', { user });
 };
 
 const getCurrentUser = () => {
   return axios.get('/user');
 };
 
-const updateCurrentUser = (currentUserInput: object) => {
+const updateCurrentUser = (user: UserProfile) => {
   return axios
-    .put('/user', { user: currentUserInput })
+    .put('/user', { user })
     .then(response => response.data.user);
 };
 

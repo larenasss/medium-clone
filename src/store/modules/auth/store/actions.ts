@@ -4,6 +4,7 @@ import { AuthState } from "@/store/modules/auth/types";
 import authApi from '@/api/auth';
 import { mytationTypes, actionsTypes } from '@/store/modules/auth/types';
 import { setItem } from '@/helpers/persistanceStorage';
+import { UserProfile } from "@/entities/user";
 
 export const actions: ActionTree<AuthState, RootState> = {
   [actionsTypes.register]: async ({ commit }, credentials: any) => {
@@ -38,10 +39,10 @@ export const actions: ActionTree<AuthState, RootState> = {
         throw e;
       }
     },
-    [actionsTypes.updateCurrentUser]: async ({ commit }, { currentUserInput } : {currentUserInput: any}) => {
+    [actionsTypes.updateCurrentUser]: async ({ commit }, currentUser: UserProfile) => {
       try {
         commit(mytationTypes.updateCurrentUserStart);
-        const user = await authApi.updateCurrentUser(currentUserInput);
+        const user = await authApi.updateCurrentUser(currentUser);
         commit(mytationTypes.updateCurrentUserSuccess, user);
       } catch (e: any) {
         console.dir(e);

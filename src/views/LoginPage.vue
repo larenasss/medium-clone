@@ -71,8 +71,10 @@ export default defineComponent({
 
     const onSubmit = () => {
       store
-        .dispatch(actionsTypes.login, { user })
-        .then(() => router.push({ name: 'globalFeed' }))
+        .dispatch(actionsTypes.login, user)
+        .then(() => router.push({
+          name: 'globalFeed'
+        }))
         .catch((e) => console.log(e));
     };
 

@@ -108,17 +108,24 @@ export default defineComponent({
     const form = computed(() => new UserProfile(currentUser.value));
 
     const onSubmit = () => {
-      store.dispatch(authActionsTypes.updateCurrentUser, {
-        currentUserInput: form.value
-      }).then(() => {
-        router.push({name: 'userProfileMyPosts', params: {slug: currentUser.value.username}});
-      });
+      store
+        .dispatch(authActionsTypes.updateCurrentUser, form.value)
+        .then(() => {
+          router.push({
+            name: 'userProfileMyPosts',
+            params: {slug: currentUser.value.username}
+          });
+        });
     };
 
     const logout = () => {
-      store.dispatch(authActionsTypes.logout).then(() => {
-        router.push({name: 'globalFeed'});
-      });
+      store
+        .dispatch(authActionsTypes.logout)
+        .then(() => {
+          router.push({
+            name: 'globalFeed'
+          });
+        });
     };
 
     return {

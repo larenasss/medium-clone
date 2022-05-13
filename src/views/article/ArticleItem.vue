@@ -53,6 +53,7 @@ import AppTagsList from '@/components/ui/TagsList.vue';
 import AppCommentList from '@/components/comments/CommentList.vue';
 import AppAddCommentForm from '@/components/comments/AddCommentForm.vue';
 import AppArticleUserInfo from '@/components/article/ArticleUserInfo.vue';
+
 import { key } from '@/store';
 import { Article } from '@/entities/article';
 import { Comment } from '@/entities/comment';
@@ -81,8 +82,7 @@ export default defineComponent({
     const addComment = (comment: Comment) => {
       isSubmittingAddComment.value = true;
       store
-        .dispatch(commentsActionsTypes.addComment,
-          { slugArticle: route.params.slug , comment })
+        .dispatch(commentsActionsTypes.addComment, { slugArticle: route.params.slug , comment })
         .then(() => isSubmittingAddComment.value = false)
         .catch(() => isSubmittingAddComment.value = false);
     };
