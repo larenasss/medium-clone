@@ -16,14 +16,10 @@
 <script lang="ts">
 import { computed, reactive, watch, defineComponent, PropType } from 'vue';
 
-import { useStore } from 'vuex';
-import { key } from '@/store/index';
-
-import { gettersTypes as authGettersTypes } from '@/store/modules/auth/types';
+import { useAuthUserStore } from '@/stores/auth';
 
 import AppValidationErrors from '@/components/errors/ValidationErrors.vue';
 import { Comment } from '@/entities/comment';
-import { UserProfile } from '@/entities/user';
 
 export default defineComponent({
   name: 'AppAddCommentForm',
@@ -42,7 +38,7 @@ export default defineComponent({
     AppValidationErrors
   },
   setup(props, { emit }) {
-    const store = useStore(key);
+    const store = useAuthUserStore();
 
     const commentInput = reactive(new Comment());
 
@@ -57,7 +53,7 @@ export default defineComponent({
     return {
       commentInput,
       onSubmit,
-      currentUser: computed<UserProfile>(() => store.getters[authGettersTypes.currentUser]),
+      currentUser: computed(() => store.currentUser),
     };
   }
 });

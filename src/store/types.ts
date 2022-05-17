@@ -1,6 +1,5 @@
 import { AddToFavoritesState } from "@/store/modules/addToFavorites/types";
 import { ArticleState } from "@/store/modules/article/types";
-import { AuthState } from "@/store/modules/auth/types";
 import { CommentsState } from "@/store/modules/comments/types";
 import { CreateArticleState } from "@/store/modules/createArticle/types";
 import { EditArticleState } from "@/store/modules/editArticle/types";
@@ -13,7 +12,6 @@ import { UserState } from "@/store/modules/userProfile/types";
 export interface RootState {
   addToFavorites: AddToFavoritesState;
   article: ArticleState;
-  auth: AuthState;
   comments: CommentsState;
   createArticle: CreateArticleState;
   editArticle: EditArticleState;

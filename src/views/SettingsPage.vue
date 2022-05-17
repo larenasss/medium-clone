@@ -83,16 +83,13 @@ import { defineComponent } from 'vue';
 
 import AppValidationErrors from '@/components/errors/ValidationErrors.vue';
 
-import {
-  gettersTypes as authGettersTypes,
-  actionsTypes as authActionsTypes
-} from '@/store/modules/auth/types';
-
 import { computed } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { key } from '@/store';
 import { UserProfile } from '@/entities/user';
+
+import { useAuthUserStore } from '@/stores/auth';
 
 export default defineComponent({
   name: 'AppSettingsPage',
@@ -101,15 +98,16 @@ export default defineComponent({
   },
   setup() {
     const store = useStore(key);
+    const storeAuth = useAuthUserStore();
     const router = useRouter();
 
-    const currentUser = computed<UserProfile>(() => store.getters[authGettersTypes.currentUser]);
+    const currentUser = computed(() => storeAuth.currentUser as UserProfile);
 
     const form = computed(() => new UserProfile(currentUser.value));
 
     const onSubmit = () => {
-      store
-        .dispatch(authActionsTypes.updateCurrentUser, form.value)
+      storeAuth
+        .updateCurrentUserProfile(form.value)
         .then(() => {
           router.push({
             name: 'userProfileMyPosts',
@@ -119,8 +117,8 @@ export default defineComponent({
     };
 
     const logout = () => {
-      store
-        .dispatch(authActionsTypes.logout)
+      storeAuth
+        .logout()
         .then(() => {
           router.push({
             name: 'globalFeed'

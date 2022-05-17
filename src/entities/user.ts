@@ -13,7 +13,7 @@ export class User {
 export class UserProfile extends User {
   email: string;
   token?: string = '';
-  password: string;
+  password?: string;
 
   constructor(userProfile: UserProfile = {username: '', bio: '', image: '', email: '', token: '', password: ''}) {
     super(userProfile);
