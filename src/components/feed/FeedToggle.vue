@@ -33,12 +33,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { gettersTypes } from '@/store/modules/auth/types';
-
 import { computed } from '@vue/runtime-core';
-import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
-import { key } from '@/store';
+
+import { useAuthUserStore } from '@/stores/auth';
 
 export default defineComponent({
   name: 'AppFeedToggle',
@@ -49,10 +47,10 @@ export default defineComponent({
     }
   },
   setup() {
-    const store = useStore(key);
+    const store = useAuthUserStore();
     const route = useRoute();
 
-    const isLoggedIn = computed(() => store.getters[gettersTypes.isLoggedIn]);
+    const isLoggedIn = computed(() => store.isLoggedIn);
     const routeName = computed(() => route.name);
 
     return {

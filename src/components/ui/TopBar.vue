@@ -50,19 +50,17 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { computed } from '@vue/runtime-core';
-import { useStore } from 'vuex';
-import { gettersTypes } from '@/store/modules/auth/types';
-import { key } from '@/store';
-import { UserProfile } from '@/entities/user';
+
+import { useAuthUserStore } from '@/stores/auth';
 
 export default defineComponent({
   name: 'AppTopBar',
   setup() {
-    const store = useStore(key);
+    const store = useAuthUserStore();
 
-    const currentUser = computed<UserProfile>(() => store.getters[gettersTypes.currentUser]);
-    const isLoggedIn = computed<boolean>(() => store.getters[gettersTypes.isLoggedIn]);
-    const isAnonymous = computed<boolean>(() => store.getters[gettersTypes.isAnonymous]);
+    const currentUser = computed(() => store.currentUser);
+    const isLoggedIn = computed(() => store.isLoggedIn);
+    const isAnonymous = computed<boolean>(() => store.isAnonymous);
 
     return {
       currentUser,

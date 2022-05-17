@@ -48,17 +48,16 @@
 import { defineComponent } from 'vue';
 
 import { computed, reactive } from "@vue/runtime-core";
-import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 import AppValidationErrors from "@/components/errors/ValidationErrors.vue";
-import { actionsTypes } from "@/store/modules/auth/types";
-import { key } from '@/store';
+import { useAuthUserStore } from '@/stores/auth';
+
 
 export default defineComponent({
   name: "AppLoginPage",
   setup() {
-    const store = useStore(key);
+    const store = useAuthUserStore();
     const router = useRouter();
 
     const user = reactive({
@@ -66,12 +65,12 @@ export default defineComponent({
       password: "",
     });
 
-    const isSubmitting = computed(() => store.state.auth.isSubmitting);
-    const validationErrors = computed(() => store.state.auth.validationErrors);
+    const isSubmitting = computed(() => store.isSubmitting);
+    const validationErrors = computed(() => store.validationErrors);
 
     const onSubmit = () => {
       store
-        .dispatch(actionsTypes.login, user)
+        .login(user)
         .then(() => router.push({
           name: 'globalFeed'
         }))

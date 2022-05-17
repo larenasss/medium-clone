@@ -1,14 +1,12 @@
 import { computed, ComputedRef } from '@vue/runtime-core';
-import { useStore } from 'vuex';
-import { key } from '@/store/index';
+import { useAuthUserStore } from '@/stores/auth';
 
-import { gettersTypes as authGettersTypes } from '@/store/modules/auth/types';
-import { User, UserProfile } from '@/entities/user';
+import { User } from '@/entities/user';
 
 export function useGetUserProfileState<T extends ComputedRef<User | null>>(compareUser: T) {
-  const store = useStore(key);
+  const store = useAuthUserStore();
 
-  const currentUser = computed<UserProfile>(() => store.getters[authGettersTypes.currentUser]);
+  const currentUser = computed(() => store.currentUser);
 
   const isCurrentUserProfile = computed(() => {
     if (!compareUser || !currentUser.value || !compareUser.value) {
