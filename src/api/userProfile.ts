@@ -1,8 +1,10 @@
 import axios from "@/api/axios";
 import { UserProfile } from "@/entities/user";
 
-const getUserProfile = (slug: string) => {
-  return axios.get(`/profiles/${slug}`).then(response => response.data.profile);
+const getUserProfile = (slug: string): Promise<UserProfile> => {
+  return axios
+    .get(`/profiles/${slug}`)
+    .then(response => response.data.profile);
 };
 
 const addToFallow = (slug: string): Promise<UserProfile> => {

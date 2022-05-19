@@ -6,11 +6,11 @@ import { LoadingState, RootState } from '@/store/types';
 export function useGetStateLoadingByView<T>(nameStateModule: string) {
   const store = useStore(key);
 
-  const state = store.state[nameStateModule as keyof RootState];
+  const state = store.state[nameStateModule as keyof RootState] as unknown as LoadingState<T>;
 
   return {
-    isLoading: computed(() => (<LoadingState<T>>state).isLoading),
-    data: computed(() => (<LoadingState<T>>state).data),
-    error: computed(() =>  (<LoadingState<T>>state).error),
+    isLoading: computed(() => state.isLoading),
+    data: computed(() => state.data),
+    error: computed(() =>  state.error),
   };
 }

@@ -84,12 +84,11 @@ import { defineComponent } from 'vue';
 import AppValidationErrors from '@/components/errors/ValidationErrors.vue';
 
 import { computed } from '@vue/runtime-core';
-import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { key } from '@/store';
 import { UserProfile } from '@/entities/user';
 
 import { useAuthUserStore } from '@/stores/auth';
+import { useSettingsStore } from '@/stores/settings';
 
 export default defineComponent({
   name: 'AppSettingsPage',
@@ -97,13 +96,13 @@ export default defineComponent({
     AppValidationErrors
   },
   setup() {
-    const store = useStore(key);
+    const store = useSettingsStore();
     const storeAuth = useAuthUserStore();
     const router = useRouter();
 
     const currentUser = computed(() => storeAuth.currentUser as UserProfile);
 
-    const form = computed(() => new UserProfile(currentUser.value));
+    const form = computed(() => currentUser.value);
 
     const onSubmit = () => {
       storeAuth
@@ -127,8 +126,8 @@ export default defineComponent({
     };
 
     return {
-      isSubmitting: computed(() => store.state.settings.isSubmitting),
-      validationErrors: computed(() => store.state.settings.validationErrors),
+      isSubmitting: computed(() => store.isSubmitting),
+      validationErrors: computed(() => store.validationErrors),
       currentUser,
       form,
       onSubmit,

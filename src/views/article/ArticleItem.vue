@@ -40,11 +40,8 @@
 import { defineComponent } from 'vue';
 
 import { computed, ref } from '@vue/reactivity';
-import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
-import { actionsTypes as articleActionsTypes } from '@/store/modules/article/types';
-import { actionsTypes as commentsActionsTypes } from '@/store/modules/comments/types';
 import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
 import AppLoadingItem from '@/components/ui/LoadingItem.vue';
@@ -54,7 +51,8 @@ import AppCommentList from '@/components/comments/CommentList.vue';
 import AppAddCommentForm from '@/components/comments/AddCommentForm.vue';
 import AppArticleUserInfo from '@/components/article/ArticleUserInfo.vue';
 
-import { key } from '@/store';
+import { useCommentsStore } from '@/stores/comments';
+import { useArticleStore } from '@/stores/article';
 import { Article } from '@/entities/article';
 import { Comment } from '@/entities/comment';
 
@@ -69,7 +67,8 @@ export default defineComponent({
     AppArticleUserInfo
   },
   setup() {
-    const store = useStore(key);
+    const commentStore = useCommentsStore();
+    const articleStore = useArticleStore();
     const route = useRoute();
     const router = useRouter();
 
@@ -77,19 +76,19 @@ export default defineComponent({
 
     const isSubmittingAddComment = ref(false);
 
-    store.dispatch(articleActionsTypes.getArticle, { slug: route.params.slug });
+    articleStore.getArticle( { slug: route.params.slug as string });
 
     const addComment = (comment: Comment) => {
       isSubmittingAddComment.value = true;
-      store
-        .dispatch(commentsActionsTypes.addComment, { slugArticle: route.params.slug , comment })
+      commentStore
+        .addComment({ slugArticle: route.params.slug , comment })
         .then(() => isSubmittingAddComment.value = false)
         .catch(() => isSubmittingAddComment.value = false);
     };
 
     const deleteArticle = () => {
-      store
-        .dispatch(articleActionsTypes.deleteArticle, { slug: route.params.slug })
+      articleStore
+        .deleteArticle({ slug: route.params.slug as string })
         .then(() => {
           router.push({ name: 'globalFeed' });
         });
@@ -100,7 +99,7 @@ export default defineComponent({
       error,
       article,
       isSubmittingAddComment,
-      validationErrors: computed(() => store.state.comments.error),
+      validationErrors: computed(() => commentStore.error),
       deleteArticle,
       addComment,
     };

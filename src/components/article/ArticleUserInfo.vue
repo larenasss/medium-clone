@@ -53,13 +53,10 @@ import AppUserInfo from '@/components/userProfile/UserInfo.vue';
 import AppAddToFavorites from '@/components/ui/AddToFavorites.vue';
 
 import { ref } from '@vue/runtime-core';
-import { useStore } from 'vuex';
-import { key } from '@/store/index';
-
-import { actionsTypes } from '@/store/modules/userProfile/types';
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 
 import { convertDateJsonToDate } from '@/helpers/dateConverter';
+import { useUserProfileStore } from '@/stores/userProfile';
 
 export default defineComponent({
   name: 'AppArticleUserInfo',
@@ -74,17 +71,18 @@ export default defineComponent({
     AppAddToFavorites
   },
   setup(props) {
-    const store = useStore(key);
+    const store = useUserProfileStore();
 
     const isFollowing = ref(props.article.author.following);
 
     const { isCurrentUserProfile: isAuthor } = useGetUserProfileState(ref(props.article.author));
 
     const onFallow = () => {
-      store.dispatch(actionsTypes.addToFallow, {
-        slug: props.article.author.username,
-        isFallow: props.article.author.following
-      }).then(() => isFollowing.value = !isFollowing.value);
+      store
+        .addToFallow({
+          slug: props.article.author.username,
+          isFallow: props.article.author.following })
+        .then(() => isFollowing.value = !isFollowing.value);
     };
 
     return {
