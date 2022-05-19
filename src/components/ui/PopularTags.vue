@@ -22,16 +22,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { onMounted } from '@vue/runtime-core';
-import { useStore } from 'vuex';
-
-import { actionsTypes } from '@/store/modules/popularTags/types';
-import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
+import { computed, onMounted } from '@vue/runtime-core';
 
 import AppLoadingItem from '@/components/ui/LoadingItem.vue';
 import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
-import { key } from '@/store';
-import { Tag } from '@/entities/tag';
+import { usePopularTagsStore } from '@/stores/popularTags';
 
 export default defineComponent({
   name: 'AppPopularTags',
@@ -40,18 +35,14 @@ export default defineComponent({
     AppErrorMessage
  },
   setup() {
-    const store = useStore(key);
+    const store = usePopularTagsStore();
 
-    const { isLoading, data: tags, error  } = useGetStateLoadingByView<Array<Tag>>('popularTags');
-
-    onMounted(() => {
-      store.dispatch(actionsTypes.getPopularTags);
-    });
+    onMounted(() => store.getPopularTags());
 
     return {
-      isLoading,
-      tags,
-      error,
+      isLoading: computed(() => store.isLoading),
+      tags: computed(() => store.data),
+      error: computed(() => store.error),
     };
   }
 });

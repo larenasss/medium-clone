@@ -3,6 +3,7 @@ import { UserProfile } from '@/entities/user';
 import { setItem } from '@/helpers/persistanceStorage';
 
 import authApi from '@/api/auth';
+import { useSettingsStore } from './settings';
 
 export interface AuthState {
   isSubmitting: boolean,
@@ -12,7 +13,7 @@ export interface AuthState {
   isLoggedIn: boolean | null
 }
 
-export const useAuthUserStore = defineStore('auth/user', {
+export const useAuthUserStore = defineStore('auth', {
   state: (): AuthState => ({
     isSubmitting: false,
     isLoading: false,
@@ -24,7 +25,7 @@ export const useAuthUserStore = defineStore('auth/user', {
     isAnonymous: (state): boolean => state.isLoggedIn === null
   },
   actions: {
-    async register(credentials: any): Promise<void> {
+    async register(credentials: UserProfile): Promise<void> {
        try {
         this.$patch({
           validationErrors: null,
@@ -42,7 +43,7 @@ export const useAuthUserStore = defineStore('auth/user', {
         throw e;
       }
     },
-    async login(credentials: any): Promise<void> {
+    async login(credentials: UserProfile): Promise<void> {
       try {
         this.$patch({
           validationErrors: null,
@@ -82,10 +83,22 @@ export const useAuthUserStore = defineStore('auth/user', {
       }
     },
     async updateCurrentUserProfile(currentUser: UserProfile): Promise<void> {
+      const settingsStore = useSettingsStore();
       try {
+        settingsStore.$patch({
+          isSubmitting: true,
+          validationErrors: null
+        });
         const user = await authApi.updateCurrentUserProfile(currentUser);
         this.updateCurrentUser(user);
+        settingsStore.$patch({
+          isSubmitting: false,
+        });
       } catch (e: any) {
+        settingsStore.$patch({
+          isSubmitting: false,
+          validationErrors: e.response.data.errors
+        });
         this.$patch({
           isSubmitting: false,
           validationErrors: e.response.data.errors

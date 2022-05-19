@@ -12,9 +12,7 @@
 import { defineComponent } from 'vue';
 
 import { ref } from '@vue/reactivity';
-import { useStore } from 'vuex';
-import { actionsTypes } from '@/store/modules/addToFavorites/types';
-import { key } from '@/store';
+import { useAddToFavoritesStore } from '@/stores/addToFavorites';
 
 export default defineComponent({
   name: 'AppAddToFavorites',
@@ -37,14 +35,14 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const store = useStore(key);
+    const store = useAddToFavoritesStore();
 
     const isFavoritedOptimistic = ref(props.isFavorited ?? false);
     const favoritesCountOptimistic = ref(props.favoritesCount ?? 0);
 
     const handleLike = () => {
-      store.dispatch(actionsTypes.addToFavorites, {
-        slug: props.articleSlug,
+      store.addToFavorites({
+        slug: props.articleSlug as string,
         isFavorited: isFavoritedOptimistic.value
       });
 

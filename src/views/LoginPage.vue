@@ -52,7 +52,9 @@ import { useRouter } from "vue-router";
 
 import AppValidationErrors from "@/components/errors/ValidationErrors.vue";
 import { useAuthUserStore } from '@/stores/auth';
-
+import { UserProfile } from '@/entities/user';
+import { UserViewModel } from '@/models/user';
+import mapper from '@/mapper/index';
 
 export default defineComponent({
   name: "AppLoginPage",
@@ -60,17 +62,15 @@ export default defineComponent({
     const store = useAuthUserStore();
     const router = useRouter();
 
-    const user = reactive({
-      email: "",
-      password: "",
-    });
+    const user = reactive(new UserViewModel());
 
     const isSubmitting = computed(() => store.isSubmitting);
     const validationErrors = computed(() => store.validationErrors);
 
     const onSubmit = () => {
+      const userProfile = mapper.map<UserViewModel, UserProfile>(user);
       store
-        .login(user)
+        .login(userProfile)
         .then(() => router.push({
           name: 'globalFeed'
         }))

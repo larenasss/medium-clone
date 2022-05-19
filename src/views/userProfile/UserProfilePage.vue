@@ -63,22 +63,18 @@
 import { defineComponent } from 'vue';
 
 import { computed, onMounted, watch } from '@vue/runtime-core';
-import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
-import { actionsTypes as userProfileActionsTypes } from '@/store/modules/userProfile/types';
-import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
-import { key } from '@/store';
-import { UserProfile } from '@/entities/user';
+import { useUserProfileStore } from '@/stores/userProfile';
 
 export default defineComponent({
   name: 'AppUserProfile',
   setup() {
-    const store = useStore(key);
+    const store = useUserProfileStore();
     const route = useRoute();
 
-    const { isLoading, data: userProfile, error  } = useGetStateLoadingByView<UserProfile>('userProfile');
+    const userProfile = computed(() => store.data);
     const { isCurrentUserProfile } = useGetUserProfileState(userProfile);
 
     const userProfileSlug = computed(() => route.params.slug);
@@ -92,15 +88,15 @@ export default defineComponent({
     onMounted(() => fetchUserProfile());
 
     const fetchUserProfile = () => {
-      store.dispatch(userProfileActionsTypes.getUserProfile, {
-        slug: userProfileSlug.value
+      store.getUserProfile({
+        slug: userProfileSlug.value as string
       });
     };
 
     return {
-      isLoading,
+      isLoading: computed(() => store.isLoading),
       userProfile,
-      error,
+      error: computed(() => store.error),
       isCurrentUserProfile,
       routeName
     };

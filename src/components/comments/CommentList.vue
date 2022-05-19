@@ -9,15 +9,10 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import { useStore } from 'vuex';
-import { key } from '@/store/index';
-import { onMounted } from '@vue/runtime-core';
-
-import { actionsTypes } from '@/store/modules/comments/types';
-import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
+import { computed, onMounted } from '@vue/runtime-core';
 
 import AppCommentItem from '@/components/comments/CommentItem.vue';
-import { Comment } from '@/entities/comment';
+import { useCommentsStore } from '@/stores/comments';
 
 export default defineComponent({
   name: 'AppCommentList',
@@ -31,23 +26,21 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore(key);
+    const store = useCommentsStore();
 
     onMounted(() => {
-      store.dispatch(actionsTypes.getComments, { slug: props.slug });
+      store.getComments({ slug: props.slug });
     });
-
-    const { isLoading, data: comments, error  } = useGetStateLoadingByView<Array<Comment>>('comments');
 
     const deleteComment = ({ slugComment }: { slugComment: string }) => {
       const data = { slugArticle: props.slug, slugComment };
-      store.dispatch(actionsTypes.deleteComment, data);
+      store.deleteComment(data);
     };
 
     return {
-      isLoading,
-      comments,
-      error,
+      isLoading: computed(() => store.isLoading),
+      comments: computed(() => store.data),
+      error: computed(() => store.error),
       deleteComment
     };
   }

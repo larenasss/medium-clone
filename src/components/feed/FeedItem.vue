@@ -41,12 +41,9 @@
 import { defineComponent } from 'vue';
 
 import { computed, onMounted, watch } from '@vue/runtime-core';
-import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
-import { actionsTypes } from '@/store/modules/feed/types';
 import { limit } from '@/helpers/variables';
-import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 
 import { convertDateJsonToDate } from '@/helpers/dateConverter';
 
@@ -58,8 +55,7 @@ import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
 import AppTagsList from '@/components/ui/TagsList.vue';
 import AppAddToFavorites from '@/components/ui/AddToFavorites.vue';
 import AppUserInfo from '@/components/userProfile/UserInfo.vue';
-import { key } from '@/store';
-import { Feed } from '@/entities/feed';
+import { useFeedStore } from '@/stores/feed';
 
 export default defineComponent({
   name: 'AppFeedItem',
@@ -79,11 +75,10 @@ export default defineComponent({
   },
   setup(props) {
     const route = useRoute();
-    const store = useStore(key);
+    const store = useFeedStore();
 
     const currentPage = computed(() => Number(route.query.page || '1'));
     const offset = computed(() => currentPage.value * limit - limit);
-    const { isLoading, data: feed, error  } = useGetStateLoadingByView<Feed>('feed');
     const baseUrl = computed(() => route.path);
 
     onMounted(() => fetchFeed());
@@ -98,7 +93,7 @@ export default defineComponent({
         ...parsedUrl.query
       });
       const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
-      store.dispatch(actionsTypes.getFeed, { apiUrl: apiUrlWithParams });
+      store.getFeed({ apiUrl: apiUrlWithParams });
     };
 
     const dateString = (createdAt?: string) => {
@@ -110,9 +105,9 @@ export default defineComponent({
     };
 
     return {
-      isLoading,
-      feed,
-      error,
+      isLoading: computed(() => store.isLoading),
+      feed: computed(() => store.data),
+      error: computed(() => store.error),
       currentPage,
       limit,
       baseUrl,
