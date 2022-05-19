@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { Article } from '@/entities/article';
 import articleApi from '@/api/article';
-import { LoadingState } from '@/store/types';
+import { LoadingState } from '@/stores/types';
 
 export const useArticleStore = defineStore('article', {
   state: (): LoadingState<Article> => ({

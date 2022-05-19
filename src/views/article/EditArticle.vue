@@ -15,14 +15,12 @@ import { defineComponent } from 'vue';
 
 import AppArticleForm from "@/components/article/ArticleForm.vue";
 import AppLoadingItem from "@/components/ui/LoadingItem.vue";
-import { useStore } from "vuex";
 import { computed, onMounted } from "@vue/runtime-core";
 
-import { actionsTypes } from "@/store/modules/editArticle/types";
 import { useRoute, useRouter } from "vue-router";
 
 import { Article } from '@/entities/article';
-import { key } from '@/store';
+import { useEditArticleStore } from '@/stores/editArticle';
 
 export default defineComponent({
   name: "AppEditArticle",
@@ -31,11 +29,11 @@ export default defineComponent({
     AppLoadingItem
   },
   setup() {
-    const store = useStore(key);
+    const store = useEditArticleStore();
     const router = useRouter();
     const route = useRoute();
 
-    const article = computed(() => store.state.editArticle.article);
+    const article = computed(() => store.article);
 
     const initialValues = computed(() => {
       if (!article.value) {
@@ -46,14 +44,14 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      store.dispatch(actionsTypes.getArticle, {
-        slug: route.params.slug
+      store.getArticle({
+        slug: route.params.slug as string
       });
     });
 
     const onSubmit = (articleInput: any) => {
       store
-        .dispatch(actionsTypes.updateArticle, { slug: route.params.slug, articleInput })
+        .updateArticle({ slug: route.params.slug as string, articleInput })
         .then(article => {
           router.push({ name: "article", params: { slug: article.slug } });
         });
@@ -61,9 +59,9 @@ export default defineComponent({
 
     return {
       initialValues,
-      validationErrors: computed(() => store.state.editArticle.validationErrors),
-      isSubmitting: computed(() => store.state.editArticle.isSubmitting),
-      isLoading: computed(() => store.state.editArticle.isLoading),
+      validationErrors: computed(() => store.validationErrors),
+      isSubmitting: computed(() => store.isSubmitting),
+      isLoading: computed(() => store.isLoading),
       onSubmit,
       article
     };

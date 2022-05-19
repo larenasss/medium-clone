@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
 import { UserProfile } from '@/entities/user';
 import userProfileApi from '@/api/userProfile';
-import { LoadingState } from '@/store/types';
+import { LoadingState } from '@/stores/types';
 
-export const useUserProfileStore = defineStore('auth', {
+export const useUserProfileStore = defineStore('userProfile', {
   state: (): LoadingState<UserProfile> => ({
     data: null,
     isLoading: false,

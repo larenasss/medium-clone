@@ -25,7 +25,7 @@ export const useAuthUserStore = defineStore('auth', {
     isAnonymous: (state): boolean => state.isLoggedIn === null
   },
   actions: {
-    async register(credentials: any): Promise<void> {
+    async register(credentials: UserProfile): Promise<void> {
        try {
         this.$patch({
           validationErrors: null,

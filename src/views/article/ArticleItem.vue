@@ -42,8 +42,6 @@ import { defineComponent } from 'vue';
 import { computed, ref } from '@vue/reactivity';
 import { useRoute, useRouter } from 'vue-router';
 
-import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
-
 import AppLoadingItem from '@/components/ui/LoadingItem.vue';
 import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
 import AppTagsList from '@/components/ui/TagsList.vue';
@@ -53,7 +51,6 @@ import AppArticleUserInfo from '@/components/article/ArticleUserInfo.vue';
 
 import { useCommentsStore } from '@/stores/comments';
 import { useArticleStore } from '@/stores/article';
-import { Article } from '@/entities/article';
 import { Comment } from '@/entities/comment';
 
 export default defineComponent({
@@ -71,8 +68,6 @@ export default defineComponent({
     const articleStore = useArticleStore();
     const route = useRoute();
     const router = useRouter();
-
-    const { isLoading, data: article, error  } = useGetStateLoadingByView<Article>('article');
 
     const isSubmittingAddComment = ref(false);
 
@@ -95,9 +90,9 @@ export default defineComponent({
     };
 
     return {
-      isLoading,
-      error,
-      article,
+      isLoading: computed(() => articleStore.isLoading),
+      error: computed(() => articleStore.error),
+      article: computed(() => articleStore.data),
       isSubmittingAddComment,
       validationErrors: computed(() => commentStore.error),
       deleteArticle,

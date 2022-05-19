@@ -65,10 +65,8 @@ import { defineComponent } from 'vue';
 import { computed, onMounted, watch } from '@vue/runtime-core';
 import { useRoute } from 'vue-router';
 
-import { useGetStateLoadingByView } from '@/use/getStateLoadingByView';
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 import { useUserProfileStore } from '@/stores/userProfile';
-import { UserProfile } from '@/entities/user';
 
 export default defineComponent({
   name: 'AppUserProfile',
@@ -76,7 +74,7 @@ export default defineComponent({
     const store = useUserProfileStore();
     const route = useRoute();
 
-    const { isLoading, data: userProfile, error  } = useGetStateLoadingByView<UserProfile>('userProfile');
+    const userProfile = computed(() => store.data);
     const { isCurrentUserProfile } = useGetUserProfileState(userProfile);
 
     const userProfileSlug = computed(() => route.params.slug);
@@ -96,9 +94,9 @@ export default defineComponent({
     };
 
     return {
-      isLoading,
+      isLoading: computed(() => store.isLoading),
       userProfile,
-      error,
+      error: computed(() => store.error),
       isCurrentUserProfile,
       routeName
     };

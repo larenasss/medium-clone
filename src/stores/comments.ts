@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { Comment } from '@/entities/comment';
 import commentsApi from '@/api/comments';
-import { LoadingState } from '@/store/types';
+import { LoadingState } from '@/stores/types';
 
 export const useCommentsStore = defineStore('comments', {
   state: (): LoadingState<Array<Comment>> => ({
