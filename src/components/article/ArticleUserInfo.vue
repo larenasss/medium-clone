@@ -52,46 +52,51 @@ import { defineComponent } from 'vue';
 import AppUserInfo from '@/components/userProfile/UserInfo.vue';
 import AppAddToFavorites from '@/components/ui/AddToFavorites.vue';
 
-import { ref } from '@vue/runtime-core';
+import { computed } from '@vue/runtime-core';
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 
 import { convertDateJsonToDate } from '@/helpers/dateConverter';
 import { useUserProfileStore } from '@/stores/userProfile';
+import { Article } from '@/entities/article';
+import { UserAuthor } from '@/entities/user';
+import { useArticleStore } from '@/stores/article';
+
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'AppArticleUserInfo',
-  emits: ['deleteArticle'],
-  props: {
-    article: {
-      type: Object,
-      required: true,
-    }
-  },
   components: {
     AppUserInfo,
     AppAddToFavorites
   },
-  setup(props, { emit }) {
+  setup() {
     const store = useUserProfileStore();
+    const articleStore = useArticleStore();
+    const router = useRouter();
 
-    const isFollowing = ref(props.article.author.following);
+    const article = computed<Article>(() => articleStore.data as Article);
+    const isFollowing = computed(() => article.value.author?.following);
 
-    const { isCurrentUserProfile: isAuthor } = useGetUserProfileState(ref(props.article.author));
+    const { isCurrentUserProfile: isAuthor } = useGetUserProfileState(computed(() => article.value.author ?? new UserAuthor()));
 
-    const deleteArticle = (slug: string) => {
-      emit('deleteArticle', slug);
+    const deleteArticle = () => {
+      articleStore
+        .deleteArticle({ slug: article.value.slug as string })
+        .then(() => {
+          router.push({ name: 'globalFeed' });
+        });
     };
 
     const onFallow = () => {
       store
         .addToFallow({
-          slug: props.article.author.username,
-          isFallow: props.article.author.following
-        })
-        .then(() => isFollowing.value = !isFollowing.value);
+          slug: article.value.author?.username as string,
+          isFallow: !article.value.author?.following as boolean
+        });
     };
 
     return {
+      article,
       convertDateJsonToDate,
       onFallow,
       isFollowing,

@@ -33,6 +33,11 @@ export const useArticleStore = defineStore('article', {
         console.error(e);
         throw e;
       }
+    },
+    updateFollowing(isFallow: boolean) {
+      this.$patch((state) => {
+        state.data!.author!.following = isFallow;
+      });
     }
   }
 });

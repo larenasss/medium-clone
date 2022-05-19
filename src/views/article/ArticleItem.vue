@@ -4,9 +4,7 @@
       <div class="container">
         <h1>{{ article.title }}</h1>
         <div class="article-meta">
-          <app-article-user-info
-            :article="article"
-            @deleteArticle="deleteArticle">
+          <app-article-user-info>
           </app-article-user-info>
         </div>
       </div>
@@ -26,10 +24,8 @@
       <div class="row">
         <div class="col-xs-12 col-md-8 offset-md-2">
           <div class="article-actions">
-            <app-article-user-info
-              :article="article"
-              @deleteArticle="deleteArticle">
-              </app-article-user-info>
+            <app-article-user-info>
+            </app-article-user-info>
           </div>
           <app-add-comment-form
             @addComment="addComment"
@@ -46,7 +42,7 @@
 import { defineComponent } from 'vue';
 
 import { computed, ref } from '@vue/reactivity';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 import AppLoadingItem from '@/components/ui/LoadingItem.vue';
 import AppErrorMessage from '@/components/errors/ErrorMessage.vue';
@@ -58,6 +54,7 @@ import AppArticleUserInfo from '@/components/article/ArticleUserInfo.vue';
 import { useCommentsStore } from '@/stores/comments';
 import { useArticleStore } from '@/stores/article';
 import { Comment } from '@/entities/comment';
+import { Article } from '@/entities/article';
 
 export default defineComponent({
   name: 'AppArticleItem',
@@ -73,7 +70,6 @@ export default defineComponent({
     const commentStore = useCommentsStore();
     const articleStore = useArticleStore();
     const route = useRoute();
-    const router = useRouter();
 
     const isSubmittingAddComment = ref(false);
 
@@ -87,21 +83,12 @@ export default defineComponent({
         .catch(() => isSubmittingAddComment.value = false);
     };
 
-    const deleteArticle = () => {
-      articleStore
-        .deleteArticle({ slug: route.params.slug as string })
-        .then(() => {
-          router.push({ name: 'globalFeed' });
-        });
-    };
-
     return {
       isLoading: computed(() => articleStore.isLoading),
       error: computed(() => articleStore.error),
-      article: computed(() => articleStore.data),
+      article: computed<Article>(() => articleStore.data as Article),
       isSubmittingAddComment,
       validationErrors: computed(() => commentStore.error),
-      deleteArticle,
       addComment,
     };
   }

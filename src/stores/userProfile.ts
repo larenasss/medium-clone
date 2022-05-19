@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { UserProfile } from '@/entities/user';
 import userProfileApi from '@/api/userProfile';
 import { LoadingState } from '@/stores/types';
+import { useArticleStore } from './article';
 
 export const useUserProfileStore = defineStore('userProfile', {
   state: (): LoadingState<UserProfile> => ({
@@ -31,6 +32,8 @@ export const useUserProfileStore = defineStore('userProfile', {
         isFallow
           ? await userProfileApi.removeFromFallow(slug)
           : await userProfileApi.addToFallow(slug);
+        const articleStore = useArticleStore();
+        articleStore.updateFollowing(isFallow);
       } catch (e) {
         console.error(e);
         throw e;
