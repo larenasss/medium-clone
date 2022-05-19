@@ -4,7 +4,10 @@
       <div class="container">
         <h1>{{ article.title }}</h1>
         <div class="article-meta">
-          <app-article-user-info :article="article"></app-article-user-info>
+          <app-article-user-info
+            :article="article"
+            @deleteArticle="deleteArticle">
+          </app-article-user-info>
         </div>
       </div>
     </div>
@@ -23,7 +26,10 @@
       <div class="row">
         <div class="col-xs-12 col-md-8 offset-md-2">
           <div class="article-actions">
-            <app-article-user-info :article="article"></app-article-user-info>
+            <app-article-user-info
+              :article="article"
+              @deleteArticle="deleteArticle">
+              </app-article-user-info>
           </div>
           <app-add-comment-form
             @addComment="addComment"

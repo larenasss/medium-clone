@@ -11,7 +11,7 @@
           Edit Article
         </router-link>
         &nbsp;
-        <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">
+        <button class="btn btn-outline-danger btn-sm" @click="deleteArticle(article.slug)">
           <i class="ion-trash-a" />
           Delete Article
         </button>
@@ -60,6 +60,7 @@ import { useUserProfileStore } from '@/stores/userProfile';
 
 export default defineComponent({
   name: 'AppArticleUserInfo',
+  emits: ['deleteArticle'],
   props: {
     article: {
       type: Object,
@@ -70,18 +71,23 @@ export default defineComponent({
     AppUserInfo,
     AppAddToFavorites
   },
-  setup(props) {
+  setup(props, { emit }) {
     const store = useUserProfileStore();
 
     const isFollowing = ref(props.article.author.following);
 
     const { isCurrentUserProfile: isAuthor } = useGetUserProfileState(ref(props.article.author));
 
+    const deleteArticle = (slug: string) => {
+      emit('deleteArticle', slug);
+    };
+
     const onFallow = () => {
       store
         .addToFallow({
           slug: props.article.author.username,
-          isFallow: props.article.author.following })
+          isFallow: props.article.author.following
+        })
         .then(() => isFollowing.value = !isFollowing.value);
     };
 
@@ -89,7 +95,8 @@ export default defineComponent({
       convertDateJsonToDate,
       onFallow,
       isFollowing,
-      isAuthor
+      isAuthor,
+      deleteArticle
     };
   }
 });
