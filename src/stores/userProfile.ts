@@ -1,23 +1,23 @@
 import { defineStore } from 'pinia';
-import { UserProfile } from '@/entities/user';
+import { UserAuthor, UserProfile } from '@/entities/user';
 import userProfileApi from '@/api/userProfile';
 import { LoadingState } from '@/stores/types';
-import { useArticleStore } from './article';
 
 export const useUserProfileStore = defineStore('userProfile', {
-  state: (): LoadingState<UserProfile> => ({
+  state: (): LoadingState<UserAuthor> => ({
     data: null,
     isLoading: false,
     error: null
   }),
   actions: {
-    async getUserProfile({ slug }: {slug: string}) {
+    async getUserProfile({ userSlug }: {userSlug: string}) {
       try {
         this.$patch({
           isLoading: true,
           data: null
         });
-        const user: UserProfile = await userProfileApi.getUserProfile(slug);
+        const user: UserAuthor = await userProfileApi.getUserProfile(userSlug);
+        debugger;
         this.$patch({
           isLoading: true,
           data: user
@@ -29,11 +29,12 @@ export const useUserProfileStore = defineStore('userProfile', {
     },
     async addToFallow ({ slug, isFallow }: { slug: string, isFallow: boolean }) {
       try {
-        isFallow
+        const user = isFallow
           ? await userProfileApi.removeFromFallow(slug)
           : await userProfileApi.addToFallow(slug);
-        const articleStore = useArticleStore();
-        articleStore.updateFollowing(isFallow);
+        this.$patch({
+          data: user
+        });
       } catch (e) {
         console.error(e);
         throw e;

@@ -1,13 +1,13 @@
 <template>
   <div class="user-info" v-if="user">
-    <router-link class="comment-author" :to="{name: 'userProfileMyPosts', params: {slug: user.username}}">
+    <router-link class="comment-author" :to="{name: 'userProfileMyPosts', params: {userSlug: user.username}}">
       <img class="comment-author-img" :src="user.image" />
     </router-link>
     <div class="info">
       <router-link class="comment-author"
         :to="{
           name: 'userProfileMyPosts',
-          params: {slug: user.username}
+          params: {userSlug: user.username}
         }"
       >
         {{ user.username }}

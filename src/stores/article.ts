@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { Article } from '@/entities/article';
 import articleApi from '@/api/article';
 import { LoadingState } from '@/stores/types';
+import { useUserProfileStore } from './userProfile';
 
 export const useArticleStore = defineStore('article', {
   state: (): LoadingState<Article> => ({
@@ -21,6 +22,11 @@ export const useArticleStore = defineStore('article', {
           isLoading: false,
           data: article
         });
+        // апдейтим usera для поддержания состояния подписки
+        const storeUserProfile = useUserProfileStore();
+        storeUserProfile.$patch({
+          data: article.author
+        });
       } catch (e) {
         this.$reset();
         throw e;
@@ -33,11 +39,6 @@ export const useArticleStore = defineStore('article', {
         console.error(e);
         throw e;
       }
-    },
-    updateFollowing(isFallow: boolean) {
-      this.$patch((state) => {
-        state.data!.author!.following = isFallow;
-      });
     }
   }
 });

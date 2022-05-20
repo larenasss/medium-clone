@@ -17,23 +17,8 @@
         </button>
       </span>
       <span v-else>
-        <button
-          type="button"
-          class="btn btn-sm action-btn"
-          :class="{
-            'btn-secondary': isFollowing,
-            'btn-outline-secondary': !isFollowing,
-          }"
-          @click="onFallow"
-        >
-          <i class="ion-plus-round" />
-          <span v-if="isFollowing">
-            UnFollow {{ article.author.username }}
-          </span>
-          <span v-else>
-            Follow {{ article.author.username }}
-          </span>
-        </button>
+        <app-user-profile-fallow :userFallow="userProfile">
+        </app-user-profile-fallow>
         &nbsp;
         <app-add-to-favorites
           :is-favorited="article.favorited"
@@ -51,33 +36,34 @@ import { defineComponent } from 'vue';
 
 import AppUserInfo from '@/components/userProfile/UserInfo.vue';
 import AppAddToFavorites from '@/components/ui/AddToFavorites.vue';
+import AppUserProfileFallow from '@/components/userProfile/UserProfileFallow.vue';
 
 import { computed } from '@vue/runtime-core';
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 
 import { convertDateJsonToDate } from '@/helpers/dateConverter';
-import { useUserProfileStore } from '@/stores/userProfile';
 import { Article } from '@/entities/article';
-import { UserAuthor } from '@/entities/user';
 import { useArticleStore } from '@/stores/article';
 
 import { useRouter } from 'vue-router';
+import { useUserProfileStore } from '@/stores/userProfile';
 
 export default defineComponent({
   name: 'AppArticleUserInfo',
   components: {
     AppUserInfo,
-    AppAddToFavorites
+    AppAddToFavorites,
+    AppUserProfileFallow
   },
   setup() {
-    const store = useUserProfileStore();
     const articleStore = useArticleStore();
+    const userProfileStore = useUserProfileStore();
     const router = useRouter();
 
     const article = computed<Article>(() => articleStore.data as Article);
     const isFollowing = computed(() => article.value.author?.following);
 
-    const { isCurrentUserProfile: isAuthor } = useGetUserProfileState(computed(() => article.value.author ?? new UserAuthor()));
+    const { isCurrentUserProfile: isAuthor } = useGetUserProfileState(computed(() => article.value.author ?? null));
 
     const deleteArticle = () => {
       articleStore
@@ -87,18 +73,10 @@ export default defineComponent({
         });
     };
 
-    const onFallow = () => {
-      store
-        .addToFallow({
-          slug: article.value.author?.username as string,
-          isFallow: !article.value.author?.following as boolean
-        });
-    };
-
     return {
       article,
+      userProfile: computed(() => userProfileStore.data),
       convertDateJsonToDate,
-      onFallow,
       isFollowing,
       isAuthor,
       deleteArticle

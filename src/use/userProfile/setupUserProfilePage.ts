@@ -4,7 +4,7 @@ import { computed } from '@vue/runtime-core';
 export function useSetupUserProfilePage() {
   const route = useRoute();
 
-  const userProfileSlug = computed(() => route.params.slug);
+  const userProfileSlug = computed(() => route.params.userSlug);
 
   const apiUrl = computed(() => {
     const isFavorites = route.path.includes('favorites');

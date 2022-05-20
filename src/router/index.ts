@@ -72,12 +72,12 @@ const routes = [
     component: UserProfilePage,
     children: [
       {
-        path: '/profiles/:slug',
+        path: '/profiles/:userSlug',
         name: 'userProfileMyPosts',
         component: UserProfileMyPosts,
       },
       {
-        path: '/profiles/:slug/favorites',
+        path: '/profiles/:userSlug/favorites',
         name: 'userProfileFavorites',
         component: UserProfileFavorites,
       },

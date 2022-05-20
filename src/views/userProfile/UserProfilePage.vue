@@ -8,7 +8,6 @@
             <h4>{{ userProfile.username }}</h4>
             <p>{{ userProfile.bio }}</p>
             <div>
-              FOLLOW USER BUTTON
               <router-link
                 v-if="isCurrentUserProfile"
                 class="btn btn-sm btn-outline-secondary action-btn"
@@ -16,6 +15,10 @@
               >
                 Edit Profile Settings
               </router-link>
+              <app-user-profile-fallow
+                v-else
+                :userFallow="userProfile">
+              </app-user-profile-fallow>
             </div>
           </div>
         </div>
@@ -30,7 +33,7 @@
                 <router-link
                   :to="{
                     name: 'userProfileMyPosts',
-                    params: { slug: userProfile.username },
+                    params: { userSlug: userProfile.username },
                   }"
                   class="nav-link"
                   :class="{ active: routeName === 'userProfileMyPosts' }"
@@ -42,7 +45,7 @@
                 <router-link
                   :to="{
                     name: 'userProfileFavorites',
-                    params: { slug: userProfile.username },
+                    params: { userSlug: userProfile.username },
                   }"
                   class="nav-link"
                   :class="{ active: routeName === 'userProfileFavorites' }"
@@ -68,8 +71,13 @@ import { useRoute } from 'vue-router';
 import { useGetUserProfileState } from '@/use/userProfile/getUserProfileState';
 import { useUserProfileStore } from '@/stores/userProfile';
 
+import AppUserProfileFallow from '@/components/userProfile/UserProfileFallow.vue';
+
 export default defineComponent({
   name: 'AppUserProfile',
+  components: {
+    AppUserProfileFallow
+  },
   setup() {
     const store = useUserProfileStore();
     const route = useRoute();
@@ -77,7 +85,7 @@ export default defineComponent({
     const userProfile = computed(() => store.data);
     const { isCurrentUserProfile } = useGetUserProfileState(userProfile);
 
-    const userProfileSlug = computed(() => route.params.slug);
+    const userProfileSlug = computed(() => route.params.userSlug);
     const routeName = computed(() => route.name);
 
     watch(() => userProfileSlug.value, () => {
@@ -89,7 +97,7 @@ export default defineComponent({
 
     const fetchUserProfile = () => {
       store.getUserProfile({
-        slug: userProfileSlug.value as string
+        userSlug: userProfileSlug.value as string
       });
     };
 

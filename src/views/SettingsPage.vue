@@ -110,7 +110,7 @@ export default defineComponent({
         .then(() => {
           router.push({
             name: 'userProfileMyPosts',
-            params: {slug: currentUser.value.username}
+            params: {userSlug: currentUser.value.username}
           });
         });
     };

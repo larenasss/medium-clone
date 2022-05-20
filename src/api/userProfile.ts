@@ -1,7 +1,7 @@
 import axios from "@/api/axios";
-import { UserProfile } from "@/entities/user";
+import { UserAuthor, UserProfile } from "@/entities/user";
 
-const getUserProfile = (slug: string): Promise<UserProfile> => {
+const getUserProfile = (slug: string): Promise<UserAuthor> => {
   return axios
     .get(`/profiles/${slug}`)
     .then(response => response.data.profile);
