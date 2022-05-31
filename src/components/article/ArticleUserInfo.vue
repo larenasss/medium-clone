@@ -24,6 +24,7 @@
           :is-favorited="article.favorited"
           :article-slug="article.slug"
           :favorites-count="article.favoritesCount"
+          @handleLike=handleLike
         >
         </app-add-to-favorites>
       </span>
@@ -47,6 +48,8 @@ import { useArticleStore } from '@/stores/article';
 
 import { useRouter } from 'vue-router';
 import { useUserProfileStore } from '@/stores/userProfile';
+
+import { ReturnLike } from '@/components/ui/types';
 
 export default defineComponent({
   name: 'AppArticleUserInfo',
@@ -73,13 +76,23 @@ export default defineComponent({
         });
     };
 
+    const handleLike = (returnLike: ReturnLike) => {
+      articleStore.$patch((store) => {
+        if (store.data) {
+          store.data.favorited = returnLike.isFavorited;
+          store.data.favoritesCount = returnLike.favoritesCount;
+        }
+      });
+    };
+
     return {
       article,
       userProfile: computed(() => userProfileStore.data),
       convertDateJsonToDate,
       isFollowing,
       isAuthor,
-      deleteArticle
+      deleteArticle,
+      handleLike
     };
   }
 });

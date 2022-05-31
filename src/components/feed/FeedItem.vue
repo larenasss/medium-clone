@@ -15,6 +15,7 @@
             :is-favorited="article.favorited"
             :article-slug="article.slug"
             :favorites-count="article.favoritesCount"
+            @handleLike=handleLike
           >
           </app-add-to-favorites>
         </div>
@@ -56,6 +57,7 @@ import AppTagsList from '@/components/ui/TagsList.vue';
 import AppAddToFavorites from '@/components/ui/AddToFavorites.vue';
 import AppUserInfo from '@/components/userProfile/UserInfo.vue';
 import { useFeedStore } from '@/stores/feed';
+import { ReturnLike } from '@/components/ui/types';
 
 export default defineComponent({
   name: 'AppFeedItem',
@@ -104,6 +106,16 @@ export default defineComponent({
       }
     };
 
+    const handleLike = (returnLike: ReturnLike) => {
+      store.$patch((store) => {
+        if (store.data) {
+          const article = store.data.articles.find(a => a.slug == returnLike.slug);
+          article!.favorited = returnLike.isFavorited;
+          article!.favoritesCount = returnLike.favoritesCount;
+        }
+      });
+    };
+
     return {
       isLoading: computed(() => store.isLoading),
       feed: computed(() => store.data),
@@ -111,7 +123,8 @@ export default defineComponent({
       currentPage,
       limit,
       baseUrl,
-      dateString
+      dateString,
+      handleLike
     };
   }
 });

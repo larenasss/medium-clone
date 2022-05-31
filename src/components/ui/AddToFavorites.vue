@@ -9,10 +9,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, watch } from 'vue';
 
 import { ref } from '@vue/reactivity';
 import { useAddToFavoritesStore } from '@/stores/addToFavorites';
+import { ReturnLike } from '@/components/ui/types';
 
 export default defineComponent({
   name: 'AppAddToFavorites',
@@ -28,30 +29,28 @@ export default defineComponent({
     favoritesCount: {
       type: Number,
       requred: true
-    },
-    text: {
-      type: String,
-      requred: false
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const store = useAddToFavoritesStore();
 
     const isFavoritedOptimistic = ref(props.isFavorited ?? false);
     const favoritesCountOptimistic = ref(props.favoritesCount ?? 0);
 
-    const handleLike = () => {
-      store.addToFavorites({
-        slug: props.articleSlug as string,
-        isFavorited: isFavoritedOptimistic.value
-      });
+    watch(() => [props.isFavorited, props.favoritesCount], (nValue) => {
+      isFavoritedOptimistic.value = !nValue[0] as boolean;
+      favoritesCountOptimistic.value = nValue[1] as number;
+    });
 
-      if (isFavoritedOptimistic.value) {
-        favoritesCountOptimistic.value -= 1;
-      } else {
-        favoritesCountOptimistic.value += 1;
-      }
-      isFavoritedOptimistic.value = !isFavoritedOptimistic.value;
+    const handleLike = () => {
+      const nandleLikeObj: ReturnLike = {
+        slug: props.articleSlug as string,
+        isFavorited: isFavoritedOptimistic.value,
+        favoritesCount: isFavoritedOptimistic.value ? favoritesCountOptimistic.value - 1 : favoritesCountOptimistic.value + 1
+      };
+
+      store.addToFavorites(nandleLikeObj);
+      emit('handleLike', nandleLikeObj);
     };
 
     return {
