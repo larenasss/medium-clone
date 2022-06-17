@@ -60,6 +60,7 @@ import { useRouter } from 'vue-router';
 import AppValidationErrors from '@/components/errors/ValidationErrors.vue';
 
 import { useAuthUserStore } from '@/stores/auth';
+import { useUserProfileStore } from '@/stores/userProfile';
 import { UserWithUserNameViewModel } from '@/models/user';
 import { UserProfile } from '@/entities/user';
 import mapper from '@/mapper';
@@ -67,17 +68,18 @@ import mapper from '@/mapper';
 export default defineComponent({
   name: "AppRegisterPage",
   setup() {
-    const store = useAuthUserStore();
+    const authStore = useAuthUserStore();
+    const userProfileStore = useUserProfileStore();
     const router = useRouter();
 
     const user = reactive(new UserWithUserNameViewModel());
 
-    const isSubmitting = computed(() => store.isSubmitting);
-    const validationErrors = computed(() => store.validationErrors);
+    const isSubmitting = computed(() => authStore.isSubmitting);
+    const validationErrors = computed(() => authStore.validationErrors);
 
     const onSubmit = () => {
       const userProfile = mapper.map<UserWithUserNameViewModel, UserProfile>(user);
-      store
+      userProfileStore
         .register(userProfile)
         .then(() => router.push({ name: 'globalFeed' }))
         .catch(e => console.log(e));

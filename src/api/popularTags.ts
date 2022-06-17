@@ -1,4 +1,4 @@
-import axios from "@/api/axios";
+import axios from "@/plugins/axios";
 import { Tag } from "@/entities/tag";
 
 const getPopularTags = (): Promise<Array<Tag>> => {

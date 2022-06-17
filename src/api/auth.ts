@@ -1,11 +1,5 @@
-import axios from "@/api/axios";
+import axios from "@/plugins/axios";
 import { UserProfile } from "@/entities/user";
-
-const register = (user: object): Promise<UserProfile> => {
-  return axios
-    .post('/users', { user })
-    .then(res => res.data.user);
-};
 
 const login = (user: object): Promise<UserProfile> => {
   return axios
@@ -26,7 +20,6 @@ const updateCurrentUserProfile = (user: UserProfile): Promise<UserProfile> => {
 };
 
 export default {
-  register,
   login,
   getCurrentUser,
   updateCurrentUserProfile,

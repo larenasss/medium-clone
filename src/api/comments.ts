@@ -1,4 +1,4 @@
-import axios from "@/api/axios";
+import axios from "@/plugins/axios";
 import { Comment } from "@/entities/comment";
 
 const getComments = (slugArticle: string): Promise<Array<Comment>> => {

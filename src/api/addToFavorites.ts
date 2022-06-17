@@ -1,4 +1,4 @@
-import axios from "@/api/axios";
+import axios from "@/plugins/axios";
 import { Article } from "@/entities/article";
 
 const addToFavorites = (slug: string): Promise<Article> => {

@@ -25,24 +25,6 @@ export const useAuthUserStore = defineStore('auth', {
     isAnonymous: (state): boolean => state.isLoggedIn === null
   },
   actions: {
-    async register(credentials: UserProfile): Promise<void> {
-       try {
-        this.$patch({
-          validationErrors: null,
-          isSubmitting: true
-        } as AuthState);
-
-        const user = await authApi.register(credentials);
-        setItem('accessToken', user.token);
-        this.updateCurrentUser(user);
-      } catch (e: any) {
-        this.$patch({
-          isSubmitting: false,
-          validationErrors: e.response.data.errors
-        });
-        throw e;
-      }
-    },
     async login(credentials: UserProfile): Promise<void> {
       try {
         this.$patch({

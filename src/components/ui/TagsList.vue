@@ -2,7 +2,7 @@
   <ul v-if="tags.length" class="tag-list">
     <li
       v-for="tag in tags"
-      :key="tag.value"
+      :key="tag"
       class="tag-default tag-pill tag-outline ng-binding ng-scope"
     >
     {{ tag }}

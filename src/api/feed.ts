@@ -1,4 +1,4 @@
-import axios from "@/api/axios";
+import axios from "@/plugins/axios";
 import { Feed } from "@/entities/feed";
 import { AxiosResponse } from "axios";
 

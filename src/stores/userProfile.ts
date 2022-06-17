@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import { UserAuthor, UserProfile } from '@/entities/user';
 import userProfileApi from '@/api/userProfile';
 import { LoadingState } from '@/stores/types';
+import { AuthState, useAuthUserStore } from './auth';
+import { setItem } from '@/helpers/persistanceStorage';
 
 export const useUserProfileStore = defineStore('userProfile', {
   state: (): LoadingState<UserAuthor> => ({
@@ -10,6 +12,25 @@ export const useUserProfileStore = defineStore('userProfile', {
     error: null
   }),
   actions: {
+    async register(credentials: UserProfile): Promise<void> {
+      const authStore = useAuthUserStore();
+      try {
+        this.$patch({
+          validationErrors: null,
+          isSubmitting: true
+        } as AuthState);
+
+        const user = await userProfileApi.register(credentials);
+        setItem('accessToken', user.token);
+        authStore.updateCurrentUser(user);
+      } catch (e: any) {
+        authStore.$patch({
+          isSubmitting: false,
+          validationErrors: e.response.data.errors
+        });
+        throw e;
+      }
+    },
     async getUserProfile({ userSlug }: {userSlug: string}) {
       try {
         this.$patch({
@@ -17,7 +38,6 @@ export const useUserProfileStore = defineStore('userProfile', {
           data: null
         });
         const user: UserAuthor = await userProfileApi.getUserProfile(userSlug);
-        debugger;
         this.$patch({
           isLoading: true,
           data: user
