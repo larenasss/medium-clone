@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import FeedPage from '@/views/feed/FeedPage.vue';
 import GlobalFeed from '@/views/feed/GlobalFeed.vue';
 import YourFeed from '@/views/feed/YourFeed.vue';
@@ -14,9 +14,11 @@ import UserProfileMyPosts from '@/views/userProfile/UserProfileMyPosts.vue';
 import UserProfileFavorites from '@/views/userProfile/UserProfileFavorites.vue';
 
 import auth from '@/middlewares/auth';
-import middlewarePipeline from '@/middlewares/middlewarePipeline';
+import { test } from '@/middlewares/auth';
+// import middlewarePipeline from '@/middlewares/middlewarePipeline';
+import { Middleware, RouterContext } from '@/middlewares/types';
 
-const routes = [
+const routes: Array<RouteRecordRaw> = [
   {
     path: '/register',
     name: 'register',
@@ -120,25 +122,21 @@ const router = createRouter({
   routes
 });
 
-type Middlewares = Function[] | undefined;
+type Middlewares = Middleware[] | undefined;
 
 router.beforeEach((to, from, next) => {
+  debugger;
   const middlewares = to.meta.middlewares as Middlewares;
   if (!middlewares?.length) {
     return next();
   }
 
-  const context = { to, from, next };
-  const firstMiddlewareIndex = 0;
-  const nextMiddlewareIndex = 1;
-  return middlewares[firstMiddlewareIndex]({
-    ...context,
-    nextMiddleware: middlewarePipeline(
-      context,
-      middlewares,
-      nextMiddlewareIndex
-      )
-    });
+  const context: RouterContext = { to, from, next };
+  middlewares.forEach((middleware, i, middlewares) => {
+    middleware(context);
+  });
+
+  next();
 });
 
 export default router;

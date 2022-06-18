@@ -1,7 +1,9 @@
-import { NavigationGuardNext } from "vue-router";
+import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
-export type Middleware = (next: NavigationGuardNext, nextMiddleware: Middleware) => Middleware | undefined;
-export type MiddlewareParams = {
-  next: NavigationGuardNext,
-  nextMiddleware: Middleware
+export type Middleware = (context: RouterContext) => Middleware | NavigationGuardNext;
+
+export type RouterContext = {
+  to: RouteLocationNormalized,
+  from: RouteLocationNormalized,
+  next: NavigationGuardNext
 }
