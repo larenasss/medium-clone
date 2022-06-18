@@ -1,13 +1,13 @@
-import { NavigationGuardNext } from "vue-router";
-import { Middleware, RouterContext } from "./types";
-
-/* function middlewarePipeline(context: RouterContext, middlewares: Middleware[], index: number): Middleware | NavigationGuardNext {
+function middlewarePipeline(context: any, middlewares: any, index: number) {
   const nextMiddleware = middlewares[index];
   if (!nextMiddleware) {
-    return context.next;
+    console.log(context.next);
+    return context.next();
   }
-  const nextPipeline = middlewarePipeline(context, middlewares, index + 1);
-  return nextMiddleware(context, nextPipeline as Middleware);
+  return () => {
+    const nextPipeline = middlewarePipeline(context, middlewares, index + 1);
+    nextMiddleware(context, nextPipeline);
+  };
 }
 
-export default middlewarePipeline; */
+export default middlewarePipeline;

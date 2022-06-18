@@ -3,7 +3,7 @@ import { getToken } from '@/service/jwtService';
 
 import { Middleware, RouterContext } from "./types";
 
-export default function auth(context: RouterContext) {
+export default function auth(context: RouterContext, nextMiddleware: Middleware) {
   debugger;
   const authStore = useAuthUserStore();
   if (!authStore.isLoggedIn) {
@@ -12,10 +12,10 @@ export default function auth(context: RouterContext) {
       context.next('/');
     }
   }
-  context.next({name: 'createArticle'});
+  return nextMiddleware(context, nextMiddleware);
 }
 
-export function test(context: RouterContext) {
+export function test(context: RouterContext, nextMiddleware: Middleware) {
   debugger;
-  context.next({name: 'login'});
+  return nextMiddleware(context, nextMiddleware);
 }
