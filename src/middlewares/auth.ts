@@ -1,15 +1,21 @@
 import { useAuthUserStore } from "@/stores/auth";
 import { getToken } from '@/service/jwtService';
 
-import { MiddlewareParams } from "./types";
+import { Middleware, RouterContext } from "./types";
 
-export default function auth({ next, nextMiddleware }: MiddlewareParams) {
+export default function auth(context: RouterContext, nextMiddleware: Middleware) {
+  debugger;
   const authStore = useAuthUserStore();
   if (!authStore.isLoggedIn) {
     const token = getToken();
     if (!token) {
-      next('/');
+      context.next('/');
     }
   }
-  return nextMiddleware(next, nextMiddleware);
+  return nextMiddleware(context, nextMiddleware);
+}
+
+export function test(context: RouterContext, nextMiddleware: Middleware) {
+  debugger;
+  return nextMiddleware(context, nextMiddleware);
 }

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import FeedPage from '@/views/feed/FeedPage.vue';
 import GlobalFeed from '@/views/feed/GlobalFeed.vue';
 import YourFeed from '@/views/feed/YourFeed.vue';
@@ -14,9 +14,10 @@ import UserProfileMyPosts from '@/views/userProfile/UserProfileMyPosts.vue';
 import UserProfileFavorites from '@/views/userProfile/UserProfileFavorites.vue';
 
 import auth from '@/middlewares/auth';
+import { test } from '@/middlewares/auth';
 import middlewarePipeline from '@/middlewares/middlewarePipeline';
 
-const routes = [
+const routes: Array<RouteRecordRaw> = [
   {
     path: '/register',
     name: 'register',
@@ -84,7 +85,7 @@ const routes = [
     name: 'settings',
     component: SettingsPage,
     meta: {
-      middlewares: [auth]
+      middlewares: [auth, test]
     }
   },
   {
@@ -131,14 +132,14 @@ router.beforeEach((to, from, next) => {
   const context = { to, from, next };
   const firstMiddlewareIndex = 0;
   const nextMiddlewareIndex = 1;
-  return middlewares[firstMiddlewareIndex]({
-    ...context,
-    nextMiddleware: middlewarePipeline(
+  return middlewares[firstMiddlewareIndex](
+    context,
+    middlewarePipeline(
       context,
       middlewares,
       nextMiddlewareIndex
-      )
-    });
+    )
+  );
 });
 
 export default router;
