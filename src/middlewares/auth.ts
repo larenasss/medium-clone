@@ -10,7 +10,7 @@ export default function auth(context: RouterContext, nextMiddleware: Middleware)
     if (!token) {
       context.next('/');
     }
+  } else {
+    return nextMiddleware();
   }
-  context.next({name: 'login'});
-  return nextMiddleware();
 }

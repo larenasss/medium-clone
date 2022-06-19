@@ -128,7 +128,6 @@ router.beforeEach((to, from, next) => {
   if (!middlewares?.length) {
     return next();
   }
-
   const context: RouterContext = { to, from, next };
   const firstMiddlewareIndex = 0;
   const nextMiddlewareIndex = 1;
