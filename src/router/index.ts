@@ -14,8 +14,8 @@ import UserProfileMyPosts from '@/views/userProfile/UserProfileMyPosts.vue';
 import UserProfileFavorites from '@/views/userProfile/UserProfileFavorites.vue';
 
 import auth from '@/middlewares/auth';
-import { test } from '@/middlewares/auth';
 import middlewarePipeline from '@/middlewares/middlewarePipeline';
+import { Middleware, RouterContext } from '@/middlewares/types';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -85,7 +85,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'settings',
     component: SettingsPage,
     meta: {
-      middlewares: [auth, test]
+      middlewares: [auth]
     }
   },
   {
@@ -121,7 +121,7 @@ const router = createRouter({
   routes
 });
 
-type Middlewares = Function[] | undefined;
+type Middlewares = Middleware[] | undefined;
 
 router.beforeEach((to, from, next) => {
   const middlewares = to.meta.middlewares as Middlewares;
@@ -129,10 +129,10 @@ router.beforeEach((to, from, next) => {
     return next();
   }
 
-  const context = { to, from, next };
+  const context: RouterContext = { to, from, next };
   const firstMiddlewareIndex = 0;
   const nextMiddlewareIndex = 1;
-  return middlewares[firstMiddlewareIndex](
+  middlewares[firstMiddlewareIndex](
     context,
     middlewarePipeline(
       context,
