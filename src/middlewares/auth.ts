@@ -9,6 +9,8 @@ export default function auth(context: RouterContext, nextMiddleware: Middleware)
     const token = getToken();
     if (!token) {
       context.next('/');
+    } else {
+      return nextMiddleware();
     }
   } else {
     return nextMiddleware();

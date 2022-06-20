@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { UserProfile } from '@/entities/user';
-import { setItem } from '@/helpers/persistanceStorage';
+import { saveToken, destroyToken } from '@/service/jwtService';
 
 import authApi from '@/api/auth';
 import { useSettingsStore } from './settings';
@@ -33,7 +33,7 @@ export const useAuthUserStore = defineStore('auth', {
         } as AuthState);
 
         const user = await authApi.login(credentials);
-        setItem('accessToken', user.token);
+        saveToken(user.token as string);
         this.updateCurrentUser(user);
       } catch (e: any) {
         this.$patch({
@@ -45,7 +45,7 @@ export const useAuthUserStore = defineStore('auth', {
     },
     async logout(): Promise<void> {
       try {
-        setItem('accessToken', '');
+        destroyToken();
         this.$reset();
       } catch (e) {
         console.log(e);
